@@ -1,3 +1,13 @@
+TrailGuide - Project Name Suggestions
+=====================================
+trailCompanion
+trailBuddy
+Explore
+trailExplorer
+BeActive
+GetUGo
+
+
 TrailGuide - Stories
 ====================
 
@@ -57,3 +67,51 @@ Nice to have (optional):
     4.  User should be able to get notifications during the hike about nearby scenic spots.
     5.  User profile page should have a big “Create new hike story” button at the bottom which takes him to the gallery and lets him select start and end pictures.
     6.  User should be able to edit a hike story with comments, tags, hashtags, etc.
+
+Oleg's stories:
+===============
+
+User story 1 (explore)
+Required:
+
+    1. Search trip DB based on location and duration
+    2. Browse results and annotate favorite trips (with user pictures and notes) on common map (similar to evertrail format)
+    3. Delete trips from the final map
+    4. Save offline map with trips annotated on the phone
+
+Optional:
+
+    1. Edit the map and delete selected end points (pics/notes)
+    2. share the trip using facebook
+    3. Invite others to provide feedback/participate in the trip
+    4. msgboard (I think not a required feature).
+
+User story 2 (on the go)
+Required:
+
+    1. Start app at the start point (GPS will run and sample location every 3 minutes)
+    2. take pictures and store on the phone (location sampled)
+    3. take notes and store on the phone (location sampled)
+    4. Display marker showing current location
+
+Optional:
+
+    1. Start spontaneous trip - create a new trip with a map of surrounding area based on projected duration of the trip
+    2. Notification when getting close (0.5miles)  to the “landmark” (previously annotated note or a pic)
+    3. Control GPS sampling time
+    4. Update location button
+    5. Feeling lucky (get one trip and go based on location, weather, difficulty, time, etc)
+
+
+User story 3 (after)
+Required:
+
+    1. Update the trip (upload photos and notes to the existing trip
+    2. Annotate the track, pictures and notes onto the existing map
+    3. Invite others to check the trip (email, sms, whatsup, facebook?)
+
+Optional:
+
+    1. Upload the spontaneous trip
+
+
