@@ -1,0 +1,6 @@
+https://parse.com/  seems a good choice for backend.
+
+Some links :
+http://stackoverflow.com/questions/16292853/how-to-upload-an-image-in-parse-server-using-parse-api-in-android
+
+https://parse.com/docs/android_guide#objects
