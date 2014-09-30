@@ -1,7 +1,7 @@
 TrailGuide - Description
 ========================
 
-We are avid hikers and travelers. We like to log and note interesting moments of our hiking experience by means of pictures. Users often take lots of pictures, share few pictures with locations on social networks. This setup seems very sparse and does not capture the true experience of entire hike.
+We are avid hikers and travelers. We like to log and note interesting moments of our hiking experience by means of pictures. Hikers/travellers often take lots of pictures, share few pictures with locations on social networks. This setup seems very sparse and does not capture the true experience of entire hike.
 
 Our app tries to provide a simple way to annotate users experience with help of notes, pictures and location. A hiking story is a beautiful automated compilation of users experiences before, during and after a hike. Once created the story can be shared with friends on the app's social network and also by means of web url. We envision that an immersive experience with maps, photos, location and user notes in a fluid UI helps tell the story the way user experienced.
 
