@@ -11,12 +11,13 @@ The app is primarily focused on making it very easy to create, discover and enjo
 
 TrailGuide - Project Name Suggestions
 =====================================
-trailCompanion
-trailBuddy
-Explore
-trailExplorer
-BeActive
-GetUGo
+
+  * trailCompanion
+  * trailBuddy
+  * Explore
+  * trailExplorer
+  * BeActive
+  * GetUGo
 
 
 
