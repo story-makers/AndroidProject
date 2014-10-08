@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/btnUIPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UI Play" />
+
+    <Button
+        android:id="@+id/btnUploadPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Pic" />
+
+    <Button
+        android:id="@+id/btnShowMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Map" />
+
+</LinearLayout>

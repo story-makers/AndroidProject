@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Photo Parse uploader</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_upload_photo">UploadPhotoActivity</string>
+    <string name="title_activity_uiplay_ground">UIPlayGroundActivity</string>
+    <string name="title_activity_maps_playground">MapsPlaygroundActivity</string>
+
+</resources>
