@@ -1,4 +1,4 @@
-package com.photoparseuploader.app;
+package com.storymakers.sandbox.app;
 
 import android.app.Application;
 

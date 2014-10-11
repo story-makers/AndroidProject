@@ -1,4 +1,6 @@
-package com.photoparseuploader.app;
+package com.storymakers.sandbox.app;
+
+import com.photoparseuploader.app.R;
 
 import android.app.Fragment;
 import android.content.Intent;

@@ -1,15 +1,17 @@
-package com.photoparseuploader.app;
+package com.storymakers.sandbox.app;
+
+import com.photoparseuploader.app.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MapsPlaygroundActivity extends Activity {
+public class UIPlayGroundActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_maps_playground);
+		setContentView(R.layout.activity_uiplay_ground);
 	}
 }
