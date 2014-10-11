@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.photoparseuploader.app.R;
-
 public class PhotoUploaderActivity extends Activity {
 
 	@Override
