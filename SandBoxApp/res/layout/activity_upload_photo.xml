@@ -20,17 +20,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        
+        android:onClick="runListPhotos"
         android:text="List Photos" />
 
     <TextView
         android:id="@+id/tvLogText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnListPhotos"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment1"
+        android:minLines="4"
         android:text="Log of activity for photos" />
+
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnListPhotos"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvLogText"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/btnLaunchCam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onLaunchCamera"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btnListPhotos"
+        android:text="launch cam" />
 
 </RelativeLayout>

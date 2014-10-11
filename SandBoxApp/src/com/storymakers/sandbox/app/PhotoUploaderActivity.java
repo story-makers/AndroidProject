@@ -1,17 +1,20 @@
 package com.storymakers.sandbox.app;
 
-import com.photoparseuploader.app.R;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.photoparseuploader.app.R;
 
 public class PhotoUploaderActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_uploader);
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_photo_uploader);
+		ParseClient.getInstance(getApplicationContext());
+		Toast.makeText(this, "Sdlkjfsljsflsdl sjf", Toast.LENGTH_SHORT).show();
+	}
+
+	
 }
