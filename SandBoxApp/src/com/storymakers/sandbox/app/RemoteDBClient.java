@@ -1,9 +1,6 @@
 package com.storymakers.sandbox.app;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import android.util.Log;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -33,8 +30,18 @@ public class RemoteDBClient {
 		s.addLike();
 	}
 	
-	public void getPostsForStory(TGStory s) {
-		
+	public void getPostsForStory(TGStory s, final TGPost.PostListDownloadCallback callback) {
+		ParseQuery<TGPost> query = ParseQuery.getQuery(TGPost.class);
+		query.orderByAscending(TGPost.KEY_POST_SEQUENCE);
+		query.whereEqualTo("story", s);
+		query.findInBackground(new FindCallback<TGPost>() {
+			
+			@Override
+			public void done(List<TGPost> objects, ParseException e) {
+				
+				callback.done(objects);
+			}
+		});
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.storymakers.sandbox.app;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.parse.LocationCallback;
 import com.parse.ParseClassName;
@@ -16,12 +17,18 @@ public class TGStory extends ParseObject {
 		DRAFT, COMPLETE
 	};
 
+	public final String KEY_BEGINDATE = "beginDate";
+	public final String KEY_ENDDATE = "endDate";
+	// VP: TODO need to follow this method for all fields
+	
 	private String title;
 	private ParseUser creator;
 	private long likes, refs;
 	private ParseGeoPoint location;
 	private ArrayList<TGPost> posts;
 	private ArrayList<TGStory> referenced_stories;
+	private Date beginDate, endDate;
+	
 
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
@@ -131,7 +138,7 @@ public class TGStory extends ParseObject {
 	public void addPost(TGPost p) {
 		this.posts.add(p);
 		p.setStory(this);
-
+		p.setSequenceId(this.posts.size());
 	}
 
 	/* returns number of items to save. */
@@ -165,5 +172,21 @@ public class TGStory extends ParseObject {
 		}
 		saveAllInBackground(this.posts);
 		saveInBackground();
+	}
+
+	public Date getBeginDate() {
+		return getDate(KEY_BEGINDATE);
+	}
+
+	public void setBeginDate(Date beginDate) {
+		put(KEY_BEGINDATE, beginDate);
+	}
+
+	public Date getEndDate() {
+		return getDate(KEY_ENDDATE);
+	}
+
+	public void setEndDate(Date endDate) {
+		put(KEY_ENDDATE, endDate);
 	}
 }

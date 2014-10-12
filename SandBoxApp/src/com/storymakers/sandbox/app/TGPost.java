@@ -1,6 +1,7 @@
 package com.storymakers.sandbox.app;
 
 import java.util.Date;
+import java.util.List;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,6 +16,12 @@ public class TGPost extends ParseObject {
 	public enum PostType {
 		METADATA, NOTE, LOCATION, PHOTO
 	}
+	
+	public interface PostListDownloadCallback {
+		void done(List<TGPost> objs);
+	}
+
+	public static final String KEY_POST_SEQUENCE = "seq_id";
 
 	PostType type;
 	private String note;
@@ -23,6 +30,20 @@ public class TGPost extends ParseObject {
 	private String photo_url;
 	private ParseFile photo;
 	private TGStory story;
+	private long sequence_id;
+
+	public long getSequenceId() {
+		long v = getLong(KEY_POST_SEQUENCE);
+		sequence_id = v;
+		return v;
+	}
+
+	public void setSequenceId(long sequence_id) {
+		this.sequence_id = sequence_id;
+		if (sequence_id != getSequenceId()){
+			put(KEY_POST_SEQUENCE, sequence_id);
+		}
+	}
 
 	public TGPost() {
 	}

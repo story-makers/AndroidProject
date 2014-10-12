@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.ParseGeoPoint;
 import com.storymakers.sandbox.app.TGPost.PostType;
 
 public class PhotoUploaderActivity extends FragmentActivity implements
@@ -65,7 +64,7 @@ public class PhotoUploaderActivity extends FragmentActivity implements
 		Location loc = locationClient.getLastLocation();
 		if (loc != null) {
 			TGPost post = TGPost.createNewPost(currentStory, PostType.LOCATION);
-			post.setLocation(new ParseGeoPoint(loc.getLatitude(), loc.getLongitude()));
+			post.setLocation(loc.getLatitude(), loc.getLongitude());
 			post.saveData();
 			Toast.makeText(this, post.toString(), Toast.LENGTH_SHORT).show();
 		}
