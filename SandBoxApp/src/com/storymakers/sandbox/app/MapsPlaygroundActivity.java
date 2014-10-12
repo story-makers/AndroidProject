@@ -1,5 +1,7 @@
 package com.storymakers.sandbox.app;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseGeoPoint;
 
 public class MapsPlaygroundActivity extends FragmentActivity implements
 		GooglePlayServicesClient.ConnectionCallbacks,
@@ -28,6 +31,7 @@ public class MapsPlaygroundActivity extends FragmentActivity implements
 	private SupportMapFragment mapFragment;
 	private GoogleMap map;
 	private LocationClient mLocationClient;
+	private ArrayList<TGPost> posts;
 
 	/*
 	 * Define a request code to send to Google Play services This code is
@@ -200,5 +204,32 @@ public class MapsPlaygroundActivity extends FragmentActivity implements
 
 			return false;
 		}
+	}
+
+	private LatLng getGeoPoint(ParseGeoPoint point) {
+		return new LatLng(point.getLatitude(), point.getLongitude());
+	}
+
+	private void createDummyPostList() {
+		posts = new ArrayList<TGPost>();
+	}
+
+	private void addPostsToMap() {
+		//38.0423209,-122.8579315,760 - Laguana Trail Head, Point Reyes
+		//38.0379302,-122.8564391
+		//38.0362427,-122.8558596,568
+		//38.0351291,-122.856799,932
+		//38.0283639,-122.8588262,948
+		//38.0219532,-122.8579237,951
+		//38.0191769,-122.8565391,956
+		//38.0180459,-122.8582825,960
+		//38.0180459,-122.8582825,960
+		//38.015647,-122.8583851
+		//38.015647,-122.8583851
+		//38.015647,-122.8583851
+		//38.015647,-122.8583851
+		//38.0185489,-122.8625654
+		
+		
 	}
 }
