@@ -1,53 +1,80 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Trailguide" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_trailguide</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Trailguide</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Trailguide</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Trailguide</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Trailguide</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Trailguide</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_trailguide</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_trailguide</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>
+        
+        
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="ActionBar.Solid.Trailguide" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_trailguide</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_trailguide</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_trailguide</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Trailguide</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Trailguide" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_trailguide</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Trailguide</item>
+    </style>
+
+    <style name="PopupMenu.Trailguide" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>	
+    </style>
+
+    <style name="DropDownListView.Trailguide" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_trailguide</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Trailguide" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_trailguide</item>
+    </style>
+
+    <style name="DropDownNav.Trailguide" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_trailguide</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_trailguide</item>
     </style>
     
-    <style name="Theme.SimpleTwitterTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
-
+    <style name="ProgressBar.Trailguide" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_trailguide</item>
     </style>
-
-    <style name="Theme.MyAppTheme.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/white</item>
-        <item name="android:titleTextStyle">@style/ActionBarText</item>
-        <item name="android:backgroundStacked">@color/black</item>
-
-    </style>
-
-    <style name="ActionBarText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@color/dark_grey</item>
-    </style>
-
-
-    <style name="SButton" parent="@android:style/Widget.Button">
-
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">#bf6d7b8d</item>
-        <item name="android:cacheColorHint">@android:color/transparent</item>
-        <item name="android:minHeight">30.0dp</item>
-    </style>
-
-
     
+    <style name="ActionButton.CloseMode.Trailguide" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_trailguide</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Trailguide.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Trailguide</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Trailguide</item>
+    </style>
 
 </resources>

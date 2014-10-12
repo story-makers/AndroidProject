@@ -1,6 +1,6 @@
-package com.storymakers.apps.trailguide.Fragments;
+package com.storymakers.apps.trailguide.fragments;
 
 
-public class MapFragment extends StoryListFragment {
+public class MapFragment extends HikesListFragment {
 
 }

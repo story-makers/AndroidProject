@@ -5,8 +5,8 @@ import android.app.ActionBar.Tab;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.storymakers.apps.trailguide.Fragments.HomeTripListFragment;
-import com.storymakers.apps.trailguide.Fragments.MapFragment;
+import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
+import com.storymakers.apps.trailguide.fragments.MapFragment;
 
 public class CopyOfTripsActivity extends FragmentActivity {
 
@@ -14,7 +14,7 @@ public class CopyOfTripsActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_trips);
+		setContentView(R.layout.activity_home);
 		setupTabs();
 	}
 
@@ -27,9 +27,9 @@ public class CopyOfTripsActivity extends FragmentActivity {
 				// .setIcon(R.drawable.ic_profile)
 				.setTag("HomeTimelineFragment")
 				.setTabListener(
-						new FragmentTabListener<HomeTripListFragment>(
+						new FragmentTabListener<SearchHikesFragment>(
 								R.id.flContainer, this, "home",
-								HomeTripListFragment.class));
+								SearchHikesFragment.class));
 		actionBar.addTab(tab1);
 		actionBar.selectTab(tab1);
 		Tab tab2 = actionBar.newTab()

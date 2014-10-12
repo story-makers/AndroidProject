@@ -21,8 +21,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.storymakers.apps.trailguide.Model.StorySegment;
-import com.storymakers.apps.trailguide.Model.StorySegment.SegmentTypes;
+import com.storymakers.apps.trailguide.model.StorySegment;
+import com.storymakers.apps.trailguide.model.StorySegment.SegmentTypes;
 
 public class StorySegmentAdapter extends ArrayAdapter<StorySegment> {
 	private Context context;

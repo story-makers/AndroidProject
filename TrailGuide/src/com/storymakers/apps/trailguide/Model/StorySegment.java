@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide.Model;
+package com.storymakers.apps.trailguide.model;
 
 public class StorySegment {
 	private String imageUrl;

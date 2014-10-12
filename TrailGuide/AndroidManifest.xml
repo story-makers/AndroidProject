@@ -4,28 +4,42 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
-         >
+        android:icon="@drawable/app_icon" >
         <activity
-            android:name=".TripsActivity"
+            android:name=".activities.HomeActivity"
             android:label="Trail Hike"
-            android:theme="@style/Theme.SimpleTwitterTheme" >
+            android:theme="@style/Theme.Trailguide" >
+            
+        </activity>
+        <activity
+            android:name=".activities.HikeDetailsActivity"
+            android:label="@string/title_activity_hike_details"
+            android:theme="@style/Theme.Trailguide" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.HikeCreateActivity"
+            android:label="@string/title_activity_hike_create" >
+        </activity>
+        <activity
+            android:name="com.storymakers.apps.trailguide.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 

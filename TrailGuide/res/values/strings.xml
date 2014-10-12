@@ -4,5 +4,9 @@
     <string name="app_name">Trail Guide</string>
     <string name="hello_world">Hello world!</string>
     <string name="trip_title">Trip Title</string>
+    <string name="title_activity_hike_details">HikeDetailsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_hike_create">HikeCreateActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>
