@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/ivActivityItemImage"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <RelativeLayout
+        android:id="@+id/laTripActivityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#47b4ea" >
+
+        <TextView
+            android:id="@+id/tvTripActivityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:text="@string/trip_title" />
+        
+	<TextView
+	    android:id="@+id/tvNumPins"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:maxLines="1"
+	    android:paddingRight="5dp"
+	    android:text="10" />
+
+	<TextView
+	    android:id="@+id/tvNumLikes"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_toLeftOf="@+id/ivIcPin"
+	    android:maxLines="1"
+	    android:layout_marginRight="10dp"
+	    android:text="20" />
+
+	<ImageView
+	    android:id="@+id/ivIcPin"
+	    android:layout_width="15dp"
+	    android:layout_height="wrap_content"
+	    android:layout_toLeftOf="@+id/tvNumPins"
+	    android:layout_marginRight="5dp"
+	    android:src="@drawable/ic_pin" />
+	
+    <ImageView
+       android:id="@+id/ivIcLikes"
+       android:layout_width="15dp"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_toLeftOf="@+id/tvNumLikes"
+       android:src="@drawable/ic_like" 
+       android:layout_marginRight="5dp"/>
+	
+
+    </RelativeLayout>
+
+</RelativeLayout>

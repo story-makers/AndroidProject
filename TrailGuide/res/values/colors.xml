@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <color name="black">#ff000000</color>
+<color name="black_alpha">#3f000000</color>
+<color name="purple_alpha">#3f663399</color>
+<color name="red">#7fff0000</color>
+<color name="blue">#7f4060ff</color>
+<color name="white">#ffffffff</color>
+<color name="grey">#bf000000</color>
+<color name="bg">#7f6f9fff</color>
+<color name="cyan">#ffa0dfff</color>
+<color name="dark_grey">#9f000000</color>
+<color name="background_grey">#0f000000</color>
+<color name="blue_action_bar">#ff36648b</color>
+<color name="button_blue">#bf6d7b8d</color>
+</resources>

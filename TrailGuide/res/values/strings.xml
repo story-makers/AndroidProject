@@ -3,5 +3,6 @@
 
     <string name="app_name">Trail Guide</string>
     <string name="hello_world">Hello world!</string>
+    <string name="trip_title">Trip Title</string>
 
 </resources>
