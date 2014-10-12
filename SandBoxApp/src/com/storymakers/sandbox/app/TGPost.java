@@ -2,37 +2,39 @@ package com.storymakers.sandbox.app;
 
 import java.util.Date;
 
-import com.parse.LocationCallback;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 @ParseClassName("TGPost")
-public class TGPost extends ParseObject{
+public class TGPost extends ParseObject {
 	public enum PostType {
 		METADATA, NOTE, LOCATION, PHOTO
 	}
+
 	PostType type;
 	private String note;
 	private Date create_time;
 	private ParseGeoPoint location;
 	private String photo_url;
 	private ParseFile photo;
-	
+	private TGStory story;
+
 	public TGPost() {
 	}
-	
+
 	public static TGPost createNewPost(TGStory story, PostType type) {
 		final TGPost post = new TGPost();
 		post.type = type;
 		post.setNote("");
 		post.setPhoto_url("");
-		
+
 		post.setCreate_time(new Date(System.currentTimeMillis()));
-		story.setLocation(new ParseGeoPoint(37.3526928, -121.97021484));
-		
+		post.setLocation(new ParseGeoPoint(37.3526928, -121.97021484));
+		post.story = story;
+		post.setStory(story);
+
 		return post;
 	}
 
@@ -57,7 +59,9 @@ public class TGPost extends ParseObject{
 	}
 
 	public void setLocation(ParseGeoPoint location) {
-		put("location", location);
+		if (location != null) {
+			put("location", location);
+		}
 	}
 
 	public String getPhoto_url() {
@@ -75,5 +79,21 @@ public class TGPost extends ParseObject{
 	public void setPhoto(ParseFile photo) {
 		put("photo_img", photo);
 	}
-	
+
+	public void setStory(TGStory s) {
+		put("story", s);
+		this.story = s;
+	}
+
+	public TGStory getStory() {
+		return (TGStory) get("story");
+	}
+
+	public void saveData() {
+		ParseFile p = getPhoto();
+		if (p != null) {
+			p.saveInBackground();
+		}
+		saveInBackground();
+	}
 }

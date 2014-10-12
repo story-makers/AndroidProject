@@ -37,7 +37,7 @@
         android:id="@+id/ivPreview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnListPhotos"
+        android:layout_above="@+id/etNote"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvLogText"
@@ -51,5 +51,26 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/btnListPhotos"
         android:text="launch cam" />
+
+    <EditText
+        android:id="@+id/etNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnListPhotos"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:hint="Note" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btnAddNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btnLaunchCam"
+        android:onClick="addNoteAction"
+        android:text="Button" />
 
 </RelativeLayout>

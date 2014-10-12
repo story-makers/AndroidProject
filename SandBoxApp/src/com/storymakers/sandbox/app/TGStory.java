@@ -7,12 +7,13 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 
 	private String title;
-	private TGUser creator;
+	private ParseUser creator;
 	private long likes, refs;
 	private ParseGeoPoint location;
 	private ArrayList<TGPost> posts;
@@ -61,8 +62,8 @@ public class TGStory extends ParseObject {
 	}
 
 	public void setCreator(TGUser creator) {
-		this.creator = creator;
-		put("creator", creator);
+		this.creator = creator.getUserIdentity();
+		put("creator", this.creator );
 	}
 
 	public long getLikes() {

@@ -13,7 +13,8 @@ public class PhotoUploaderActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_uploader);
 		ParseClient.getInstance(getApplicationContext());
-		Toast.makeText(this, "Sdlkjfsljsflsdl sjf", Toast.LENGTH_SHORT).show();
+		ParseClient.getCurrentUser();
+
 	}
 
 	

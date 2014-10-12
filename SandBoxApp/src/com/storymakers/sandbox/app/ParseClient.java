@@ -14,7 +14,6 @@ public class ParseClient {
 	private static TGUser parse_user = null;
 	
 	private ParseClient(Context ctx) {
-		ParseObject.registerSubclass(TGUser.class);
 		ParseObject.registerSubclass(TGPost.class);
 		ParseObject.registerSubclass(TGStory.class);
 		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
@@ -38,9 +37,14 @@ public class ParseClient {
 	
 	public static TGUser getCurrentUser() {
 		if (parse_user == null) {
-			parse_user = TGUser.createNewUser(ParseUser.getCurrentUser(), "joe", "j.doe@gmail.com");
-			
+			ParseUser puser = ParseUser.getCurrentUser();
+			parse_user = new TGUser(puser);
+			puser.saveInBackground();
+			//parse_user.setUserEmail("john.doe@gmail.com");
+			//parse_user.setUserName("John doe");
+			//parse_user.saveData();
 		}
 		return parse_user;
 	}
+	
 }
