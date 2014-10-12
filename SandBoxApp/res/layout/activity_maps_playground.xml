@@ -3,14 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-<fragment
+
+	<fragment
         android:id="@+id/fragment1"
-        android:name="com.storymakers.sandbox.app.NavigationFragmentActivity"
+        android:name="com.storymakers.sandbox.app.NavigationFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         tools:layout="@layout/fragment_navigation" />
-    
+
+	<fragment
+	    android:id="@+id/map"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_below="@id/fragment1"
+	    class="com.google.android.gms.maps.SupportMapFragment" />
 
 </RelativeLayout>

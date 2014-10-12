@@ -6,11 +6,29 @@
 
     <fragment
         android:id="@+id/fragment1"
-        android:name="com.storymakers.sandbox.app.NavigationFragmentActivity"
+        android:name="com.storymakers.sandbox.app.NavigationFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         tools:layout="@layout/fragment_navigation" />
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fragment1"
+        android:text="Start"
+        android:onClick="onStartHike" />
+
+    <Button
+        android:id="@+id/start_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment1"
+        android:layout_toRightOf="@+id/start_button"
+        android:onClick="onEndHike"
+        android:text="End" />
 
 </RelativeLayout>

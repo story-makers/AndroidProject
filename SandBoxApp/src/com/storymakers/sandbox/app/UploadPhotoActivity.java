@@ -1,17 +1,12 @@
 package com.storymakers.sandbox.app;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,11 +16,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.storymakers.sandbox.app.R;
 
-import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
-import com.photoparseuploader.app.R;
-import com.storymakers.sandbox.app.TGUtils;
 import com.storymakers.sandbox.app.TGPost.PostType;
 
 public class UploadPhotoActivity extends Activity {
