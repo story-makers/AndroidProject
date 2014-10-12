@@ -2,6 +2,9 @@ package com.storymakers.sandbox.app;
 
 import java.util.Date;
 
+import android.content.Context;
+import android.net.Uri;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -31,7 +34,6 @@ public class TGPost extends ParseObject {
 		post.setPhoto_url("");
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
-		post.setLocation(new ParseGeoPoint(37.3526928, -121.97021484));
 		post.story = story;
 		post.setStory(story);
 
@@ -58,9 +60,10 @@ public class TGPost extends ParseObject {
 		return (ParseGeoPoint) get("location");
 	}
 
-	public void setLocation(ParseGeoPoint location) {
-		if (location != null) {
-			put("location", location);
+	public void setLocation(float[] latlong) {
+		if (latlong != null) {
+			ParseGeoPoint gp = new ParseGeoPoint(latlong[0], latlong[1]);
+			put("location", gp);
 		}
 	}
 
@@ -76,8 +79,13 @@ public class TGPost extends ParseObject {
 		return (ParseFile) get("photo_img");
 	}
 
-	public void setPhoto(ParseFile photo) {
-		put("photo_img", photo);
+	public void setPhotoFromUri(Context ctx, Uri photouri) {
+		setPhoto(TGUtils.getBytesFromUri(ctx, photouri));
+		setLocation(TGUtils.getGeoLocationFromPhoto(photouri.getPath()));
+	}
+	public void setPhoto(byte[] imageData) {
+		ParseFile ph = new ParseFile("ph" + Long.toString(System.currentTimeMillis()) + ".jpeg", imageData);
+		put("photo_img", ph);
 	}
 
 	public void setStory(TGStory s) {

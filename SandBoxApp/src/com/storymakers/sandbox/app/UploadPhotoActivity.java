@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.photoparseuploader.app.R;
+import com.storymakers.sandbox.app.TGUtils;
 import com.storymakers.sandbox.app.TGPost.PostType;
 
 public class UploadPhotoActivity extends Activity {
@@ -33,11 +34,11 @@ public class UploadPhotoActivity extends Activity {
 	public String photoFileName = "newpo.jpg";
 	private Uri photoUriToSave;
 	private String photoNametoSave;
-	
+
 	TGStory story;
 	TGUser u;
 	EditText etNote;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +49,8 @@ public class UploadPhotoActivity extends Activity {
 
 	public void runListPhotos(View v) {
 		if (etNote.getText().toString().startsWith("create")) {
-			story = TGStory.createNewStory(u, etNote.getText().toString().replace("create", ""));
+			story = TGStory.createNewStory(u, etNote.getText().toString()
+					.replace("create", ""));
 			story.saveEventually();
 			Toast.makeText(this, "Created a story", Toast.LENGTH_SHORT).show();
 		}
@@ -65,7 +67,7 @@ public class UploadPhotoActivity extends Activity {
 	}
 
 	public void addNoteAction(View v) {
-		
+
 		String text = etNote.getText().toString();
 		if (text.length() > 0) {
 			TGPost p = TGPost.createNewPost(story, PostType.NOTE);
@@ -105,7 +107,11 @@ public class UploadPhotoActivity extends Activity {
 				// Load the taken image into a preview
 				ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
 				ivPreview.setImageBitmap(takenImage);
-				savePhotoUriToParse(photoNametoSave, photoUriToSave);
+				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
+				p.setPhotoFromUri(this, takenPhotoUri);
+				p.saveData();
+				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
+						.show();
 			} else { // Result was a failure
 				Toast.makeText(this, "Picture wasn't taken!",
 						Toast.LENGTH_SHORT).show();
@@ -132,55 +138,4 @@ public class UploadPhotoActivity extends Activity {
 				+ fileName));
 	}
 
-	public byte[] getBytes(InputStream inputStream) throws IOException {
-		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-		int bufferSize = 1024;
-		byte[] buffer = new byte[bufferSize];
-
-		int len = 0;
-		while ((len = inputStream.read(buffer)) != -1) {
-			byteBuffer.write(buffer, 0, len);
-		}
-		return byteBuffer.toByteArray();
-	}
-
-	public void savePhotoUriToParse(String name, Uri photo) {
-		InputStream iStream;
-		byte[] inputData = null;
-		try {
-			iStream = getContentResolver().openInputStream(photo);
-			try {
-				inputData = getBytes(iStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		if (inputData != null) {
-			ParseFile pphoto = new ParseFile(name, inputData);
-			TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
-			p.setPhoto(pphoto);
-			p.setLocation(getGeoLocationFromPhoto(photo.getEncodedPath()));
-			p.saveData();
-			Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	public ParseGeoPoint getGeoLocationFromPhoto(String photo_path) {
-		ParseGeoPoint retval = null;
-		ExifInterface exif;
-		try {
-			exif = new ExifInterface(photo_path);
-			float latlong[] = { (float) 0.0, (float) 0.0 };
-			if (exif.getLatLong(latlong)) {
-				retval = new ParseGeoPoint(latlong[0], latlong[1]);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return retval;
-	}
 }

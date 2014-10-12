@@ -19,7 +19,7 @@ public class ParseClient {
 		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
 		ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
- 
+        Parse.enableLocalDatastore(ctx);
         // If you would like all objects to be private by default, remove this
         // line.
         //defaultACL.setPublicReadAccess(true);
