@@ -1,55 +1,62 @@
 package com.storymakers.sandbox.app;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.location.Location;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseGeoPoint;
 
-public class MapsPlaygroundActivity extends FragmentActivity implements
-		GooglePlayServicesClient.ConnectionCallbacks,
-		GooglePlayServicesClient.OnConnectionFailedListener {
+public class MapsPlaygroundActivity extends FragmentActivity {
 
 	private SupportMapFragment mapFragment;
 	private GoogleMap map;
-	private LocationClient mLocationClient;
+	//private LocationServicesClient locationClient;
 	private ArrayList<TGPost> posts;
+	private Map<Marker, List<TGPost>> markerData;
 
 	/*
 	 * Define a request code to send to Google Play services This code is
 	 * returned in Activity.onActivityResult
 	 */
-	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+	//private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_maps_playground);
-		mLocationClient = new LocationClient(this, this, this);
+		markerData = new HashMap<Marker, List<TGPost>>();
+		getPosts();
+		//locationClient = LocationServicesClient.getInstance(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
 		mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
 		if (mapFragment != null) {
 			map = mapFragment.getMap();
 			if (map != null) {
 				Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
 				map.setMyLocationEnabled(true);
+				zoomToHikeStartPoint();
+				addPostsToMap();
+				map.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
+				// TODO: if needed set onInfoWindowClickListener to navigate to the specific item in timeline.
 			} else {
 				Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
 			}
@@ -65,171 +72,127 @@ public class MapsPlaygroundActivity extends FragmentActivity implements
 	protected void onStart() {
 		super.onStart();
 		// Connect the client.
-		if (isGooglePlayServicesAvailable()) {
-			mLocationClient.connect();
-		}
-
+		/*locationClient.connect();*/
 	}
 
 	@Override
 	protected void onStop() {
 		// Disconnecting the client invalidates it.
-		mLocationClient.disconnect();
+		/*locationClient.disconnect();*/
 		super.onStop();
 	}
 
-	/*
-	 * Handle results returned to the FragmentActivity by Google Play services
-	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Decide what to do based on the original request code
-		switch (requestCode) {
-
-		case CONNECTION_FAILURE_RESOLUTION_REQUEST:
-			/*
-			 * If the result code is Activity.RESULT_OK, try to connect again
-			 */
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				mLocationClient.connect();
-				break;
-			}
-
-		}
+	private void getPosts() {
+		// replace logic with data from intent / bundle args
+		long LAG_MILLS = 15*60*1000;
+		posts = new ArrayList<TGPost>();
+		posts.add(new TGPost(38.0423209, -122.8579315, new Date(System.currentTimeMillis())));
+		posts.add(new TGPost(38.0379302,-122.8564391, new Date(System.currentTimeMillis() + LAG_MILLS)));
+		posts.add(new TGPost(38.0362427,-122.8558596, new Date(System.currentTimeMillis() + 2*LAG_MILLS)));
+		posts.add(new TGPost(38.0351291,-122.856799, new Date(System.currentTimeMillis() + 3*LAG_MILLS)));
+		posts.add(new TGPost(38.0283639,-122.8588262, new Date(System.currentTimeMillis() + 4*LAG_MILLS)));
+		posts.add(new TGPost(38.0219532,-122.8579237, new Date(System.currentTimeMillis() + 5*LAG_MILLS)));
+		posts.add(new TGPost(38.0191769,-122.8565391, new Date(System.currentTimeMillis() + 6*LAG_MILLS)));
+		posts.add(new TGPost(38.0180459,-122.8582825, new Date(System.currentTimeMillis() + 7*LAG_MILLS)));
+		posts.add(new TGPost(38.0180459,-122.8582825, new Date(System.currentTimeMillis() + 8*LAG_MILLS)));
+		posts.add(new TGPost(38.015647,-122.8583851, new Date(System.currentTimeMillis() + 9*LAG_MILLS)));
+		posts.add(new TGPost(38.015647,-122.8583851, new Date(System.currentTimeMillis() + 10*LAG_MILLS)));
+		posts.add(new TGPost(38.0185489,-122.8625654, new Date(System.currentTimeMillis() + 11*LAG_MILLS)));
 	}
 
-	/*
-	 * Called by Location Services if the attempt to Location Services fails.
-	 */
-	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
-		/*
-		 * Google Play services can resolve some errors it detects. If the error
-		 * has a resolution, try sending an Intent to start a Google Play
-		 * services activity that can resolve error.
-		 */
-		if (connectionResult.hasResolution()) {
-			try {
-				// Start an Activity that tries to resolve the error
-				connectionResult.startResolutionForResult(this,
-						CONNECTION_FAILURE_RESOLUTION_REQUEST);
-				/*
-				 * Thrown if Google Play services canceled the original
-				 * PendingIntent
-				 */
-			} catch (IntentSender.SendIntentException e) {
-				// Log the error
-				e.printStackTrace();
-			}
-		} else {
-			Toast.makeText(getApplicationContext(),
-					"Sorry. Location services not available to you", Toast.LENGTH_LONG).show();
-		}
-	}
-
-	/*
-	 * Called by Location Services when the request to connect the client
-	 * finishes successfully. At this point, you can request the current
-	 * location or start periodic updates
-	 */
-	@Override
-	public void onConnected(Bundle dataBundle) {
-		// Display the connection status
-		Location location = mLocationClient.getLastLocation();
-		if (location != null) {
-			Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
-			LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+	private void zoomToHikeStartPoint() {
+		ParseGeoPoint point = posts.get(0).getLocation();
+		if (point != null) {
+			LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
 			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
 			map.animateCamera(cameraUpdate);
-		} else {
-			Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	/*
-	 * Called by Location Services if the connection to the location client
-	 * drops because of an error.
-	 */
-	@Override
-	public void onDisconnected() {
-		// Display the connection status
-		Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
-	}
-
-	// Define a DialogFragment that displays the error dialog
-	public static class ErrorDialogFragment extends DialogFragment {
-
-		// Global field to contain the error dialog
-		private Dialog mDialog;
-
-		// Default constructor. Sets the dialog field to null
-		public ErrorDialogFragment() {
-			super();
-			mDialog = null;
-		}
-
-		// Set the dialog to display
-		public void setDialog(Dialog dialog) {
-			mDialog = dialog;
-		}
-
-		// Return a Dialog to the DialogFragment.
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			return mDialog;
-		}
-	}
-
-	private boolean isGooglePlayServicesAvailable() {
-		// Check that Google Play services is available
-		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		// If Google Play services is available
-		if (ConnectionResult.SUCCESS == resultCode) {
-			// In debug mode, log the status
-			Log.d("Location Updates", "Google Play services is available.");
-			return true;
-		} else {
-			// Get the error dialog from Google Play services
-			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-					CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-			// If Google Play services can provide an error dialog
-			if (errorDialog != null) {
-				// Create a new DialogFragment for the error dialog
-				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-				errorFragment.setDialog(errorDialog);
-				errorFragment.show(getSupportFragmentManager(), "Location Updates");
-			}
-
-			return false;
-		}
-	}
-
-	private LatLng getGeoPoint(ParseGeoPoint point) {
-		return new LatLng(point.getLatitude(), point.getLongitude());
-	}
-
-	private void createDummyPostList() {
-		posts = new ArrayList<TGPost>();
 	}
 
 	private void addPostsToMap() {
-		//38.0423209,-122.8579315,760 - Laguana Trail Head, Point Reyes
-		//38.0379302,-122.8564391
-		//38.0362427,-122.8558596,568
-		//38.0351291,-122.856799,932
-		//38.0283639,-122.8588262,948
-		//38.0219532,-122.8579237,951
-		//38.0191769,-122.8565391,956
-		//38.0180459,-122.8582825,960
-		//38.0180459,-122.8582825,960
-		//38.015647,-122.8583851
-		//38.015647,-122.8583851
-		//38.015647,-122.8583851
-		//38.015647,-122.8583851
-		//38.0185489,-122.8625654
+		ParseGeoPoint lastGeoPoint = null;
+		Marker lastMarker = null;
+		PolylineOptions path = new PolylineOptions().geodesic(true);
+		for (int i = 0; i < posts.size(); i++) {
+			ParseGeoPoint point = posts.get(i).getLocation();
+			if (point == null) {
+				continue;
+			}
+			if (i == 0) {
+				lastMarker = map.addMarker(new MarkerOptions()
+        				.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker_begin_end))
+        				.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+        				.position(new LatLng(point.getLatitude(), point.getLongitude())));
+				lastGeoPoint = point;
+				ArrayList<TGPost> list = new ArrayList<TGPost>();
+				list.add(posts.get(i));
+				markerData.put(lastMarker, list);
+				path.add(new LatLng(point.getLatitude(), point.getLongitude()));
+			} else if (i == posts.size() - 1) {
+				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
+					lastMarker = map.addMarker(new MarkerOptions()
+		    				.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker_begin_end))
+		    				.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+		    				.position(new LatLng(point.getLatitude(), point.getLongitude())));
+					lastGeoPoint = point;
+					ArrayList<TGPost> list = new ArrayList<TGPost>();
+					list.add(posts.get(i));
+					markerData.put(lastMarker, list);
+					path.add(new LatLng(point.getLatitude(), point.getLongitude()));
+				} else {
+					markerData.get(lastMarker).add(posts.get(i));
+				}
+			} else {
+				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
+					lastMarker = map.addMarker(new MarkerOptions()
+							.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+							.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+							.position(new LatLng(point.getLatitude(), point.getLongitude())));
+					lastGeoPoint = point;
+					ArrayList<TGPost> list = new ArrayList<TGPost>();
+					list.add(posts.get(i));
+					markerData.put(lastMarker, list);
+					path.add(new LatLng(point.getLatitude(), point.getLongitude()));
+				} else {
+					markerData.get(lastMarker).add(posts.get(i));
+				}
+			}
+		}
+		map.addPolyline(path);
+	}
+
+	public List<TGPost> getMarkerData(Marker marker) {
+		return markerData.get(marker);
+	}
+
+	public class MapInfoWindowAdapter implements InfoWindowAdapter {
+		// TODO: Fix the styling and first time not loading image issue.
+		private MapsPlaygroundActivity mapActivity;
+
+		public MapInfoWindowAdapter(MapsPlaygroundActivity mapActivity) {
+			this.mapActivity = mapActivity;
+		}
 		
-		
+		@Override
+		public View getInfoContents(Marker marker) {
+			// Getting view from the layout file info_window_layout        
+	        LayoutInflater inflater = (LayoutInflater) mapActivity.getSystemService(
+	        		Context.LAYOUT_INFLATER_SERVICE );
+	        View v = (View)inflater.inflate(R.layout.infowindow, null);
+
+	        ListView lvPosts = (ListView) v.findViewById(R.id.lvPostsInfo);
+
+	        MapInfoWindowItemAdapter customadapter = new MapInfoWindowItemAdapter(mapActivity,
+	        		mapActivity.getMarkerData(marker)); 
+	        lvPosts.setAdapter(customadapter);
+
+	        // Returning the view containing InfoWindow contents
+	        return v; 
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			return null;
+		}
 	}
 }

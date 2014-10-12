@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,20 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-
-public class UploadPhotoActivity extends Activity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_upload_photo);
-	}
+import com.parse.ParseGeoPoint;
+import com.storymakers.sandbox.app.TGPost.PostType;
 
 public class UploadPhotoActivity extends Activity {
 	public final String APP_TAG = "MyCustomApp";

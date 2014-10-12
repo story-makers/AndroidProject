@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class NavigationFragmentActivity extends Fragment {
+public class NavigationFragment extends Fragment {
 	Button btnAddPhoto, btnUIPlay, btnShowMap;
 
 	@Override

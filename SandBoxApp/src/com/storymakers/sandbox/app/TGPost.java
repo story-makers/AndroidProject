@@ -24,6 +24,27 @@ public class TGPost extends ParseObject {
 	public TGPost() {
 	}
 
+	// Test constructor for location posts
+	// Don't include in original code
+	TGPost(double lat, double lng, Date time) {
+		type = PostType.PHOTO;
+		setPhoto_url("http://images6.fanpop.com/image/photos/33200000/cute-puppy-dogs-33237869-1024-768.jpg");
+		//type = PostType.NOTE;
+		//setNote("This is a note");
+		setLocation(new ParseGeoPoint(lat, lng));
+		setCreate_time(time);
+	}
+
+	@Override
+	public String toString() {
+		ParseGeoPoint loc = getLocation();
+		if (loc != null) {
+			return "type: " + type + ", location: " + loc.getLatitude() + ", " + loc.getLongitude();
+		} else {
+			return "type: " + type;
+		}
+	}
+
 	public static TGPost createNewPost(TGStory story, PostType type) {
 		final TGPost post = new TGPost();
 		post.type = type;
@@ -32,7 +53,6 @@ public class TGPost extends ParseObject {
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
 		post.setLocation(new ParseGeoPoint(37.3526928, -121.97021484));
-		post.story = story;
 		post.setStory(story);
 
 		return post;
@@ -87,6 +107,10 @@ public class TGPost extends ParseObject {
 
 	public TGStory getStory() {
 		return (TGStory) get("story");
+	}
+
+	public TGPost.PostType getType() {
+		return type;
 	}
 
 	public void saveData() {
