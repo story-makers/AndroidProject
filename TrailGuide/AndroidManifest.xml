@@ -21,17 +21,17 @@
             android:name=".activities.HomeActivity"
             android:label="Trail Hike"
             android:theme="@style/Theme.Trailguide" >
-            
-        </activity>
-        <activity
-            android:name=".activities.HikeDetailsActivity"
-            android:label="@string/title_activity_hike_details"
-            android:theme="@style/Theme.Trailguide" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.HikeDetailsActivity"
+            android:label="@string/title_activity_hike_details"
+            android:theme="@style/Theme.Trailguide" >
+            
         </activity>
         <activity
             android:name=".activities.HikeCreateActivity"

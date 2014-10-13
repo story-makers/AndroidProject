@@ -7,8 +7,10 @@
     <ImageView
         android:id="@+id/ivTextMapImage"
         android:layout_width="fill_parent"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
+        android:adjustViewBounds="true"
         android:layout_weight="1"
+        android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
     
     <TextView
@@ -16,7 +18,8 @@
         android:background="@color/white"
         android:padding="5dp"
         android:layout_width="fill_parent"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
+        android:adjustViewBounds="true"
         android:layout_weight="1"
         android:text="Text description" />
 
