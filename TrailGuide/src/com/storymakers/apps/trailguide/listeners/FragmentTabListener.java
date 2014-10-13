@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.listeners;
 
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;

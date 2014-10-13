@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-
 
     <item
-        android:id="@+id/mi_search"
+        android:id="@+id/miSearch"
         android:icon="@drawable/ic_search"
         android:showAsAction="ifRoom|collapseActionView"
         android:title="B0">
     </item>
     
      <item
-        android:id="@+id/mi_new_trip"
+        android:id="@+id/miNewHike"
         android:icon="@drawable/ic_new_trip"
         android:showAsAction="ifRoom|collapseActionView"
         android:title="B1">

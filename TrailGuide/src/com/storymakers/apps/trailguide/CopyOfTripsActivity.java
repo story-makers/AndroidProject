@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
 import com.storymakers.apps.trailguide.fragments.MapFragment;
+import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 
 public class CopyOfTripsActivity extends FragmentActivity {
 

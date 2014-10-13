@@ -17,7 +17,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Trailguide" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_trailguide</item>
@@ -28,8 +28,7 @@
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Trailguide</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_trailguide</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_trailguide</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>
-        
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>      
         
     </style>
 
@@ -70,7 +69,7 @@
     <style name="ActionButton.CloseMode.Trailguide" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_trailguide</item>
     </style>
-
+    
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Trailguide.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Trailguide</item>

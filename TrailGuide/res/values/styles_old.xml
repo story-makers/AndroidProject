@@ -17,7 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
-    <style name="Theme.SimpleTwitterTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="Theme.TrailGuideTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
 
     </style>

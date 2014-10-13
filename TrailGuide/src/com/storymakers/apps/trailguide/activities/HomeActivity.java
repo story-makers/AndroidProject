@@ -15,24 +15,17 @@ public class HomeActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		// getActionBar().setTitle("TEST");
-		setupFragment();
 	}
 
-	private void setupFragment() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		SearchHikesFragment userTimeline = SearchHikesFragment.newInstance();
-		ft.replace(R.id.flContainer, userTimeline);
-		ft.commit();
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_trips_actions, menu);
+		getMenuInflater().inflate(R.menu.home, menu);
 		/*
 		 * ActionBar actionBar = getActionBar();
 		 * actionBar.setDisplayShowHomeEnabled(false); // displaying custom

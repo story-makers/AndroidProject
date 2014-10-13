@@ -1,21 +1,21 @@
 package com.storymakers.apps.trailguide.activities;
 
-import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.R.id;
-import com.storymakers.apps.trailguide.R.layout;
-import com.storymakers.apps.trailguide.R.menu;
-
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HikeDetailsActivity extends Activity {
+import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
+
+public class HikeDetailsActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_details);
+		setupFragment();
 	}
 
 	@Override
@@ -35,5 +35,12 @@ public class HikeDetailsActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void setupFragment() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		StoryDetailFragment storyDetails = new StoryDetailFragment();
+		ft.replace(R.id.flContainer, storyDetails);
+		ft.commit();
 	}
 }
