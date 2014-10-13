@@ -22,7 +22,7 @@ public class ParseClient {
         Parse.enableLocalDatastore(ctx);
         // If you would like all objects to be private by default, remove this
         // line.
-        //defaultACL.setPublicReadAccess(true);
+        defaultACL.setPublicReadAccess(true);
  
         ParseACL.setDefaultACL(defaultACL, true);
 	}

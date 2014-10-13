@@ -63,13 +63,19 @@ public class TGPost extends ParseObject {
 
 	@Override
 	public String toString() {
+		String retval = "Post (" + getObjectId() + ")";
 		ParseGeoPoint loc = getLocation();
 		if (loc != null) {
-			return "type: " + type + ", location: " + loc.getLatitude() + ", "
+			retval += "type: " + getType().getNumVal() + ", location: " + loc.getLatitude() + ", "
 					+ loc.getLongitude();
 		} else {
-			return "type: " + type;
+			retval += "type: " + getType().getNumVal();
 		}
+		
+		if (getType() == PostType.PHOTO) {
+			retval = getPhoto_url() + retval;
+		}
+		return retval;
 	}
 
 	public static TGPost createNewPost(TGStory story, PostType type) {
@@ -204,4 +210,5 @@ public class TGPost extends ParseObject {
 		}
 		saveInBackground();
 	}
+	
 }

@@ -8,18 +8,24 @@
         android:id="@+id/btnUIPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UI Play" />
+        android:text="UIPlay" />
 
     <Button
         android:id="@+id/btnUploadPicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Pic" />
+        android:text="create" />
 
     <Button
         android:id="@+id/btnShowMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Map" />
+        android:text="Map" />
+
+    <Button
+        android:id="@+id/btnStoryPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="story" />
 
 </LinearLayout>

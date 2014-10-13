@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class NavigationFragment extends Fragment {
-	Button btnAddPhoto, btnUIPlay, btnShowMap;
+	Button btnAddPhoto, btnUIPlay, btnShowMap, btnStoryplay;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,17 @@ public class NavigationFragment extends Fragment {
 				startActivity(i);
 			}
 		});
+		
+		btnStoryplay = (Button) v.findViewById(R.id.btnStoryPlay);
+		btnStoryplay.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), StoryDetail.class);
+				startActivity(i);
+			}
+		});
+
 		return v;
 	}
 }

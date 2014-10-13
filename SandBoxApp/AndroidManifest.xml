@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.storymakers.sandbox.app.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,7 +27,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.storymakers.sandbox.app.PhotoUploaderActivity"
+            android:name=".PhotoUploaderActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,24 +36,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.storymakers.sandbox.app.UploadPhotoActivity"
+            android:name=".UploadPhotoActivity"
             android:label="@string/title_activity_upload_photo" >
         </activity>
         <activity
-            android:name="com.storymakers.sandbox.app.UIPlayGroundActivity"
+            android:name=".UIPlayGroundActivity"
             android:label="@string/title_activity_uiplay_ground" >
         </activity>
         <activity
-            android:name="com.storymakers.sandbox.app.MapsPlaygroundActivity"
+            android:name=".MapsPlaygroundActivity"
             android:label="@string/title_activity_maps_playground" >
         </activity>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDcz0HpO-cQxzXDaT_XxC6IE_j-iAA6s1I" />
-            
-        <meta-data 
+        <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".StoryDetail"
+            android:label="@string/title_activity_story_detail" >
+        </activity>
     </application>
 
 </manifest>

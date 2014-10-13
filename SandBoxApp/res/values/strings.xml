@@ -6,5 +6,6 @@
     <string name="title_activity_upload_photo">UploadPhotoActivity</string>
     <string name="title_activity_uiplay_ground">UIPlayGroundActivity</string>
     <string name="title_activity_maps_playground">MapsPlaygroundActivity</string>
+    <string name="title_activity_story_detail">StoryDetail</string>
 
 </resources>
