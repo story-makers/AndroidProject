@@ -16,7 +16,7 @@ public class TGDraftStories {
 
 	private TGDraftStories() {
 		draftStories = new ArrayList<TGStory>();
-		RemoteDBClient.getStoriesByUser(new FindCallback<TGStory>() {
+		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
 			
 			@Override
 			public void done(List<TGStory> objects, ParseException e) {
@@ -31,7 +31,7 @@ public class TGDraftStories {
 				}
 				
 			}
-		}, ParseClient.getCurrentUser(), 0,0);
+		}, ParseClient.getCurrentUser());
 		
 	}
 

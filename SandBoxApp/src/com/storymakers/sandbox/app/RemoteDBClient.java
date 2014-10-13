@@ -8,10 +8,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class RemoteDBClient {
-	public static void getStoriesByUser(FindCallback<TGStory> callback, TGUser user,
-			int from, int limit) {
+	public static void getStoriesByUser(FindCallback<TGStory> callback,
+			TGUser user, int from, int limit) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
+		query.whereEqualTo("state", "COMPLETE");
 		if (from != 0) {
 			query.setSkip(from);
 		}
@@ -24,7 +25,17 @@ public class RemoteDBClient {
 		query.findInBackground(callback);
 	}
 
-	public static void getStories(FindCallback<TGStory> callback, int from, int limit) {
+	public static void getDraftStoriesByUser(FindCallback<TGStory> callback,
+			TGUser user) {
+		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
+		query.orderByDescending("createdAt");
+		query.whereEqualTo("state", "DRAFT");
+		query.whereEqualTo("creator", user.getUserIdentity());
+		query.findInBackground(callback);
+	}
+
+	public static void getStories(FindCallback<TGStory> callback, int from,
+			int limit) {
 		getStoriesByUser(callback, null, from, limit);
 	}
 
@@ -49,8 +60,8 @@ public class RemoteDBClient {
 			}
 		});
 	}
-	
-	public static void saveDraftStoryRef(TGStory s, UploadProgressHandler handle){
+
+	public static void saveDraftStoryRef(TGStory s, UploadProgressHandler handle) {
 		s.saveInBackground();
 		s.pinInBackground();
 		return;

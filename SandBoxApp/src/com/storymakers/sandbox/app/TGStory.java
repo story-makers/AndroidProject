@@ -2,14 +2,17 @@ package com.storymakers.sandbox.app;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.parse.LocationCallback;
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.storymakers.sandbox.app.TGPost.PostListDownloadCallback;
 import com.storymakers.sandbox.app.TGPost.PostType;
 
 @ParseClassName("TGStory")
@@ -33,6 +36,7 @@ public class TGStory extends ParseObject {
 
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
+
 	};
 
 	public static TGStory createNewStory(TGUser creator, String title) {
@@ -123,8 +127,26 @@ public class TGStory extends ParseObject {
 		put("location", location);
 	}
 
-	public ArrayList<TGPost> getPosts() {
-		return this.posts;
+	public void getPosts(final PostListDownloadCallback handle) {
+
+		this.posts = new ArrayList<TGPost>();
+		RemoteDBClient.getPostsForStory(this, new PostListDownloadCallback() {
+
+			@Override
+			public void fail(String reason) {
+				Log.e("ERROR", reason);
+				handle.fail(reason);
+			}
+
+			@Override
+			public void done(List<TGPost> objs) {
+				TGStory.this.posts.addAll(objs);
+				if (handle != null) {
+					handle.done(objs);
+				}
+			}
+		});
+
 	}
 
 	public ArrayList<TGStory> getReferencedStories() {
@@ -154,11 +176,11 @@ public class TGStory extends ParseObject {
 
 			@Override
 			public void done(ParseException e) {
-				if(handler != null)
+				if (handler != null)
 					handler.progress(1);
 				u_items += 1;
 				if (u_items >= total_items) {
-					if(handler != null)
+					if (handler != null)
 						handler.complete();
 				}
 
@@ -204,5 +226,5 @@ public class TGStory extends ParseObject {
 			coverPhotoURL = "https://farm4.staticflickr.com/3852/15149838402_a0878021dc_z.jpg";
 		put("coverPhotoURL", coverPhotoURL);
 	}
-	
+
 }
