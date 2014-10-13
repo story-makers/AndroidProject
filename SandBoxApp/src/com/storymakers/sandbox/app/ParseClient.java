@@ -38,8 +38,9 @@ public class ParseClient {
 	public static TGUser getCurrentUser() {
 		if (parse_user == null) {
 			ParseUser puser = ParseUser.getCurrentUser();
-			parse_user = new TGUser(puser);
 			puser.saveInBackground();
+			parse_user = new TGUser(puser);
+			
 			//parse_user.setUserEmail("john.doe@gmail.com");
 			//parse_user.setUserName("John doe");
 			//parse_user.saveData();

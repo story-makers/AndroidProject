@@ -1,7 +1,7 @@
 package com.storymakers.sandbox.app;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,9 +16,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.storymakers.sandbox.app.R;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.storymakers.sandbox.app.TGPost.PostType;
+import com.storymakers.sandbox.app.TGStory.StoryType;
 
 public class UploadPhotoActivity extends Activity {
 	public final String APP_TAG = "MyCustomApp";
@@ -37,23 +39,83 @@ public class UploadPhotoActivity extends Activity {
 		setContentView(R.layout.activity_upload_photo);
 		etNote = (EditText) findViewById(R.id.etNote);
 		u = ParseClient.getCurrentUser();
+		story = TGDraftStories.getInstance().getDraftStory();
 	}
 
 	public void runListPhotos(View v) {
-		if (etNote.getText().toString().startsWith("create")) {
-			story = TGStory.createNewStory(u, etNote.getText().toString()
-					.replace("create", ""));
-			story.saveEventually();
+		String command = etNote.getText().toString();
+		if (command.startsWith("create")) {
+			story = TGDraftStories.getInstance().createNewDraft(u,
+					etNote.getText().toString().replace("create ", ""));
+			story.saveData();
 			Toast.makeText(this, "Created a story", Toast.LENGTH_SHORT).show();
-		}
-		if (story == null) {
-			ArrayList<TGStory> stories = u.getAllStories();
-			if (stories.size() > 0) {
-				story = stories.get(0);
-				Toast.makeText(this,
-						"Found a story with title" + story.getTitle(),
-						Toast.LENGTH_SHORT).show();
-			}
+		} else if (command.startsWith("refresh ")) {
+			RemoteDBClient.getStoriesByUser(new FindCallback<TGStory>() {
+
+				@Override
+				public void done(List<TGStory> objects, ParseException e) {
+					if (e != null) {
+						e.printStackTrace();
+						return;
+					}
+					for (TGStory o : objects) {
+						if (o.getState() == StoryType.DRAFT) {
+							story = o;
+							Toast.makeText(UploadPhotoActivity.this,
+									"Found the story: " + o.getTitle(),
+									Toast.LENGTH_SHORT).show();
+						}
+						break;
+					}
+
+				}
+			}, u, 0, 0);
+
+		} else if (command.startsWith("save")) {
+			story.saveData();
+			Toast.makeText(this, "Saved the story: " + story.getTitle(),
+					Toast.LENGTH_SHORT).show();
+			etNote.setText("");
+		} else if (command.startsWith("get ")) {
+			RemoteDBClient.getStories(new FindCallback<TGStory>() {
+
+				@Override
+				public void done(List<TGStory> objects, ParseException e) {
+					if (e != null) {
+						e.printStackTrace();
+						return;
+					}
+					for (TGStory o : objects) {
+						Toast.makeText(UploadPhotoActivity.this,
+								"story:" + o.getTitle(), Toast.LENGTH_SHORT)
+								.show();
+					}
+
+				}
+			}, 0, 0);
+
+		} else if (command.startsWith("note ")) {
+			addNoteAction(v);
+
+		} else if (command.startsWith("complete")) {
+			story.completeStory(new UploadProgressHandler() {
+
+				@Override
+				public void progress(long item_completed) {
+
+					Toast.makeText(UploadPhotoActivity.this, "story progress",
+							Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				public void complete() {
+					Toast.makeText(UploadPhotoActivity.this, "Completed story",
+							Toast.LENGTH_SHORT).show();
+
+				}
+			});
+
+			story = null;
 		}
 
 	}
@@ -64,7 +126,7 @@ public class UploadPhotoActivity extends Activity {
 		if (text.length() > 0) {
 			TGPost p = TGPost.createNewPost(story, PostType.NOTE);
 			p.setNote(text);
-			p.saveData();
+			story.addPost(p);
 			Toast.makeText(this, "Saved a note", Toast.LENGTH_SHORT).show();
 			etNote.setText("");
 		} else {
@@ -101,7 +163,7 @@ public class UploadPhotoActivity extends Activity {
 				ivPreview.setImageBitmap(takenImage);
 				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
 				p.setPhotoFromUri(this, takenPhotoUri);
-				p.saveData();
+				story.addPost(p);
 				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
 						.show();
 			} else { // Result was a failure

@@ -7,23 +7,38 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 @ParseClassName("TGPost")
 public class TGPost extends ParseObject {
 	public enum PostType {
-		METADATA, NOTE, LOCATION, PHOTO
+		METADATA(1), NOTE(2), LOCATION(3), PHOTO(4);
+
+		private int numVal;
+
+		PostType(int numVal) {
+			this.numVal = numVal;
+		}
+
+		public int getNumVal() {
+			return numVal;
+		}
 	}
-	
+
 	public interface PostListDownloadCallback {
 		void done(List<TGPost> objs);
+
+		void fail(String reason);
 	}
 
 	public static final String KEY_POST_SEQUENCE = "seq_id";
+	public static final String KEY_POST_TYPE = "postType";
 
-	PostType type;
+	int type;
 	private String note;
 	private Date create_time;
 	private ParseGeoPoint location;
@@ -32,29 +47,16 @@ public class TGPost extends ParseObject {
 	private TGStory story;
 	private long sequence_id;
 
-	public long getSequenceId() {
-		long v = getLong(KEY_POST_SEQUENCE);
-		sequence_id = v;
-		return v;
-	}
-
-	public void setSequenceId(long sequence_id) {
-		this.sequence_id = sequence_id;
-		if (sequence_id != getSequenceId()){
-			put(KEY_POST_SEQUENCE, sequence_id);
-		}
-	}
-
 	public TGPost() {
 	}
 
 	// Test constructor for location posts
 	// Don't include in original code
 	TGPost(double lat, double lng, Date time) {
-		type = PostType.PHOTO;
+		type = PostType.PHOTO.getNumVal();
 		setPhoto_url("http://images6.fanpop.com/image/photos/33200000/cute-puppy-dogs-33237869-1024-768.jpg");
-		//type = PostType.NOTE;
-		//setNote("This is a note");
+		// type = PostType.NOTE;
+		// setNote("This is a note");
 		setLocation(lat, lng);
 		setCreate_time(time);
 	}
@@ -63,7 +65,8 @@ public class TGPost extends ParseObject {
 	public String toString() {
 		ParseGeoPoint loc = getLocation();
 		if (loc != null) {
-			return "type: " + type + ", location: " + loc.getLatitude() + ", " + loc.getLongitude();
+			return "type: " + type + ", location: " + loc.getLatitude() + ", "
+					+ loc.getLongitude();
 		} else {
 			return "type: " + type;
 		}
@@ -71,7 +74,7 @@ public class TGPost extends ParseObject {
 
 	public static TGPost createNewPost(TGStory story, PostType type) {
 		final TGPost post = new TGPost();
-		post.type = type;
+		post.seType(type);
 		post.setNote("");
 		post.setPhoto_url("");
 
@@ -82,7 +85,10 @@ public class TGPost extends ParseObject {
 		return post;
 	}
 
-	
+	private void seType(PostType t) {
+		put(KEY_POST_TYPE, t.getNumVal());
+	}
+
 	public String getNote() {
 		return getString("note");
 	}
@@ -111,10 +117,9 @@ public class TGPost extends ParseObject {
 	}
 
 	public void setLocation(double latitude, double longitude) {
-		float[] latlong = {(float)latitude, (float)longitude};
+		float[] latlong = { (float) latitude, (float) longitude };
 		setLocation(latlong);
 	}
-
 
 	public String getPhoto_url() {
 		return getString("photo_url");
@@ -132,13 +137,29 @@ public class TGPost extends ParseObject {
 		setPhoto(TGUtils.getBytesFromUri(ctx, photouri));
 		setLocation(TGUtils.getGeoLocationFromPhoto(photouri.getPath()));
 	}
+
 	public void setPhoto(byte[] imageData) {
-		ParseFile ph = new ParseFile("ph" + Long.toString(System.currentTimeMillis()) + ".jpeg", imageData);
+		final ParseFile ph = new ParseFile("ph"
+				+ Long.toString(System.currentTimeMillis()) + ".jpeg",
+				imageData);
 		put("photo_img", ph);
+		ph.saveInBackground(new SaveCallback() {
+
+			@Override
+			public void done(ParseException e) {
+				if (e == null) {
+					TGPost.this.setPhoto_url(ph.getUrl());
+				} else {
+					e.printStackTrace();
+				}
+
+			}
+		});
 	}
 
 	public void setStory(TGStory s) {
-		put("story", s);
+		if (s != null)
+			put("story", s);
 		this.story = s;
 	}
 
@@ -147,7 +168,33 @@ public class TGPost extends ParseObject {
 	}
 
 	public TGPost.PostType getType() {
-		return type;
+		int t = getInt(KEY_POST_TYPE);
+		if (t == PostType.METADATA.getNumVal()) {
+			return PostType.METADATA;
+		}
+		if (t == PostType.LOCATION.getNumVal()) {
+			return PostType.LOCATION;
+		}
+		if (t == PostType.PHOTO.getNumVal()) {
+			return PostType.PHOTO;
+		}
+		if (t == PostType.NOTE.getNumVal()) {
+			return PostType.NOTE;
+		}
+		return PostType.METADATA;
+	}
+
+	public long getSequenceId() {
+		long v = getLong(KEY_POST_SEQUENCE);
+		sequence_id = v;
+		return v;
+	}
+
+	public void setSequenceId(long sequence_id) {
+		this.sequence_id = sequence_id;
+		if (sequence_id != getSequenceId()) {
+			put(KEY_POST_SEQUENCE, sequence_id);
+		}
 	}
 
 	public void saveData() {

@@ -19,7 +19,6 @@ public class TGUser {
 	/* Required for Parse SDK. Do not modify anything here */
 	public TGUser(ParseUser u) {
 		_user = u;
-		getStories();
 	}
 
 	public String getUserEmail() {
@@ -45,31 +44,6 @@ public class TGUser {
 	public void saveData() {
 		_user.saveInBackground();
 	}
-
-	private void getStories() {
-		stories = new ArrayList<TGStory>();
-		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		query.whereEqualTo("creator", _user);
-		query.orderByDescending("createdAt");
-		query.findInBackground(new FindCallback<TGStory>() {
-
-			@Override
-			public void done(List<TGStory> arg0, ParseException arg1) {
-				if (arg1 != null) {
-					arg1.printStackTrace();
-					return;
-				}
-				for (TGStory o : arg0) {
-					stories.add(o);
-					Log.i("INFO", o.toString());
-				}
-
-			}
-		});
-	}
 	
-	public ArrayList<TGStory> getAllStories() {
-		return stories;
-	}
 
 }

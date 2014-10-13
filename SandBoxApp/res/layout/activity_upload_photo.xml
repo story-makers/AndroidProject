@@ -21,7 +21,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:onClick="runListPhotos"
-        android:text="List Photos" />
+        android:text="initialize" />
 
     <TextView
         android:id="@+id/tvLogText"
@@ -36,11 +36,11 @@
     <ImageView
         android:id="@+id/ivPreview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/etNote"
+        
+        android:layout_above="@+id/btnLaunchCam"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvLogText"
+        android:layout_height="200dp"
         android:src="@drawable/ic_launcher" />
 
     <Button
@@ -56,8 +56,10 @@
         android:id="@+id/etNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnListPhotos"
+        android:layout_above="@+id/ivPreview"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvLogText"
         android:ems="10"
         android:hint="Note" >
 
@@ -71,6 +73,6 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/btnLaunchCam"
         android:onClick="addNoteAction"
-        android:text="Button" />
+        android:text="Do" />
 
 </RelativeLayout>

@@ -26,7 +26,7 @@ public class PhotoUploaderActivity extends FragmentActivity implements
 		currentUser = ParseClient.getCurrentUser();
 		locationClient = LocationServicesClient.getInstance(this,
 				CONNECTION_FAILURE_RESOLUTION_REQUEST);
-		currentStory = TGStory.createNewStory(currentUser, "New Story");
+		currentStory = TGDraftStories.getInstance().getDraftStory();
 	}
 
 	public void onStartHike(View v) {

@@ -10,6 +10,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.storymakers.sandbox.app.TGPost.PostType;
 
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
@@ -20,7 +21,7 @@ public class TGStory extends ParseObject {
 	public final String KEY_BEGINDATE = "beginDate";
 	public final String KEY_ENDDATE = "endDate";
 	// VP: TODO need to follow this method for all fields
-	
+
 	private String title;
 	private ParseUser creator;
 	private long likes, refs;
@@ -28,7 +29,7 @@ public class TGStory extends ParseObject {
 	private ArrayList<TGPost> posts;
 	private ArrayList<TGStory> referenced_stories;
 	private Date beginDate, endDate;
-	
+	private String coverPhotoURL;
 
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
@@ -48,11 +49,10 @@ public class TGStory extends ParseObject {
 		 * if (arg0 != null){ story.setLocation(arg0); story.saveInBackground();
 		 * } } };
 		 */
-		story.setLocation(new ParseGeoPoint(37.3526928, -121.97021484));
+		story.setBeginDate(new Date());
 		// ParseGeoPoint.getCurrentLocationInBackground(10000, cb);
 		story.posts = new ArrayList<TGPost>();
 		story.referenced_stories = new ArrayList<TGStory>();
-
 		return story;
 
 	}
@@ -70,7 +70,7 @@ public class TGStory extends ParseObject {
 
 	}
 
-	private StoryType getState() {
+	public StoryType getState() {
 		String s = getString("state");
 		if (s.equals("COMPLETE"))
 			return StoryType.COMPLETE;
@@ -139,21 +139,27 @@ public class TGStory extends ParseObject {
 		this.posts.add(p);
 		p.setStory(this);
 		p.setSequenceId(this.posts.size());
+		if (p.getType() == PostType.PHOTO) {
+			setCoverPhotoURL(p.getPhoto_url());
+		}
 	}
 
 	/* returns number of items to save. */
 	public int completeStory(final UploadProgressHandler handler) {
 		setState(StoryType.COMPLETE);
+		setEndDate(new Date());
 		final int total_items = 1 + this.posts.size(); // for the story itself
 		SaveCallback cb = new SaveCallback() {
 			int u_items = 0;
 
 			@Override
 			public void done(ParseException e) {
-				handler.progress(1);
+				if(handler != null)
+					handler.progress(1);
 				u_items += 1;
 				if (u_items >= total_items) {
-					handler.complete();
+					if(handler != null)
+						handler.complete();
 				}
 
 			}
@@ -161,7 +167,6 @@ public class TGStory extends ParseObject {
 		saveInBackground(cb);
 		saveAllInBackground(this.posts, cb);
 		return total_items;
-
 	}
 
 	public void saveData() {
@@ -189,4 +194,15 @@ public class TGStory extends ParseObject {
 	public void setEndDate(Date endDate) {
 		put(KEY_ENDDATE, endDate);
 	}
+
+	public String getCoverPhotoURL() {
+		return getString("coverPhotoURL");
+	}
+
+	public void setCoverPhotoURL(String coverPhotoURL) {
+		if (coverPhotoURL == null)
+			coverPhotoURL = "https://farm4.staticflickr.com/3852/15149838402_a0878021dc_z.jpg";
+		put("coverPhotoURL", coverPhotoURL);
+	}
+	
 }
