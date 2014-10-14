@@ -20,7 +20,6 @@ public class HikeDetailsActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_details);
-		ParseClient.getInstance(this);
 		setupTabs();
 	}
 
