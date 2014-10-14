@@ -10,5 +10,6 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_home">Trail Guide</string>
     <string name="num_refs">10</string>
+    <string name="add_to_my_hike">Add to my hike</string>
 
 </resources>

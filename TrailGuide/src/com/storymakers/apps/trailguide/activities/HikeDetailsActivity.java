@@ -12,6 +12,7 @@ import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
+import com.storymakers.apps.trailguide.model.ParseClient;
 
 public class HikeDetailsActivity extends FragmentActivity {
 
@@ -19,6 +20,7 @@ public class HikeDetailsActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_details);
+		ParseClient.getInstance(this);
 		setupTabs();
 	}
 
