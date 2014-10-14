@@ -53,6 +53,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvRefs.setText(String.valueOf(story.getRefs()));
 		viewHolder.tvTitle.setText(story.getTitle());
 		convertView.setTag(story);
+		View v = (View) convertView.findViewById(R.id.rlHikeListItem);
+		v.setTag(story);
 		return convertView;
 	}
 

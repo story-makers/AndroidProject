@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
-import com.storymakers.apps.trailguide.fragments.MapFragment;
+import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 
 public class CopyOfTripsActivity extends FragmentActivity {
@@ -38,9 +38,9 @@ public class CopyOfTripsActivity extends FragmentActivity {
 				// .setIcon(R.drawable.ic_profile)
 				.setTag("MentionsTimelineFragment")
 				.setTabListener(
-						new FragmentTabListener<MapFragment>(
+						new FragmentTabListener<StoryMapFragment>(
 								R.id.flContainer, this, "mentions",
-								MapFragment.class));
+								StoryMapFragment.class));
 		actionBar.addTab(tab2);
 
 	}
