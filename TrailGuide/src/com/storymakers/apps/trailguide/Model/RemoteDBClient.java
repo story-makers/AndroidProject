@@ -14,7 +14,7 @@ public class RemoteDBClient {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "COMPLETE");
-		query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
+		//query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
 		if (from != 0) {
 			query.setSkip(from);
 		}
@@ -24,13 +24,14 @@ public class RemoteDBClient {
 		if (user != null) {
 			query.whereEqualTo("creator", user.getUserIdentity());
 		}
+		//query.fromPin();
 		query.findInBackground(callback);
 	}
 	
 	/* Call only after you have the story in cache */
 	public static TGStory getStoryById(String objectId,  FindCallback<TGStory> callback){
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
+		//query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
 		try {
 			return query.get(objectId);
 		} catch (ParseException e) {

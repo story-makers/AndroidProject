@@ -3,6 +3,20 @@
     tools:context="com.storymakers.apps.trailguide.HikeDetailsActivity" >
 
     <item
+        android:id="@+id/miSearch"
+        android:icon="@drawable/ic_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="B0">
+    </item>
+    
+     <item
+        android:id="@+id/miNewHike"
+        android:icon="@drawable/ic_new_trip"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="B1">
+    </item>
+
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

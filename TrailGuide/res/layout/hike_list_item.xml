@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivCoverPhoto"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -20,7 +20,7 @@
     <RelativeLayout
         android:id="@+id/rlTitleGroup"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/ivCoverPhoto"
         android:background="#47b4ea" >
@@ -35,7 +35,7 @@
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:typeface="monospace"
-            android:textStyle="bold|normal"
+            android:textStyle="bold"
             android:text="@string/trip_title" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:typeface="monospace"
             android:text="@string/num_refs"
             android:drawableLeft="@drawable/ic_pin"
-            android:drawablePadding="2dp" />
+            android:drawablePadding="3dp" />
 
         <TextView
             android:id="@+id/tvLikes"
@@ -64,7 +64,7 @@
             android:typeface="monospace"
             android:text="@string/num_refs"
             android:drawableLeft="@drawable/ic_like"
-            android:drawablePadding="2dp" />
+            android:drawablePadding="3dp" />
         
     </RelativeLayout>
 

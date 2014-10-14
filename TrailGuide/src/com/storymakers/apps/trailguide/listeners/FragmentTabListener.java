@@ -2,6 +2,7 @@ package com.storymakers.apps.trailguide.listeners;
 
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -11,15 +12,17 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 	private final FragmentActivity mActivity;
 	private final String mTag;
 	private final Class<T> mClass;
+	private final Bundle mArgs;
 	private final int mfragmentContainerId;
 
 	// This version defaults to replacing the entire activity content area
 	// new FragmentTabListener<SomeFragment>(this, "first", SomeFragment.class))
 	public FragmentTabListener(FragmentActivity activity, String tag,
-			Class<T> clz) {
+			Class<T> clz, Bundle args) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
+		mArgs = args;
 		mfragmentContainerId = android.R.id.content;
 	}
 
@@ -28,10 +31,11 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 	// new FragmentTabListener<SomeFragment>(R.id.flContent, this, "first",
 	// SomeFragment.class))
 	public FragmentTabListener(int fragmentContainerId,
-			FragmentActivity activity, String tag, Class<T> clz) {
+			FragmentActivity activity, String tag, Class<T> clz, Bundle args) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
+		mArgs = args;
 		mfragmentContainerId = fragmentContainerId;
 	}
 
@@ -42,7 +46,7 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 		// Check if the fragment is already initialized
 		if (mFragment == null) {
 			// If not, instantiate and add it to the activity
-			mFragment = Fragment.instantiate(mActivity, mClass.getName());
+			mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
 			sft.add(mfragmentContainerId, mFragment, mTag);
 		} else {
 			// If it exists, simply attach it in order to show it

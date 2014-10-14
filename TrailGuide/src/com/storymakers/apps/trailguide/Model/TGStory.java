@@ -149,6 +149,10 @@ public class TGStory extends ParseObject {
 
 	}
 
+	public ArrayList<TGPost> getPosts() {
+		return this.posts;
+	}
+
 	public ArrayList<TGStory> getReferencedStories() {
 		return this.referenced_stories;
 	}

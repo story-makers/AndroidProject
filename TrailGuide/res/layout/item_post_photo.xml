@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/ivPostPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="180dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher"
+        android:adjustViewBounds="true" />
+    
+   <TextView
+        android:id="@+id/tvPostNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       	android:layout_alignBaseline="@id/ivPostPhoto"
+       	android:layout_toRightOf="@id/ivPostPhoto"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:ellipsize="end"
+        android:text="@string/note"
+        android:textSize="12sp"
+        android:typeface="sans" />
+
+</RelativeLayout>

@@ -30,7 +30,7 @@ public class CopyOfTripsActivity extends FragmentActivity {
 				.setTabListener(
 						new FragmentTabListener<SearchHikesFragment>(
 								R.id.flContainer, this, "home",
-								SearchHikesFragment.class));
+								SearchHikesFragment.class, new Bundle()));
 		actionBar.addTab(tab1);
 		actionBar.selectTab(tab1);
 		Tab tab2 = actionBar.newTab()
@@ -40,7 +40,7 @@ public class CopyOfTripsActivity extends FragmentActivity {
 				.setTabListener(
 						new FragmentTabListener<StoryMapFragment>(
 								R.id.flContainer, this, "mentions",
-								StoryMapFragment.class));
+								StoryMapFragment.class, new Bundle()));
 		actionBar.addTab(tab2);
 
 	}

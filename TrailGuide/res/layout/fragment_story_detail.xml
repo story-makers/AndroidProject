@@ -1,18 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ListView
-        android:id="@+id/lvStorySegments"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/flCover"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" 
-        android:divider="@null"
-        >
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
 
-    </ListView>
+        <ImageView
+            android:id="@+id/ivCoverPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_old" />
+
+        <RelativeLayout
+            android:id="@+id/rlStoryAttrs"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" >
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/trip_title"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/tvRefs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:drawableLeft="@drawable/ic_pin"
+                android:drawablePadding="3dp"
+                android:text="@string/num_refs"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/tvRefs"
+                android:drawableLeft="@drawable/ic_like"
+                android:drawablePadding="3dp"
+                android:text="@string/num_refs"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/fragmentPostList"
+        android:name="com.storymakers.apps.trailguide.fragments.PostListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/flCover"
+        tools:layout="@layout/fragment_post_list" />
 
 </RelativeLayout>

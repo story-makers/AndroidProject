@@ -4,15 +4,16 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
+import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
-import com.storymakers.apps.trailguide.model.ParseClient;
+import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeDetailsActivity extends FragmentActivity {
 
@@ -47,12 +48,15 @@ public class HikeDetailsActivity extends FragmentActivity {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
 
+		Bundle fragmentArgs = new Bundle();
+		fragmentArgs.putString("hike", getIntent().getStringExtra("hike"));
+
 		Tab hikeDetailTab = actionBar
 		    .newTab()
 		    .setText("Timeline")
 		    .setTag("StoryDetailFragment")
 		    .setTabListener(new FragmentTabListener<StoryDetailFragment>(R.id.flContainer, this,
-                        "home", StoryDetailFragment.class));
+                        "home", StoryDetailFragment.class, fragmentArgs));
 
 		actionBar.addTab(hikeDetailTab);
 		actionBar.selectTab(hikeDetailTab);
@@ -62,16 +66,16 @@ public class HikeDetailsActivity extends FragmentActivity {
 		    .setText("Map")
 		    .setTag("StoryMapFragment")
 		    .setTabListener(new FragmentTabListener<StoryMapFragment>(R.id.flContainer, this,
-                        "mentions", StoryMapFragment.class));
+                        "mentions", StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
 		
 	}
 
-	private void setupFragment() {
+	/*private void setupFragment() {
 		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		StoryDetailFragment storyDetails = new StoryDetailFragment();
 		ft.replace(R.id.flContainer, storyDetails);
 		ft.commit();
-	}
+	}*/
 }
