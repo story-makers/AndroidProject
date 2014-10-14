@@ -25,7 +25,7 @@
     <style name="Theme.MyAppTheme.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/white</item>
         <item name="android:titleTextStyle">@style/ActionBarText</item>
-        <item name="android:backgroundStacked">@color/black</item>
+        <!-- <item name="android:backgroundStacked">@color/black</item> -->
 
     </style>
 

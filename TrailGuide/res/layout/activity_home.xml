@@ -5,4 +5,15 @@
     android:background="#7de8e2"
     tools:context="com.storymakers.apps.trailguide.activities.HomeActivity">
 
+    <fragment
+        android:id="@+id/fragmentSearchHikes"
+        android:name="com.storymakers.apps.trailguide.fragments.SearchHikesFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_hikes_list" />
+
 </RelativeLayout>

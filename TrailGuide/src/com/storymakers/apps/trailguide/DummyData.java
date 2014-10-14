@@ -16,8 +16,11 @@ public class DummyData {
 
 	public static TGStory getLaguna() {
 		TGStory story = new TGStory();
+		story.title = "Point Reyes";
+		story.numLikes = 100;
+		story.numRefs = 20;
 		story.posts = new ArrayList<TGPost>();
-		story.posts.add(new TGPost("http://picpaste.com/pics/38.0423209__-122.8579315-IQ7EFmQl.1413175473.PNG", 0, 38.0423209, -122.8579315));
+		story.posts.add(new TGPost("http://picpaste.com/pics/38.0423209__-122.8579315-IQ7EFmQl.1413262704.PNG", 0, 38.0423209, -122.8579315));
 		story.posts.add(new TGPost("http://picpaste.com/pics/38.0379302_-122.8564391-1uTm56fs.1413175462.PNG", 0, 38.0379302,-122.8564391));
 		story.posts.add(new TGPost("This place is awesome", 1, 38.0362427,-122.8558596));
 		story.posts.add(new TGPost("http://picpaste.com/pics/38.0351291_-122.856799-01LK5GYt.1413175442.PNG", 0, 38.0351291,-122.856799));
@@ -30,6 +33,7 @@ public class DummyData {
 		story.posts.add(new TGPost("http://picpaste.com/pics/38.015647_-122.8583851__2_-uhy5Bkap.1413175252.PNG", 0, 38.015647,-122.8583851));
 		story.posts.add(new TGPost("http://picpaste.com/pics/38.015647_-122.8583851-KvO6JRNh.1413175227.PNG", 0, 38.015647,-122.8583851));
 		story.posts.add(new TGPost("http://picpaste.com/pics/38.0185489_-122.8625654-KLYJwaB8.1413175318.PNG", 0, 38.0185489,-122.8625654));
+		story.coverPhoto = story.posts.get(0).content;
 		return story;
 	}
 
