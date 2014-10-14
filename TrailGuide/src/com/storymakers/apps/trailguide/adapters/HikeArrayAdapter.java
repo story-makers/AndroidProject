@@ -49,18 +49,24 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 			viewHolder = new ViewHolder();
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 			convertView = inflater.inflate(R.layout.hike_list_item, parent, false);
-			initializeViews(viewHolder, convertView);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		initializeViews(viewHolder, convertView);
 
-		/*viewHolder.ivCoverPhoto.setImageResource(android.R.color.transparent);
-		imageLoader.displayImage(story.coverPhoto, viewHolder.ivCoverPhoto);*/
+		viewHolder.ivCoverPhoto.setImageResource(android.R.color.transparent);
+		imageLoader.displayImage(story.coverPhoto, viewHolder.ivCoverPhoto);
+		viewHolder.tvLikes.setText(String.valueOf(story.numLikes));
+		viewHolder.tvRefs.setText(String.valueOf(story.numRefs));
+		viewHolder.tvTitle.setText(story.title);
 		return convertView;
 	}
 
 	private void initializeViews(ViewHolder viewHolder, View convertView) {
-		//viewHolder.ivCoverPhoto = (ImageView) convertView.findViewById(R.id.ivCoverPhoto);
+		viewHolder.ivCoverPhoto = (ImageView) convertView.findViewById(R.id.ivCoverPhoto);
+		viewHolder.tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
+		viewHolder.tvRefs = (TextView) convertView.findViewById(R.id.tvRefs);
+		viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
 		convertView.setTag(viewHolder);
 	}
 	

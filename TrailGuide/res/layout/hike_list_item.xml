@@ -9,12 +9,13 @@
     <ImageView
         android:id="@+id/ivCoverPhoto"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_launcher_old"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:id="@+id/rlTitleGroup"
@@ -32,7 +33,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:textColor="#ffffff"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:typeface="monospace"
             android:textStyle="bold|normal"
             android:text="@string/trip_title" />
@@ -45,7 +46,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center_vertical"
             android:textColor="#ffffff"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:typeface="monospace"
             android:text="@string/num_refs"
             android:drawableLeft="@drawable/ic_pin"
@@ -59,7 +60,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center_vertical"
             android:textColor="#ffffff"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:typeface="monospace"
             android:text="@string/num_refs"
             android:drawableLeft="@drawable/ic_like"

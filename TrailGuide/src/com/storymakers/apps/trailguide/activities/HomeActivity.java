@@ -1,17 +1,18 @@
 package com.storymakers.apps.trailguide.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
+import android.view.View;
 
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.R.id;
-import com.storymakers.apps.trailguide.R.layout;
-import com.storymakers.apps.trailguide.R.menu;
+import com.storymakers.apps.trailguide.fragments.HikesListFragment;
+import com.storymakers.apps.trailguide.fragments.HikesListFragment.TGStory;
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
 
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends FragmentActivity implements
+		HikesListFragment.OnListItemClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,4 +38,16 @@ public class HomeActivity extends FragmentActivity {
 		return true;
 	}
 
+	public void onListItemClicked(View v) {
+		SearchHikesFragment fragment = (SearchHikesFragment)
+				getSupportFragmentManager().findFragmentById(R.id.fragmentSearchHikes);
+		fragment.onListItemClicked(v);
+	}
+
+	@Override
+	public void onListItemClicked(TGStory story) {
+		Intent i = new Intent(this, HikeDetailsActivity.class);
+		i.putExtra("hike", story);
+		startActivity(i);
+	}
 }
