@@ -1,7 +1,7 @@
 package com.storymakers.apps.trailguide.fragments;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.HikeArrayAdapter;
+import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikesListFragment extends Fragment {
 	private ArrayList<TGStory> stories;
@@ -63,34 +64,8 @@ public class HikesListFragment extends Fragment {
 		listener.onListItemClicked((TGStory)v.getTag());
 	}
 
-	public void addAll(ArrayList<TGStory> stories) {
+	public void addAll(List<TGStory> stories) {
 		hikesListAdapter.addAll(stories);
 	}
 
-	// Dummy classes until we have the model
-	public static class TGStory implements Serializable {
-		private static final long serialVersionUID = -4765275586641199970L;
-
-		public ArrayList<TGPost> posts;
-		public int numLikes;
-		public int numRefs;
-		public String title;
-		public String coverPhoto;
-		public TGStory(){}
-	}
-
-	public static class TGPost implements Serializable {
-		private static final long serialVersionUID = 6824623086314676837L;
-
-		public String content; //url or note
-		int type; //0 - url, 1 - note
-		double lat;
-		double lng;
-		public TGPost(String s, int t, double la, double lo) {
-			content = s;
-			type = t;
-			lat = la;
-			lng = lo;
-		}
-	}
 }

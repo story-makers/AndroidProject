@@ -184,4 +184,8 @@ public class StoryMapFragment extends Fragment {
 	}
 
 	
+=======
+public class StoryMapFragment extends HikesListFragment{
+
+>>>>>>> b0b86c08f1efea2ed762f221eb137bdabe1bdf5a
 }

@@ -35,7 +35,7 @@ public class ParseClient {
 		return client;
 	}
 	
-	public static TGUser getCurrentUser() {
+	public TGUser getCurrentUser() {
 		if (parse_user == null) {
 			ParseUser puser = ParseUser.getCurrentUser();
 			puser.saveInBackground();

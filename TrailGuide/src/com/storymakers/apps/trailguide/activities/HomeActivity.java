@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.HikesListFragment;
-import com.storymakers.apps.trailguide.fragments.HikesListFragment.TGStory;
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
+import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HomeActivity extends FragmentActivity implements
 		HikesListFragment.OnListItemClickListener {
@@ -47,7 +47,7 @@ public class HomeActivity extends FragmentActivity implements
 	@Override
 	public void onListItemClicked(TGStory story) {
 		Intent i = new Intent(this, HikeDetailsActivity.class);
-		i.putExtra("hike", story);
+		i.putExtra("hike", story.getObjectId());
 		startActivity(i);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.model.TGStory.StoryType;
 
 public class TGDraftStories {
@@ -29,7 +30,7 @@ public class TGDraftStories {
 				}
 				
 			}
-		}, ParseClient.getCurrentUser());
+		}, TrailGuideApplication.getCurrentUser());
 		
 	}
 
