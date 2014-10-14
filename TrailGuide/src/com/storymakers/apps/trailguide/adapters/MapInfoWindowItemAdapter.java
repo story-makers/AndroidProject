@@ -33,10 +33,10 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 		}
 	}
 
-	// Return an integer representing the type by fetching the enum type ordinal
+	// Return an integer representing the type by fetching the enum type val
 	@Override
 	public int getItemViewType(int position) {
-		return ((TGPost) getItem(position)).getType().ordinal();
+		return ((TGPost) getItem(position)).getType().getNumVal();
 	}
 
 	// Total number of types is the number of enum values
@@ -66,9 +66,9 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 
 	// Given the item type, responsible for returning the correct inflated XML layout file
 	private View getInflatedLayoutForType(int type) {
-		if (type == TGPost.PostType.PHOTO.ordinal()) {
+		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_image, null);
-		} else if (type == TGPost.PostType.NOTE.ordinal()) {
+		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
 			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
 		} else {
 			return null;

@@ -16,7 +16,7 @@ import com.parse.SaveCallback;
 @ParseClassName("TGPost")
 public class TGPost extends ParseObject {
 	public enum PostType {
-		METADATA(1), NOTE(2), LOCATION(3), PHOTO(4);
+		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3);
 
 		private int numVal;
 
@@ -53,7 +53,7 @@ public class TGPost extends ParseObject {
 	// Test constructor for location posts
 	// Don't include in original code
 	public TGPost(double lat, double lng) {
-		type = PostType.PHOTO.getNumVal();
+		setType(PostType.PHOTO);
 		setPhoto_url("http://images6.fanpop.com/image/photos/33200000/cute-puppy-dogs-33237869-1024-768.jpg");
 		// type = PostType.NOTE;
 		// setNote("This is a note");
@@ -187,6 +187,11 @@ public class TGPost extends ParseObject {
 			return PostType.NOTE;
 		}
 		return PostType.METADATA;
+	}
+
+	public void setType(PostType t) {
+		type = t.getNumVal();
+		put(KEY_POST_TYPE, type);
 	}
 
 	public long getSequenceId() {

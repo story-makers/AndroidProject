@@ -8,7 +8,7 @@
     <Button
         android:id="@+id/addToHikeButton"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -16,7 +16,8 @@
         android:background="#3189b4"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        android:textColor="#ffffff" />
 
     <FrameLayout
         android:id="@+id/flContainer"
