@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/app_icon" />
+        android:src="@drawable/ic_launcher" />
 
     <ImageView
         android:id="@+id/imageView3"

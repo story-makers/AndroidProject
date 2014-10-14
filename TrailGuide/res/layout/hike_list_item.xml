@@ -1,7 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:id="@+id/rlHikeListItem"
+    android:onClick="onListItemClicked" >
+
+    <ImageView
+        android:id="@+id/ivCoverPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher_old"
+        android:adjustViewBounds="true" />
+
+    <RelativeLayout
+        android:id="@+id/rlTitleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ivCoverPhoto"
+        android:background="#47b4ea" >
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:textStyle="bold|normal"
+            android:text="@string/trip_title" />
+
+        <TextView
+            android:id="@+id/tvRefs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:text="@string/num_refs"
+            android:drawableLeft="@drawable/ic_pin"
+            android:drawablePadding="2dp" />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tvRefs"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:text="@string/num_refs"
+            android:drawableLeft="@drawable/ic_like"
+            android:drawablePadding="2dp" />
+        
+    </RelativeLayout>
 
 </RelativeLayout>
