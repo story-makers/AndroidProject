@@ -14,7 +14,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.fragments.HikesListFragment.TGStory;
+import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	private ImageLoader imageLoader;
@@ -29,14 +29,6 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	public HikeArrayAdapter(Context context, List<TGStory> stories) {
 		super(context, R.layout.hike_list_item, stories);
 		imageLoader = ImageLoader.getInstance();
-		if (!imageLoader.isInited()) {
-			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-					cacheInMemory().cacheOnDisc().build();
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-					.defaultDisplayImageOptions(defaultOptions)
-					.build();
-			imageLoader.init(config);
-		}
 	}
 
 	@Override
@@ -49,16 +41,18 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 			viewHolder = new ViewHolder();
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 			convertView = inflater.inflate(R.layout.hike_list_item, parent, false);
+			initializeViews(viewHolder, convertView);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		initializeViews(viewHolder, convertView);
+		
 
 		viewHolder.ivCoverPhoto.setImageResource(android.R.color.transparent);
-		imageLoader.displayImage(story.coverPhoto, viewHolder.ivCoverPhoto);
-		viewHolder.tvLikes.setText(String.valueOf(story.numLikes));
-		viewHolder.tvRefs.setText(String.valueOf(story.numRefs));
-		viewHolder.tvTitle.setText(story.title);
+		imageLoader.displayImage(story.getCoverPhotoURL(), viewHolder.ivCoverPhoto);
+		viewHolder.tvLikes.setText(String.valueOf(story.getLikes()));
+		viewHolder.tvRefs.setText(String.valueOf(story.getRefs()));
+		viewHolder.tvTitle.setText(story.getTitle());
+		convertView.setTag(story);
 		return convertView;
 	}
 
@@ -67,7 +61,6 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		viewHolder.tvRefs = (TextView) convertView.findViewById(R.id.tvRefs);
 		viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-		convertView.setTag(viewHolder);
 	}
 	
 }
