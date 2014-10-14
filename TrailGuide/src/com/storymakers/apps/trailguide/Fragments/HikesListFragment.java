@@ -61,7 +61,7 @@ public class HikesListFragment extends Fragment {
 	}
 
 	public void onListItemClicked(View v) {
-		listener.onListItemClicked((TGStory)v.getTag());
+		listener.onListItemClicked((TGStory)v.getTag(R.string.object_key));
 	}
 
 	public void addAll(List<TGStory> stories) {

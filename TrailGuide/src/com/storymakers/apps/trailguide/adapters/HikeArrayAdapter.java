@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGStory;
 
@@ -43,18 +41,15 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 			convertView = inflater.inflate(R.layout.hike_list_item, parent, false);
 			initializeViews(viewHolder, convertView);
 		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
+			viewHolder = (ViewHolder) convertView.getTag(R.string.view_holder_key);
 		}
-		
 
 		viewHolder.ivCoverPhoto.setImageResource(android.R.color.transparent);
 		imageLoader.displayImage(story.getCoverPhotoURL(), viewHolder.ivCoverPhoto);
 		viewHolder.tvLikes.setText(String.valueOf(story.getLikes()));
 		viewHolder.tvRefs.setText(String.valueOf(story.getRefs()));
 		viewHolder.tvTitle.setText(story.getTitle());
-		convertView.setTag(story);
-		View v = (View) convertView.findViewById(R.id.rlHikeListItem);
-		v.setTag(story);
+		convertView.setTag(R.string.object_key, story);
 		return convertView;
 	}
 
@@ -63,6 +58,6 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		viewHolder.tvRefs = (TextView) convertView.findViewById(R.id.tvRefs);
 		viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+		convertView.setTag(R.string.view_holder_key, viewHolder);
 	}
-	
 }
