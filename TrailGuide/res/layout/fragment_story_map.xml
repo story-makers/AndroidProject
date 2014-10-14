@@ -3,19 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/addToHikeButton"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/add_to_my_hike"
-        android:background="#3189b4"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:typeface="monospace" />
-
     <fragment
 	    android:id="@+id/map"
 	    android:layout_width="match_parent"
@@ -23,7 +10,7 @@
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
-	    android:layout_above="@id/addToHikeButton"
+	    android:layout_alignParentBottom="true"
 	    class="com.google.android.gms.maps.SupportMapFragment" />
 
 </RelativeLayout>

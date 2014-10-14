@@ -7,9 +7,11 @@ import java.util.Map;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,7 +41,13 @@ public class StoryMapFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		markerData = new HashMap<Marker, List<TGPost>>();
 		getPosts();
-		//locationClient = LocationServicesClient.getInstance(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_story_map, container,
+				false /* don't attach to container yet */);
 		mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
 		if (mapFragment != null) {
 			map = mapFragment.getMap();
@@ -56,7 +64,10 @@ public class StoryMapFragment extends Fragment {
 		} else {
 			Toast.makeText(getActivity(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
 		}
+		return v;
 	}
+
+
 
 	private void getPosts() {
 		// replace logic with data from intent / bundle args
