@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseQuery.CachePolicy;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
 public class RemoteDBClient {
@@ -14,6 +14,7 @@ public class RemoteDBClient {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "COMPLETE");
+		query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
 		if (from != 0) {
 			query.setSkip(from);
 		}
@@ -24,6 +25,20 @@ public class RemoteDBClient {
 			query.whereEqualTo("creator", user.getUserIdentity());
 		}
 		query.findInBackground(callback);
+	}
+	
+	/* Call only after you have the story in cache */
+	public static TGStory getStoryById(String objectId,  FindCallback<TGStory> callback){
+		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
+		query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
+		try {
+			return query.get(objectId);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 
 	public static void getDraftStoriesByUser(FindCallback<TGStory> callback,
