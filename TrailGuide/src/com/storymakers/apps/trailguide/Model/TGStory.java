@@ -38,7 +38,7 @@ public class TGStory extends ParseObject {
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
 
-	};
+	}
 
 	public static TGStory createNewStory(TGUser creator, String title) {
 		final TGStory story = new TGStory();
@@ -59,7 +59,6 @@ public class TGStory extends ParseObject {
 		story.posts = new ArrayList<TGPost>();
 		story.referenced_stories = new ArrayList<TGStory>();
 		return story;
-
 	}
 
 	private void setState(StoryType t) {

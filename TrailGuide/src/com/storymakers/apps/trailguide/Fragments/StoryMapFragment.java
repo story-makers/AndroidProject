@@ -1,7 +1,6 @@
 package com.storymakers.apps.trailguide.fragments;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,20 +60,19 @@ public class StoryMapFragment extends Fragment {
 
 	private void getPosts() {
 		// replace logic with data from intent / bundle args
-		long LAG_MILLS = 15*60*1000;
 		posts = new ArrayList<TGPost>();
-		posts.add(new TGPost(38.0423209, -122.8579315, new Date(System.currentTimeMillis())));
-		posts.add(new TGPost(38.0379302,-122.8564391, new Date(System.currentTimeMillis() + LAG_MILLS)));
-		posts.add(new TGPost(38.0362427,-122.8558596, new Date(System.currentTimeMillis() + 2*LAG_MILLS)));
-		posts.add(new TGPost(38.0351291,-122.856799, new Date(System.currentTimeMillis() + 3*LAG_MILLS)));
-		posts.add(new TGPost(38.0283639,-122.8588262, new Date(System.currentTimeMillis() + 4*LAG_MILLS)));
-		posts.add(new TGPost(38.0219532,-122.8579237, new Date(System.currentTimeMillis() + 5*LAG_MILLS)));
-		posts.add(new TGPost(38.0191769,-122.8565391, new Date(System.currentTimeMillis() + 6*LAG_MILLS)));
-		posts.add(new TGPost(38.0180459,-122.8582825, new Date(System.currentTimeMillis() + 7*LAG_MILLS)));
-		posts.add(new TGPost(38.0180459,-122.8582825, new Date(System.currentTimeMillis() + 8*LAG_MILLS)));
-		posts.add(new TGPost(38.015647,-122.8583851, new Date(System.currentTimeMillis() + 9*LAG_MILLS)));
-		posts.add(new TGPost(38.015647,-122.8583851, new Date(System.currentTimeMillis() + 10*LAG_MILLS)));
-		posts.add(new TGPost(38.0185489,-122.8625654, new Date(System.currentTimeMillis() + 11*LAG_MILLS)));
+		posts.add(new TGPost(38.0423209, -122.8579315));
+		posts.add(new TGPost(38.0379302,-122.8564391));
+		posts.add(new TGPost(38.0362427,-122.8558596));
+		posts.add(new TGPost(38.0351291,-122.856799));
+		posts.add(new TGPost(38.0283639,-122.8588262));
+		posts.add(new TGPost(38.0219532,-122.8579237));
+		posts.add(new TGPost(38.0191769,-122.8565391));
+		posts.add(new TGPost(38.0180459,-122.8582825));
+		posts.add(new TGPost(38.0180459,-122.8582825));
+		posts.add(new TGPost(38.015647,-122.8583851));
+		posts.add(new TGPost(38.015647,-122.8583851));
+		posts.add(new TGPost(38.0185489,-122.8625654));
 	}
 
 	private void zoomToHikeStartPoint() {
@@ -159,7 +157,8 @@ public class StoryMapFragment extends Fragment {
 
 	        ListView lvPosts = (ListView) v.findViewById(R.id.lvPostsInfo);
 
-	        MapInfoWindowItemAdapter customadapter = new MapInfoWindowItemAdapter(storyMapFragment,
+	        MapInfoWindowItemAdapter customadapter = new MapInfoWindowItemAdapter(
+	        		storyMapFragment.getActivity(),
 	        		storyMapFragment.getMarkerData(marker)); 
 	        lvPosts.setAdapter(customadapter);
 

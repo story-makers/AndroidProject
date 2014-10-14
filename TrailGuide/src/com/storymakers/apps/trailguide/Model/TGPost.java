@@ -52,13 +52,12 @@ public class TGPost extends ParseObject {
 
 	// Test constructor for location posts
 	// Don't include in original code
-	TGPost(double lat, double lng, Date time) {
+	public TGPost(double lat, double lng) {
 		type = PostType.PHOTO.getNumVal();
 		setPhoto_url("http://images6.fanpop.com/image/photos/33200000/cute-puppy-dogs-33237869-1024-768.jpg");
 		// type = PostType.NOTE;
 		// setNote("This is a note");
 		setLocation(lat, lng);
-		setCreate_time(time);
 	}
 
 	@Override
