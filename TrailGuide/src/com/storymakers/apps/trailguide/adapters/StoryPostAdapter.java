@@ -25,11 +25,10 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
 		if (!imageLoader.isInited()) {
-			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-					cacheInMemory().cacheOnDisc().build();
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-					.defaultDisplayImageOptions(defaultOptions)
-					.build();
+			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+					.cacheInMemory().cacheOnDisc().build();
+			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+					context).defaultDisplayImageOptions(defaultOptions).build();
 			imageLoader.init(config);
 		}
 	}
@@ -49,22 +48,29 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TGPost post = (TGPost) getItem(position);
+		int type = getItemViewType(position);
 		if (convertView == null) {
-			int type = getItemViewType(position);
 			convertView = getInflatedLayoutForType(type);
 		}
-		ImageView ivPostPhoto = (ImageView) convertView.findViewById(R.id.ivPostPhoto);
-		if (ivPostPhoto != null) {
-			ivPostPhoto.setImageResource(android.R.color.transparent);
-			imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
+		if (type == TGPost.PostType.PHOTO.getNumVal()) {
+			ImageView ivPostPhoto = (ImageView) convertView
+					.findViewById(R.id.ivPostPhoto);
+			if (post.getPhoto_url().length() > 0) {
+				ivPostPhoto.setImageResource(android.R.color.transparent);
+				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
+			} else
+				ivPostPhoto.setLayoutParams(getLayoutParams());
 		}
-		TextView tvPostNote = (TextView) convertView.findViewById(R.id.tvPostNote);
-		if (tvPostNote != null && post.getNote() != null) {
-			tvPostNote.setText(post.getNote());
-		} else {
-			tvPostNote.setVisibility(View.GONE);
-			ivPostPhoto.setLayoutParams(getLayoutParams());
+		if (type == TGPost.PostType.NOTE.getNumVal()) {
+			TextView tvPostNote = (TextView) convertView
+					.findViewById(R.id.tvPostNote);
+			if (tvPostNote != null && post.getNote() != null) {
+				tvPostNote.setText(post.getNote());
+			} else
+
+				tvPostNote.setVisibility(View.GONE);
 		}
+
 		return convertView;
 	}
 
@@ -74,12 +80,15 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		return params;
 	}
 
-	// Given the item type, responsible for returning the correct inflated XML layout file
+	// Given the item type, responsible for returning the correct inflated XML
+	// layout file
 	private View getInflatedLayoutForType(int type) {
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_post_photo, null);
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_photo, null);
 		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_post_note, null);
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_note, null);
 		} else {
 			return null;
 		}

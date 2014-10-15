@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,7 +24,7 @@ public class TrailGuideApplication extends Application {
 		TrailGuideApplication.context = this;
 		client = ParseClient.getInstance(this);
 		currentUser = client.getCurrentUser();
-		
+		Log.i("Info", "I have setup the parse client");
 		// Create global configuration and initialize ImageLoader with this
 		// configuration
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()

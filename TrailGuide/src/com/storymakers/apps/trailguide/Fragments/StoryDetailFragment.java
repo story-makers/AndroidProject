@@ -1,8 +1,11 @@
 package com.storymakers.apps.trailguide.fragments;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
+import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class StoryDetailFragment extends Fragment {
@@ -51,8 +56,20 @@ public class StoryDetailFragment extends Fragment {
 	}
 
 	private void setupListFragment() {
-		PostListFragment fragment = (PostListFragment) getFragmentManager().findFragmentById(R.id.fragmentPostList);
-		fragment.addAll(story.getPosts());
+		final PostListFragment fragment = (PostListFragment) getFragmentManager().findFragmentById(R.id.fragmentPostList);
+		story.getPosts(new PostListDownloadCallback() {
+			
+			@Override
+			public void fail(String reason) {
+				Log.e("ERROR", reason);
+			}
+			
+			@Override
+			public void done(List<TGPost> objs) {
+				fragment.addAll(objs);
+				
+			}
+		});
 	}
 
 	private void getStory() {

@@ -1,6 +1,7 @@
 package com.storymakers.apps.trailguide.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,7 +50,7 @@ public class PostListFragment extends Fragment {
 		return v;
 	}
 
-	public void addAll(ArrayList<TGPost> postsList) {
+	public void addAll(List<TGPost> postsList) {
 		storyPostAdapter.addAll(postsList);
 	}
 
