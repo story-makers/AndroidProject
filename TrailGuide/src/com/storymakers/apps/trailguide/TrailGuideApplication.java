@@ -13,7 +13,7 @@ import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class TrailGuideApplication extends Application {
-	private ParseClient client;
+	private static ParseClient client;
 	private static Context context;
 	private static TGUser currentUser;
 
@@ -23,7 +23,7 @@ public class TrailGuideApplication extends Application {
 
 		TrailGuideApplication.context = this;
 		client = ParseClient.getInstance(this);
-		currentUser = client.getCurrentUser();
+		client.getCurrentUser();
 		Log.i("Info", "I have setup the parse client");
 		// Create global configuration and initialize ImageLoader with this
 		// configuration
@@ -36,6 +36,9 @@ public class TrailGuideApplication extends Application {
 	}
 
 	public static TGUser getCurrentUser() {
+		if (currentUser == null) {
+			currentUser = client.getCurrentUser();
+		}
 		return currentUser;
 	}
 
