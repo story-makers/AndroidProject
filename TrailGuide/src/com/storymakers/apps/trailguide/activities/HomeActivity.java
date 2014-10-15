@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.storymakers.apps.trailguide.R;
@@ -21,7 +22,18 @@ public class HomeActivity extends FragmentActivity implements
 		// getActionBar().setTitle("TEST");
 	}
 
-	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.miNewHike:
+    		createNewHike();
+    		return true;
+    	case R.id.miProfile:
+    		myProfile();
+    		return true;
+    	default: return super.onOptionsItemSelected(item);
+    	}
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +60,16 @@ public class HomeActivity extends FragmentActivity implements
 	public void onListItemClicked(TGStory story) {
 		Intent i = new Intent(this, HikeDetailsActivity.class);
 		i.putExtra("hike", story.getObjectId());
+		startActivity(i);
+	}
+
+	private void createNewHike() {
+		Intent i = new Intent(this, HikeCreateActivity.class);
+		startActivity(i);
+	}
+
+	private void myProfile() {
+		Intent i = new Intent(this, HikeCreateActivity.class);
 		startActivity(i);
 	}
 }

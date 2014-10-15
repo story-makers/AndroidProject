@@ -3,17 +3,19 @@
     tools:context="com.storymakers.apps.trailguide.HikeDetailsActivity" >
 
     <item
-        android:id="@+id/miSearch"
-        android:icon="@drawable/ic_search"
-        android:showAsAction="ifRoom|collapseActionView"
-        android:title="B0">
-    </item>
-    
-     <item
         android:id="@+id/miNewHike"
-        android:icon="@drawable/ic_new_trip"
+        android:icon="@drawable/ic_new_hike"
         android:showAsAction="ifRoom|collapseActionView"
+        android:orderInCategory="3"
         android:title="B1">
+    </item>
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_profile"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:orderInCategory="2"
+        android:title="B2">
     </item>
 
     <item

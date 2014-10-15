@@ -26,11 +26,11 @@
         android:name="com.storymakers.apps.trailguide.TrailGuideApplication"
         android:label="@string/app_name"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher" >
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/Theme.Trailguide" >
         <activity
             android:name=".activities.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.Trailguide" >
+            android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +39,7 @@
         </activity>
         <activity
             android:name=".activities.HikeDetailsActivity"
-            android:label="@string/title_activity_hike_details"
-            android:theme="@style/Theme.Trailguide" >
+            android:label="@string/title_activity_hike_details" >
         </activity>
         <activity
             android:name=".activities.HikeCreateActivity"

@@ -12,6 +12,9 @@
     <string name="num_refs">10</string>
     <string name="add_to_my_hike">Add to my hike</string>
     <string name="note">This is a note</string>
+    <string name="create_story">Create Story</string>
+    <string name="start_label">Start</string>
+    <string name="end_label">End</string>
     <string name="object_key">OBJECT</string>
     <string name="view_holder_key">VIEW_HOLDER</string>
 

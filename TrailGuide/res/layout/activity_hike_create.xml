@@ -2,15 +2,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#7de8e2"
     tools:context="com.storymakers.apps.trailguide.activities.HikeCreateActivity" >
 
-    <TextView
+	<Button
+        android:id="@+id/btnCreateStory"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/create_story"
+        android:background="#3189b4"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_marginTop="5dp" />
+
+	<LinearLayout
+	    android:id="@+id/llStartEnd"
+	    android:layout_above="@id/btnCreateStory"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp" >
+
+	<Button
+        android:id="@+id/btnStart"
+        android:layout_height="match_parent"
         android:layout_width="wrap_content"
+        android:text="@string/start_label"
+        android:background="#3189b4"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_weight="1"
+        android:layout_marginRight="3dp" />
+
+	<Button
+        android:id="@+id/btnEnd"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:text="@string/end_label"
+        android:background="#3189b4"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_weight="1"
+       	android:layout_marginLeft="3dp" />
+
+	</LinearLayout>
+
+	<RelativeLayout
+	    android:id="@+id/rlNewPost"
+	    android:layout_above="@id/llStartEnd"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_height="50dp"
+	    android:layout_width="match_parent"
+	    android:background="#a6ffffff"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginTop="5dp" >
+
+		<EditText
+		    android:id="@+id/etNewNote"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_centerVertical="true"
+		    android:ems="11"
+		    android:inputType="textMultiLine"
+		    android:layout_marginLeft="3dp" >
+
+		    <requestFocus />
+		</EditText>
+
+		<ImageView
+		    android:id="@+id/ivGeoIcon"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_alignParentRight="true"
+		    android:src="@drawable/ic_geo_icon" />
+
+		<ImageView
+		    android:id="@+id/ivCameraIcon"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_toLeftOf="@id/ivGeoIcon"
+		    android:src="@drawable/ic_camera"
+		    android:layout_marginRight="3dp" />
+	    
+	</RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragmentPostList"
+        android:name="com.storymakers.apps.trailguide.fragments.PostListFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/rlNewPost"
+        tools:layout="@layout/fragment_post_list" />
 
 </RelativeLayout>
