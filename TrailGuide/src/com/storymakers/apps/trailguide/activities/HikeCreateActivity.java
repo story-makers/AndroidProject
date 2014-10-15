@@ -1,16 +1,13 @@
 package com.storymakers.apps.trailguide.activities;
 
-import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.R.id;
-import com.storymakers.apps.trailguide.R.layout;
-import com.storymakers.apps.trailguide.R.menu;
-
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HikeCreateActivity extends Activity {
+import com.storymakers.apps.trailguide.R;
+
+public class HikeCreateActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

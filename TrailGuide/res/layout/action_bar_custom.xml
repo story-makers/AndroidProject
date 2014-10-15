@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="41dp"
         android:layout_toLeftOf="@+id/imageView2"
-        android:src="@drawable/ic_new_trip" />
+        android:src="@drawable/ic_profile" />
 
     <ImageView
         android:id="@+id/imageView2"

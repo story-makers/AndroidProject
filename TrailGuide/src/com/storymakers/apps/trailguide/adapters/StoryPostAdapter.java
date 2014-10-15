@@ -58,27 +58,28 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			if (post.getPhoto_url().length() > 0) {
 				ivPostPhoto.setImageResource(android.R.color.transparent);
 				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
-			} else
-				ivPostPhoto.setLayoutParams(getLayoutParams());
-			
-			TextView tvPostNote = (TextView) convertView
-					.findViewById(R.id.tvPostNote);
-			if (tvPostNote != null && post.getNote() != null) {
-				tvPostNote.setText(post.getNote());
-			} else
 
-				tvPostNote.setVisibility(View.GONE);
+				TextView tvPostNote = (TextView) convertView
+						.findViewById(R.id.tvPostNote);
+				if (tvPostNote != null && post.getNote() != null) {
+					tvPostNote.setText(post.getNote());
+				} else {
+					tvPostNote.setVisibility(View.GONE);
+					ivPostPhoto.setLayoutParams(getLayoutParams());
+				}
+			} else {
+				ivPostPhoto.setVisibility(View.GONE);
+			}
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
 			if (tvPostNote != null && post.getNote() != null) {
 				tvPostNote.setText(post.getNote());
-			} else
-
+			} else {
 				tvPostNote.setVisibility(View.GONE);
+			}
 		}
-
 		return convertView;
 	}
 
