@@ -59,7 +59,7 @@ public class HikeDetailsActivity extends FragmentActivity {
                         "home", StoryDetailFragment.class, fragmentArgs));
 
 		actionBar.addTab(hikeDetailTab);
-		actionBar.selectTab(hikeDetailTab);
+		//actionBar.selectTab(hikeDetailTab);
 
 		Tab storyMapTab = actionBar
 		    .newTab()
@@ -68,6 +68,7 @@ public class HikeDetailsActivity extends FragmentActivity {
 		    .setTabListener(new FragmentTabListener<StoryMapFragment>(R.id.flContainer, this,
                         "mentions", StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
+		actionBar.selectTab(storyMapTab);
 		
 	}
 

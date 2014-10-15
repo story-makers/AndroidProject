@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.MapInfoWindowItemAdapter;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGStory;
+import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 
 public class StoryMapFragment extends Fragment {
+	private TGStory story;
 	private SupportMapFragment mapFragment;
 	private GoogleMap map;
 	private ArrayList<TGPost> posts;
@@ -54,8 +59,8 @@ public class StoryMapFragment extends Fragment {
 			if (map != null) {
 				Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
 				map.setMyLocationEnabled(true);
-				zoomToHikeStartPoint();
-				addPostsToMap();
+				//zoomToHikeStartPoint();
+				//addPostsToMap();
 				map.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
 				// TODO: if needed set onInfoWindowClickListener to navigate to the specific item in timeline.
 			} else {
@@ -71,7 +76,7 @@ public class StoryMapFragment extends Fragment {
 
 	private void getPosts() {
 		// replace logic with data from intent / bundle args
-		posts = new ArrayList<TGPost>();
+		/*posts = new ArrayList<TGPost>();
 		posts.add(new TGPost(38.0423209, -122.8579315));
 		posts.add(new TGPost(38.0379302,-122.8564391));
 		posts.add(new TGPost(38.0362427,-122.8558596));
@@ -83,7 +88,23 @@ public class StoryMapFragment extends Fragment {
 		posts.add(new TGPost(38.0180459,-122.8582825));
 		posts.add(new TGPost(38.015647,-122.8583851));
 		posts.add(new TGPost(38.015647,-122.8583851));
-		posts.add(new TGPost(38.0185489,-122.8625654));
+		posts.add(new TGPost(38.0185489,-122.8625654));*/
+		getStory();
+		story.getPosts(new PostListDownloadCallback() {
+			@Override
+			public void fail(String reason) {
+				Log.e("ERROR", reason);
+			}
+			
+			@Override
+			public void done(List<TGPost> objs) {
+				Log.d("DEBUG", objs.toString());
+				posts = new ArrayList<TGPost>();
+				posts.addAll(objs);
+				zoomToHikeStartPoint();
+				addPostsToMap();
+			}
+		});
 	}
 
 	private void zoomToHikeStartPoint() {
@@ -95,13 +116,18 @@ public class StoryMapFragment extends Fragment {
 		}
 	}
 
+	private void getStory() {
+		String storyId = getArguments().getString("hike");
+		story = RemoteDBClient.getStoryById(storyId, null);
+	}
+
 	private void addPostsToMap() {
 		ParseGeoPoint lastGeoPoint = null;
 		Marker lastMarker = null;
 		PolylineOptions path = new PolylineOptions().geodesic(true);
 		for (int i = 0; i < posts.size(); i++) {
 			ParseGeoPoint point = posts.get(i).getLocation();
-			if (point == null) {
+			if (point == null || (point.getLatitude() == 0.0 && point.getLongitude() == 0.0)) {
 				continue;
 			}
 			if (i == 0) {
