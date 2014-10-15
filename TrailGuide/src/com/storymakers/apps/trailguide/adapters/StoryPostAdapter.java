@@ -60,6 +60,14 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
 			} else
 				ivPostPhoto.setLayoutParams(getLayoutParams());
+			
+			TextView tvPostNote = (TextView) convertView
+					.findViewById(R.id.tvPostNote);
+			if (tvPostNote != null && post.getNote() != null) {
+				tvPostNote.setText(post.getNote());
+			} else
+
+				tvPostNote.setVisibility(View.GONE);
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
 			TextView tvPostNote = (TextView) convertView
