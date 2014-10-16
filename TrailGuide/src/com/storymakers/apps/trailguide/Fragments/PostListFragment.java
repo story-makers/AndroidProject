@@ -20,6 +20,15 @@ public class PostListFragment extends Fragment {
 	private StoryPostAdapter storyPostAdapter;
 	private ListView lvStoryPosts;
 
+	// Use this after implementing parcelable.
+	/* public static PostListFragment newInstance(ArrayList<TGPost> postsList) {
+		PostListFragment fragment = new PostListFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("posts", postsList);
+        fragment.setArguments(args);
+        return fragment;
+	}*/
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

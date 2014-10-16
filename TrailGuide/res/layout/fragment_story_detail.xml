@@ -71,15 +71,14 @@
         </RelativeLayout>
     </FrameLayout>
 
-    <fragment
-        android:id="@+id/fragmentPostList"
-        android:name="com.storymakers.apps.trailguide.fragments.PostListFragment"
+    <FrameLayout
+        android:id="@+id/flContainerPosts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/flCover"
-        tools:layout="@layout/fragment_post_list" />
+        android:layout_below="@+id/flCover" >
+    </FrameLayout>
 
 </RelativeLayout>
