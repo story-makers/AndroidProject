@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,6 @@ public class StoryMapFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		markerData = new HashMap<Marker, List<TGPost>>();
-		getPosts();
 	}
 
 	@Override
@@ -53,14 +53,33 @@ public class StoryMapFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_story_map, container,
 				false /* don't attach to container yet */);
-		mapFragment = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+		setupMapFragment();
+		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		initializeMap();
+		getPosts();
+	}
+
+	private void setupMapFragment() {
+		mapFragment = SupportMapFragment.newInstance();
+		// Begin the transaction
+		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+		// Replace the container with the new fragment
+		ft.replace(R.id.flMapContainer, mapFragment, "map_fragment");
+		// Execute the changes specified
+		ft.commit();
+	}
+
+	private void initializeMap() {
 		if (mapFragment != null) {
 			map = mapFragment.getMap();
 			if (map != null) {
-				Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
 				map.setMyLocationEnabled(true);
-				//zoomToHikeStartPoint();
-				//addPostsToMap();
 				map.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
 				// TODO: if needed set onInfoWindowClickListener to navigate to the specific item in timeline.
 			} else {
@@ -69,10 +88,7 @@ public class StoryMapFragment extends Fragment {
 		} else {
 			Toast.makeText(getActivity(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
 		}
-		return v;
 	}
-
-
 
 	private void getPosts() {
 		// replace logic with data from intent / bundle args
