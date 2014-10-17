@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.storymakers.apps.trailguide.ClickableButtonEditText;
 import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
+import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
@@ -28,7 +31,7 @@ import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class HikeCreateActivity extends FragmentActivity {
-	public final String APP_TAG = "TrailGuide";
+	
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
@@ -38,6 +41,7 @@ public class HikeCreateActivity extends FragmentActivity {
 	private ClickableButtonEditText etNewNote;
 	private ImageView ivCamera;
 	private ImageView ivGeoIcon;
+	private Button btnCreate;
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
@@ -77,6 +81,38 @@ public class HikeCreateActivity extends FragmentActivity {
 		etNewNote = (ClickableButtonEditText) findViewById(R.id.etNewNote);
 		ivCamera = (ImageView) findViewById(R.id.ivCameraIcon);
 		ivGeoIcon = (ImageView) findViewById(R.id.ivGeoIcon);
+		btnCreate = (Button) findViewById(R.id.btnCreateStory);
+		if (story == null) {
+			btnCreate.setText("Add Title");
+			btnCreate.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String title = etNewNote.getText().toString();
+					if (story == null && title.length() > 0) {
+						story = TGDraftStories.getInstance().createNewDraft(user, title);
+						etNewNote.setText("");
+						btnCreate.setText("Create Story");
+					}else {
+						story.completeStory(new UploadProgressHandler() {
+							
+							@Override
+							public void progress(long item_completed) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void complete() {
+								Toast.makeText(HikeCreateActivity.this, "complete", Toast.LENGTH_SHORT).show();
+								HikeCreateActivity.this.story = null;
+							}
+						});
+					}
+					
+				}
+			});
+		}
 	}
 
 	private void setEditTextClickListener() {
@@ -153,11 +189,11 @@ public class HikeCreateActivity extends FragmentActivity {
 		File mediaStorageDir = new File(
 				Environment
 						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-				APP_TAG);
+				TrailGuideApplication.APP_TAG);
 
 		// Create the storage directory if it does not exist
 		if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-			Log.d(APP_TAG, "failed to create directory");
+			Log.d(TrailGuideApplication.APP_TAG, "failed to create directory");
 		}
 
 		// Return the file target for the photo based on filename

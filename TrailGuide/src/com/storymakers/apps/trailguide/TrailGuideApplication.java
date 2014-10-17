@@ -13,6 +13,7 @@ import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class TrailGuideApplication extends Application {
+	public final static String APP_TAG = "TrailGuide";
 	private static ParseClient client;
 	private static Context context;
 	private static TGUser currentUser;
