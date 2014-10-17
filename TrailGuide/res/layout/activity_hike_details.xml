@@ -5,8 +5,6 @@
     android:background="#7de8e2"
    	tools:context="com.storymakers.apps.trailguide.activities.HikeDetailsActivity" >
 
-    
-
     <Button
         android:id="@+id/btnAddToMyHike"
         android:layout_width="match_parent"
