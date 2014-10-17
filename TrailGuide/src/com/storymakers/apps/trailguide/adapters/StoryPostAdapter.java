@@ -24,13 +24,6 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	public StoryPostAdapter(Context context, List<TGPost> objects) {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
-		if (!imageLoader.isInited()) {
-			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-					.cacheInMemory().cacheOnDisc().build();
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-					context).defaultDisplayImageOptions(defaultOptions).build();
-			imageLoader.init(config);
-		}
 	}
 
 	// Return an integer representing the type by fetching the enum type val

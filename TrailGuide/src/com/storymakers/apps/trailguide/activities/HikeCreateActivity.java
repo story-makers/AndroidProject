@@ -23,6 +23,8 @@ import com.storymakers.apps.trailguide.ClickableButtonEditText;
 import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
+import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
+import com.storymakers.apps.trailguide.fragments.PostListFragment;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
@@ -45,6 +47,7 @@ public class HikeCreateActivity extends FragmentActivity {
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
+	private PostListFragment postlistFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class HikeCreateActivity extends FragmentActivity {
 
 		initializeViews();
 		setEditTextClickListener();
+		postlistFragment = (PostListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentPostList);
 	}
 
 	@Override
@@ -138,6 +142,7 @@ public class HikeCreateActivity extends FragmentActivity {
 			TGPost p = TGPost.createNewPost(story, PostType.NOTE);
 			p.setNote(text);
 			story.addPost(p);
+			postlistFragment.addPost(p);
 			Toast.makeText(this, "Saved a note", Toast.LENGTH_SHORT).show();
 			etNewNote.setText("");
 		} else {

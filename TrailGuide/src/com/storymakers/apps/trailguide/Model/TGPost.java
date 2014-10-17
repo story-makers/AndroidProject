@@ -20,7 +20,7 @@ import org.parceler.Parcel;
 @ParseClassName("TGPost") 
 public class TGPost extends ParseObject {
 	public enum PostType {
-		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3);
+		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3), PREAMBLE(4), REFERENCEDSTORY(5);
 
 		private int numVal;
 
