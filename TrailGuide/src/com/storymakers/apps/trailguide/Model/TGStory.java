@@ -40,7 +40,8 @@ public class TGStory extends ParseObject {
 
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
-
+		posts = new ArrayList<TGPost>();
+		referenced_stories = new ArrayList<TGStory>();
 	}
 
 	public static TGStory createNewStory(TGUser creator, String title) {
@@ -59,8 +60,7 @@ public class TGStory extends ParseObject {
 		 */
 		story.setBeginDate(new Date());
 		// ParseGeoPoint.getCurrentLocationInBackground(10000, cb);
-		story.posts = new ArrayList<TGPost>();
-		story.referenced_stories = new ArrayList<TGStory>();
+
 		return story;
 	}
 
@@ -138,7 +138,8 @@ public class TGStory extends ParseObject {
 			@Override
 			public void fail(String reason) {
 				Log.e("ERROR", reason);
-				handle.fail(reason);
+				if (handle != null)
+					handle.fail(reason);
 			}
 
 			@Override
@@ -168,6 +169,7 @@ public class TGStory extends ParseObject {
 		this.posts.add(p);
 		p.setStory(this);
 		p.setSequenceId(this.posts.size());
+		p.saveData();
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}

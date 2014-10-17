@@ -73,6 +73,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				tvPostNote.setVisibility(View.GONE);
 			}
 		}
+		if (type == TGPost.PostType.LOCATION.getNumVal()){
+			TextView tvPostNote = (TextView) convertView
+					.findViewById(R.id.tvPostNote);
+			tvPostNote.setText("Location marker:" + post.getLocation().toString());
+		}
 		return convertView;
 	}
 

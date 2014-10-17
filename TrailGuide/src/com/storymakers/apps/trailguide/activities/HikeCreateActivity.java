@@ -19,18 +19,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.ClickableButtonEditText;
 import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
 import com.storymakers.apps.trailguide.fragments.PostListFragment;
+import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeCreateActivity extends FragmentActivity {
 
@@ -56,10 +59,14 @@ public class HikeCreateActivity extends FragmentActivity {
 
 		user = TrailGuideApplication.getCurrentUser();
 		story = TGDraftStories.getInstance().getDraftStory();
-
+		postlistFragment = (PostListFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragmentPostList);
 		initializeViews();
 		setEditTextClickListener();
-		postlistFragment = (PostListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentPostList);
+		if (story != null) {
+			Toast.makeText(this, "Found story " + story.getTitle(),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -88,37 +95,64 @@ public class HikeCreateActivity extends FragmentActivity {
 		btnCreate = (Button) findViewById(R.id.btnCreateStory);
 		if (story == null) {
 			btnCreate.setText("Add Title");
-			btnCreate.setOnClickListener(new OnClickListener() {
+		}else {
+			btnCreate.setText("complete \""+story.getTitle()+"\"");
+			postlistFragment.addAll(story.getPosts());
+		}
+		btnCreate.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					String title = etNewNote.getText().toString();
-					if (story == null && title.length() > 0) {
-						story = TGDraftStories.getInstance().createNewDraft(
-								user, title);
-						etNewNote.setText("");
-						btnCreate.setText("Create Story");
-					} else {
-						story.completeStory(new UploadProgressHandler() {
+			@Override
+			public void onClick(View v) {
+				String title = etNewNote.getText().toString();
+				if (story == null && title.length() > 0) {
+					story = TGDraftStories.getInstance().createNewDraft(user,
+							title);
+					etNewNote.setText("");
+					btnCreate.setText("Create Story");
+				} else {
+					story.completeStory(new UploadProgressHandler() {
 
-							@Override
-							public void progress(long item_completed) {
-								// TODO Auto-generated method stub
+						@Override
+						public void progress(long item_completed) {
+							// TODO Auto-generated method stub
 
-							}
+						}
 
-							@Override
-							public void complete() {
-								Toast.makeText(HikeCreateActivity.this,
-										"complete", Toast.LENGTH_SHORT).show();
-								HikeCreateActivity.this.story = null;
-							}
-						});
+						@Override
+						public void complete() {
+							Toast.makeText(HikeCreateActivity.this, "complete",
+									Toast.LENGTH_SHORT).show();
+							HikeCreateActivity.this.story = null;
+						}
+					});
+				}
+
+			}
+		});
+
+		ivGeoIcon.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				final TGPost p = TGPost.createNewPost(story, PostType.LOCATION);
+				TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
+
+					@Override
+					public void onFail() {
+						// TODO Auto-generated method stub
+
 					}
 
-				}
-			});
-		}
+					@Override
+					public void foundLocation(ParseGeoPoint point) {
+						p.setLocation(point.getLatitude(), point.getLongitude());
+						story.addPost(p);
+						postlistFragment.addPost(p);
+					}
+				});
+
+			}
+		});
 	}
 
 	private void setEditTextClickListener() {
@@ -133,11 +167,14 @@ public class HikeCreateActivity extends FragmentActivity {
 	}
 
 	public void recordLocation(View v) {
-		
+
 	}
 
 	private void addNote() {
 		String text = etNewNote.getText().toString();
+		if (text.startsWith("dummycreate")) {
+			createEntireDummyStory();
+		}
 		if (text.length() > 0) {
 			TGPost p = TGPost.createNewPost(story, PostType.NOTE);
 			p.setNote(text);
@@ -175,11 +212,15 @@ public class HikeCreateActivity extends FragmentActivity {
 				Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri
 						.getPath());
 				// Load the taken image into a preview dialog fragment
-				/*ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
-				ivPreview.setImageBitmap(takenImage);*/
+				/*
+				 * ImageView ivPreview = (ImageView)
+				 * findViewById(R.id.ivPreview);
+				 * ivPreview.setImageBitmap(takenImage);
+				 */
 				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
 				p.setPhotoFromUri(this, takenPhotoUri);
 				story.addPost(p);
+				postlistFragment.addPost(p);
 				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
 						.show();
 			} else { // Result was a failure
@@ -206,5 +247,141 @@ public class HikeCreateActivity extends FragmentActivity {
 		// Return the file target for the photo based on filename
 		return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator
 				+ fileName));
+	}
+
+	public void createEntireDummyStory() {
+		TGStory story = TGDraftStories.getInstance().createNewDraft(
+				TrailGuideApplication.getCurrentUser(), "Laguna Trail");
+		TGPost p = TGPost.createNewPost(story, PostType.PHOTO);
+
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i1));
+		p.setLocation(38.015647, -122.8583851);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i2));
+		p.setLocation(38.015647, -122.8583851);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i3));
+		p.setLocation(38.0180459, -122.8582825);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.NOTE);
+		p.setNote("This was a long and fun trail");
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i4));
+		p.setLocation(38.0185489, -122.8625654);
+		story.addPost(p);
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i5));
+		p.setLocation(38.0191769, -122.8565391);
+		story.addPost(p);
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i6));
+		p.setLocation(38.0219532, -122.8579237);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i7));
+		p.setLocation(38.0283639, -122.8588262);
+		p.setNote("Somebody is hungry for mushrooms :).");
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.NOTE);
+		p.setNote("Yayy!!");
+		// story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i8));
+		p.setLocation(38.0351291, -122.856799);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.NOTE);
+		p.setNote("Sunsets are really beautiful here!.");
+		p.setLocation(38.0351291, -122.856799);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i9));
+		p.setLocation(38.0351291, -122.856799);
+		story.addPost(p);
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i10));
+		p.setLocation(38.0362427, -122.8558596);
+		story.addPost(p);
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i11));
+		p.setLocation(38.0379302, -122.8564391);
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.NOTE);
+		p.setNote("Almost there.");
+		story.addPost(p);
+
+		p = TGPost.createNewPost(story, PostType.PHOTO);
+		p.setPhotoFromUri(
+				getApplicationContext(),
+				Uri.parse("android.resource://" + this.getPackageName() + "/"
+						+ R.raw.i12));
+		p.setLocation(38.0423209, -122.8579315);
+
+		p = TGPost.createNewPost(story, PostType.NOTE);
+		p.setNote("Finally reached the end! Hurray.");
+		story.addPost(p);
+		story.addPost(p);
+		story.saveData();
+		story.completeStory(new UploadProgressHandler() {
+
+			@Override
+			public void progress(long item_completed) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void complete() {
+				Toast.makeText(getApplicationContext(),
+						"Hello the dummy data is created", Toast.LENGTH_SHORT)
+						.show();
+
+			}
+		});
 	}
 }
