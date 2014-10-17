@@ -12,10 +12,12 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
+
 import org.parceler.Parcel;
 
-@ParseClassName("TGPost") 
 @Parcel
+@ParseClassName("TGPost") 
 public class TGPost extends ParseObject {
 	public enum PostType {
 		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3);
@@ -86,7 +88,19 @@ public class TGPost extends ParseObject {
 		post.setPhoto_url("");
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
-		post.setLocation(37.3526928, -121.97021484);
+		TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
+			
+			@Override
+			public void onFail() {
+				
+			}
+			
+			@Override
+			public void foundLocation(ParseGeoPoint point) {
+				post.setLocation(point.getLatitude(), point.getLongitude());
+				post.saveData();
+			}
+		});
 		post.setStory(story);
 
 		return post;
@@ -156,6 +170,7 @@ public class TGPost extends ParseObject {
 			public void done(ParseException e) {
 				if (e == null) {
 					TGPost.this.setPhoto_url(ph.getUrl());
+					saveEventually();
 				} else {
 					e.printStackTrace();
 				}
@@ -211,7 +226,7 @@ public class TGPost extends ParseObject {
 
 	public void saveData() {
 		ParseFile p = getPhoto();
-		if (p != null) {
+		if (p != null && getPhoto_url() == null) {
 			p.saveInBackground();
 		}
 		saveInBackground();

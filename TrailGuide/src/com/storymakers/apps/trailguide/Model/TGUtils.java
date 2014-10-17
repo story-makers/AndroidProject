@@ -68,7 +68,7 @@ public class TGUtils {
 		return latlong;
 	}
 	
-	public void getCurrentLocation(final LoactionAvailableHandler handle){
+	public static void getCurrentLocation(final LoactionAvailableHandler handle){
 		ParseGeoPoint.getCurrentLocationInBackground(10000, new LocationCallback() {
 			
 			@Override

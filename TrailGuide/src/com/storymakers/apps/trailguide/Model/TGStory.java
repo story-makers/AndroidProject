@@ -18,8 +18,8 @@ import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 
-@ParseClassName("TGStory")
 @Parcel
+@ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 	public enum StoryType {
 		DRAFT, COMPLETE
@@ -168,7 +168,7 @@ public class TGStory extends ParseObject {
 		this.posts.add(p);
 		p.setStory(this);
 		p.setSequenceId(this.posts.size());
-		if (p.getType() == PostType.PHOTO) {
+		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}
 	}
