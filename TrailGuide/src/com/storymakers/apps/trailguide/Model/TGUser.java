@@ -1,17 +1,12 @@
 package com.storymakers.apps.trailguide.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import android.util.Log;
+import org.parceler.Parcel;
 
-import com.parse.FindCallback;
-import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+@Parcel
 public class TGUser {
 	private ParseUser _user;
 	private ArrayList<TGStory> stories;

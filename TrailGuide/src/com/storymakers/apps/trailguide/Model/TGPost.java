@@ -12,8 +12,10 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+import org.parceler.Parcel;
 
-@ParseClassName("TGPost")
+@ParseClassName("TGPost") 
+@Parcel
 public class TGPost extends ParseObject {
 	public enum PostType {
 		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3);
