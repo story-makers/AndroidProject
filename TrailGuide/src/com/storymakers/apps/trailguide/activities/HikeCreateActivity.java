@@ -31,7 +31,7 @@ import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class HikeCreateActivity extends FragmentActivity {
-	
+
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
@@ -45,7 +45,7 @@ public class HikeCreateActivity extends FragmentActivity {
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,31 +85,33 @@ public class HikeCreateActivity extends FragmentActivity {
 		if (story == null) {
 			btnCreate.setText("Add Title");
 			btnCreate.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					String title = etNewNote.getText().toString();
 					if (story == null && title.length() > 0) {
-						story = TGDraftStories.getInstance().createNewDraft(user, title);
+						story = TGDraftStories.getInstance().createNewDraft(
+								user, title);
 						etNewNote.setText("");
 						btnCreate.setText("Create Story");
-					}else {
+					} else {
 						story.completeStory(new UploadProgressHandler() {
-							
+
 							@Override
 							public void progress(long item_completed) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void complete() {
-								Toast.makeText(HikeCreateActivity.this, "complete", Toast.LENGTH_SHORT).show();
+								Toast.makeText(HikeCreateActivity.this,
+										"complete", Toast.LENGTH_SHORT).show();
 								HikeCreateActivity.this.story = null;
 							}
 						});
 					}
-					
+
 				}
 			});
 		}
