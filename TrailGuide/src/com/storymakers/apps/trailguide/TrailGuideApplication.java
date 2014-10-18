@@ -46,6 +46,7 @@ public class TrailGuideApplication extends Application {
 
 		if (u != null) {
 			loggedInUser = new TGUser(u);
+			u.pinInBackground();
 		}
 		return loggedInUser;
 	}
