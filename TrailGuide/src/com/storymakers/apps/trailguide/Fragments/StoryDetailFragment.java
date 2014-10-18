@@ -80,6 +80,6 @@ public class StoryDetailFragment extends Fragment {
 
 	private void getStory() {
 		String storyId = getArguments().getString("hike");
-		story = RemoteDBClient.getStoryById(storyId, null);
+		story = RemoteDBClient.getStoryById(storyId);
 	}
 }

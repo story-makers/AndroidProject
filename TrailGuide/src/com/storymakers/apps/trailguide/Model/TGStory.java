@@ -12,6 +12,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
@@ -163,11 +164,11 @@ public class TGStory extends ParseObject {
 		increment("likes");
 	}
 
-	public void addPost(TGPost p) {
+	public void addPost(TGPost p, ProgressNotificationHandler progress) {
 		this.posts.add(p);
 		p.setStory(this);
 		p.setSequenceId(this.posts.size());
-		p.saveData();
+		p.saveData(progress);
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}

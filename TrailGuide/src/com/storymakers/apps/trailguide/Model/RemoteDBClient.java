@@ -10,29 +10,12 @@ import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
 public class RemoteDBClient {
-	public static TGUser getUserByEmail(
-			String emailAddr) {
-		TGUser retuser = null;
-		ParseUser u = null;
-		ParseQuery<ParseUser> qry = ParseQuery.getQuery(ParseUser.class);
-		qry.whereEqualTo("email", emailAddr);
-
-		try {
-			u = qry.getFirst();
-			retuser = new TGUser(u);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		return retuser;
-	}
 
 	public static void getStoriesByUser(FindCallback<TGStory> callback,
 			TGUser user, int from, int limit) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "COMPLETE");
-		// query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
 		if (from != 0) {
 			query.setSkip(from);
 		}
@@ -42,19 +25,16 @@ public class RemoteDBClient {
 		if (user != null) {
 			query.whereEqualTo("creator", user.getUserIdentity());
 		}
-		// query.fromPin();
+
 		query.findInBackground(callback);
 	}
 
 	/* Call only after you have the story in cache */
-	public static TGStory getStoryById(String objectId,
-			FindCallback<TGStory> callback) {
+	public static TGStory getStoryById(String objectId) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		// query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
 		try {
 			return query.get(objectId);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
