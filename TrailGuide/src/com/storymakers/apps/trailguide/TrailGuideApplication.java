@@ -1,5 +1,6 @@
 package com.storymakers.apps.trailguide;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.parse.ui.ParseLoginBuilder;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
@@ -67,5 +69,10 @@ public class TrailGuideApplication extends Application {
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null
 				&& activeNetworkInfo.isConnectedOrConnecting();
+	}
+	
+	public static void showLoginWindow(Activity act) {
+		ParseLoginBuilder loginBuilder = new ParseLoginBuilder(context);
+		act.startActivityForResult(loginBuilder.build(), ParseClient.LOGIN_REQUEST);
 	}
 }

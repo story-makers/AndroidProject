@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 import com.storymakers.apps.trailguide.ClickableButtonEditText;
 import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
@@ -69,6 +70,14 @@ public class HikeCreateActivity extends FragmentActivity {
 		}
 	}
 
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		if (ParseUser.getCurrentUser() == null){
+			TrailGuideApplication.showLoginWindow(HikeCreateActivity.this);
+		}
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
