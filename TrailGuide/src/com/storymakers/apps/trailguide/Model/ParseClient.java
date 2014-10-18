@@ -2,6 +2,11 @@ package com.storymakers.apps.trailguide.model;
 
 import android.content.Context;
 
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseObject;
+import com.parse.ParseTwitterUtils;
+
 public class ParseClient {
 	private static final String PARSE_APP_ID = "EKY6Z6W0i9wPp5CWoUHMn0jhblyut1mZD1nRGLG7";
 	private static final String PARSE_CLIENT_KEY = "VfGyXOoWrDFPfm9V36tZA0zImxQJNRswuHekQvfK";

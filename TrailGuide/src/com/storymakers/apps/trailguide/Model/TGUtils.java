@@ -4,9 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+<<<<<<< HEAD
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+=======
+>>>>>>> c642f04ff700a5b3b9baff16c60d8c8f59125eac
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -134,6 +137,7 @@ public class TGUtils {
 			} else {
 				Log.w("My Current loction address", "No Address returned!");
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.w("My Current loction address", "Canont get Address!");
