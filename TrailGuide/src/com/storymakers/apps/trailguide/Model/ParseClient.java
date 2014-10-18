@@ -1,15 +1,18 @@
 package com.storymakers.apps.trailguide.model;
 
-import java.util.List;
-
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 
 public class ParseClient {
 	private static final String PARSE_APP_ID = "EKY6Z6W0i9wPp5CWoUHMn0jhblyut1mZD1nRGLG7";
@@ -41,27 +44,51 @@ public class ParseClient {
 		return client;
 	}
 
-	public TGUser getCurrentUser() {
+	public TGUser getCurrentUser(ProgressNotificationHandler callback) {
+		final SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		String userid = pref.getString("user_session_token", "");
+		if (userid.length() > 0) {
+			ParseUser i = ParseUser.getCurrentUser();
+			if (i.isNew()) {
+				Log.e("ERROR", "I should not have got a new user.");
+			}
+			parse_user = new TGUser(i);
+		}
 		if (parse_user == null) {
-			RemoteDBClient.getUsersByEmail(new FindCallback<ParseUser>() {
+			if (callback != null) {
+				callback.beginAction();
+			}
+			parse_user = RemoteDBClient.getUserByEmail(TGUtils
+					.getUserEmailOnDevice(context));
+			if (parse_user == null) {
+				/* need to create new user account */
+				final ParseUser u = ParseUser.getCurrentUser();
+				parse_user = new TGUser(u);
+				parse_user.setUserEmail(TGUtils.getUserEmailOnDevice(context));
+				parse_user.getUserIdentity().saveEventually(new SaveCallback() {
 
-				@Override
-				public void done(List<ParseUser> objects, ParseException e) {
-					if (e == null) {
-						if (objects.size() > 0) {
-							parse_user = new TGUser(objects.get(0));
-						} else {
-							ParseUser puser = ParseUser.getCurrentUser();
-							puser.setEmail(TGUtils
-									.getUserEmailOnDevice(context));
-							puser.saveInBackground();
-							parse_user = new TGUser(puser);
+					@Override
+					public void done(ParseException e) {
+						if (e == null) {
+							Editor edit = pref.edit();
+							edit.putString("user_session_token",
+									u.getSessionToken());
+							edit.commit();
 						}
-					} else {
-						e.printStackTrace();
+
 					}
-				}
-			}, TGUtils.getUserEmailOnDevice(context));
+				});
+
+			} else {
+				Editor edit = pref.edit();
+				edit.putString("user_session_token", parse_user
+						.getUserIdentity().getSessionToken());
+				edit.commit();
+			}
+			if (callback != null) {
+				callback.endAction();
+			}
 
 		}
 		return parse_user;

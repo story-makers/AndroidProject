@@ -15,28 +15,23 @@ public class TGDraftStories {
 
 	private TGDraftStories() {
 		draftStories = new ArrayList<TGStory>();
-		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
-			
-			@Override
-			public void done(List<TGStory> objects, ParseException e) {
-				if (e != null) {
-					e.printStackTrace();
-					return;
-				}
-				for (TGStory o : objects) {
-					if (o.getState() == StoryType.DRAFT){
-						TGDraftStories.this.draftStories.add(o);
-					}
-				}
-				
-			}
-		}, TrailGuideApplication.getCurrentUser());
-		
 	}
-
+	public void addStories(List<TGStory> objs) {
+		draftStories.addAll(objs);
+	}
 	public static TGDraftStories getInstance() {
 		if (instance == null) {
 			instance = new TGDraftStories();
+			RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+				
+				@Override
+				public void done(List<TGStory> objects, ParseException e) {
+					if (e==null) {
+						instance.addStories(objects);
+					}
+					
+				}
+			});
 		}
 		return instance;
 	}

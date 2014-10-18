@@ -5,10 +5,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGUser;
@@ -25,7 +27,6 @@ public class TrailGuideApplication extends Application {
 
 		TrailGuideApplication.context = this;
 		client = ParseClient.getInstance(this);
-		client.getCurrentUser();
 		Log.i("Info", "I have setup the parse client");
 		// Create global configuration and initialize ImageLoader with this
 		// configuration
@@ -35,11 +36,26 @@ public class TrailGuideApplication extends Application {
 				getApplicationContext()).defaultDisplayImageOptions(
 				defaultOptions).build();
 		ImageLoader.getInstance().init(config);
+		getCurrentUser();
+		TGDraftStories.getInstance();
 	}
 
 	public static TGUser getCurrentUser() {
 		if (currentUser == null) {
-			currentUser = client.getCurrentUser();
+			currentUser = client.getCurrentUser(new ProgressNotificationHandler() {
+				
+				@Override
+				public void endAction() {
+					Toast.makeText(context, "Creating new User", Toast.LENGTH_SHORT).show();
+					
+				}
+				
+				@Override
+				public void beginAction() {
+					Toast.makeText(context, "done with new User", Toast.LENGTH_SHORT).show();
+					
+				}
+			});
 		}
 		return currentUser;
 	}

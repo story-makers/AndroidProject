@@ -6,15 +6,25 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.ParseQuery.CachePolicy;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
 public class RemoteDBClient {
-	public static void getUsersByEmail(FindCallback<ParseUser> callback,
+	public static TGUser getUserByEmail(
 			String emailAddr) {
+		TGUser retuser = null;
+		ParseUser u = null;
 		ParseQuery<ParseUser> qry = ParseQuery.getQuery(ParseUser.class);
 		qry.whereEqualTo("email", emailAddr);
-		qry.findInBackground(callback);
+
+		try {
+			u = qry.getFirst();
+			retuser = new TGUser(u);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return retuser;
 	}
 
 	public static void getStoriesByUser(FindCallback<TGStory> callback,
@@ -51,12 +61,11 @@ public class RemoteDBClient {
 
 	}
 
-	public static void getDraftStoriesByUser(FindCallback<TGStory> callback,
-			TGUser user) {
+	public static void getDraftStoriesByUser(FindCallback<TGStory> callback) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "DRAFT");
-		query.whereEqualTo("creator", user.getUserIdentity());
+		query.whereEqualTo("creator", TrailGuideApplication.getCurrentUser().getUserIdentity());
 		query.findInBackground(callback);
 	}
 
