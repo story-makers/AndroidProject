@@ -6,23 +6,16 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.ParseQuery.CachePolicy;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
 public class RemoteDBClient {
-	public static void getUsersByEmail(FindCallback<ParseUser> callback,
-			String emailAddr) {
-		ParseQuery<ParseUser> qry = ParseQuery.getQuery(ParseUser.class);
-		qry.whereEqualTo("email", emailAddr);
-		qry.findInBackground(callback);
-	}
 
 	public static void getStoriesByUser(FindCallback<TGStory> callback,
 			TGUser user, int from, int limit) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "COMPLETE");
-		// query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
 		if (from != 0) {
 			query.setSkip(from);
 		}
@@ -32,31 +25,27 @@ public class RemoteDBClient {
 		if (user != null) {
 			query.whereEqualTo("creator", user.getUserIdentity());
 		}
-		// query.fromPin();
+
 		query.findInBackground(callback);
 	}
 
 	/* Call only after you have the story in cache */
-	public static TGStory getStoryById(String objectId,
-			FindCallback<TGStory> callback) {
+	public static TGStory getStoryById(String objectId) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		// query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
 		try {
 			return query.get(objectId);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 
 	}
 
-	public static void getDraftStoriesByUser(FindCallback<TGStory> callback,
-			TGUser user) {
+	public static void getDraftStoriesByUser(FindCallback<TGStory> callback) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("state", "DRAFT");
-		query.whereEqualTo("creator", user.getUserIdentity());
+		query.whereEqualTo("creator", TrailGuideApplication.getCurrentUser().getUserIdentity());
 		query.findInBackground(callback);
 	}
 

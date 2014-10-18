@@ -1,21 +1,15 @@
 package com.storymakers.apps.trailguide.model;
 
-import java.util.List;
-
 import android.content.Context;
-
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 public class ParseClient {
 	private static final String PARSE_APP_ID = "EKY6Z6W0i9wPp5CWoUHMn0jhblyut1mZD1nRGLG7";
 	private static final String PARSE_CLIENT_KEY = "VfGyXOoWrDFPfm9V36tZA0zImxQJNRswuHekQvfK";
+	private static final String TWITTER_APP_KEY = "Xl5vHPjcPdIwcm4LpqE7IqVwU";
+	private static final String TWITTER_APP_SECRET = "tWK7UNj2T0gwbDpDTHv7s6nzROcUdh1sbJOfLx2JfscUpA1qx4";
+	public static final int LOGIN_REQUEST = 501;
 	private static ParseClient client = null;
-	private static TGUser parse_user = null;
+	@SuppressWarnings("unused")
 	private Context context;
 
 	private ParseClient(Context ctx) {
@@ -23,7 +17,9 @@ public class ParseClient {
 		ParseObject.registerSubclass(TGPost.class);
 		ParseObject.registerSubclass(TGStory.class);
 		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
-		ParseUser.enableAutomaticUser();
+		Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+		ParseTwitterUtils.initialize(TWITTER_APP_KEY, TWITTER_APP_SECRET);
+		// ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		Parse.enableLocalDatastore(ctx);
 		context = ctx;
@@ -40,33 +36,6 @@ public class ParseClient {
 			client = new ParseClient(ctx);
 		}
 		return client;
-	}
-
-	public TGUser getCurrentUser() {
-		if (parse_user == null) {
-			String uname = TGUtils.getUserEmailOnDevice(context);
-			RemoteDBClient.getUsersByEmail(new FindCallback<ParseUser>() {
-
-				@Override
-				public void done(List<ParseUser> objects, ParseException e) {
-					if (e == null) {
-						if (objects.size() > 0) {
-							parse_user = new TGUser(objects.get(0));
-						} else {
-							ParseUser puser = ParseUser.getCurrentUser();
-							puser.setEmail(TGUtils
-									.getUserEmailOnDevice(context));
-							puser.saveInBackground();
-							parse_user = new TGUser(puser);
-						}
-					} else {
-						e.printStackTrace();
-					}
-				}
-			}, TGUtils.getUserEmailOnDevice(context));
-
-		}
-		return parse_user;
 	}
 
 }

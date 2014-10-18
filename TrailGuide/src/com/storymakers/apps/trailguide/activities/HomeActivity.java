@@ -65,7 +65,7 @@ public class HomeActivity extends FragmentActivity implements
 	}
 
 	private void createNewHike() {
-		Intent i = new Intent(this, HikeCreateActivity.class);
+		Intent i = new Intent(this, CreateStoryDispatchActivity.class);
 		startActivity(i);
 	}
 

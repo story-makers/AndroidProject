@@ -9,14 +9,16 @@ import android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.parse.ParseUser;
 import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class TrailGuideApplication extends Application {
 	public final static String APP_TAG = "TrailGuide";
+	@SuppressWarnings("unused")
 	private static ParseClient client;
 	private static Context context;
-	private static TGUser currentUser;
+	private static TGUser loggedInUser = null;
 
 	@Override
 	public void onCreate() {
@@ -24,7 +26,6 @@ public class TrailGuideApplication extends Application {
 
 		TrailGuideApplication.context = this;
 		client = ParseClient.getInstance(this);
-		client.getCurrentUser();
 		Log.i("Info", "I have setup the parse client");
 		// Create global configuration and initialize ImageLoader with this
 		// configuration
@@ -34,13 +35,19 @@ public class TrailGuideApplication extends Application {
 				getApplicationContext()).defaultDisplayImageOptions(
 				defaultOptions).build();
 		ImageLoader.getInstance().init(config);
+		// getCurrentUser();
+		// TGDraftStories.getInstance();
 	}
 
 	public static TGUser getCurrentUser() {
-		if (currentUser == null) {
-			currentUser = client.getCurrentUser();
+		ParseUser u = ParseUser.getCurrentUser();
+		if (loggedInUser != null && u != null)
+			return loggedInUser;
+
+		if (u != null) {
+			loggedInUser = new TGUser(u);
 		}
-		return currentUser;
+		return loggedInUser;
 	}
 
 	public static Boolean isNetworkAvailable() {
@@ -51,4 +58,5 @@ public class TrailGuideApplication extends Application {
 		return activeNetworkInfo != null
 				&& activeNetworkInfo.isConnectedOrConnecting();
 	}
+
 }

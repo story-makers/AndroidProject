@@ -183,7 +183,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 
 	private void getStory() {
 		String storyId = getArguments().getString("hike");
-		story = RemoteDBClient.getStoryById(storyId, null);
+		story = RemoteDBClient.getStoryById(storyId);
 	}
 
 	private void addPostsToMap() {

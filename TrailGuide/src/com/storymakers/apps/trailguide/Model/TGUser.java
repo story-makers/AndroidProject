@@ -1,15 +1,10 @@
 package com.storymakers.apps.trailguide.model;
 
-import java.util.ArrayList;
-
-import org.parceler.Parcel;
-
 import com.parse.ParseUser;
 
-@Parcel
+
 public class TGUser {
 	private ParseUser _user;
-	private ArrayList<TGStory> stories;
 
 	/* Required for Parse SDK. Do not modify anything here */
 	public TGUser(ParseUser u) {
@@ -39,6 +34,5 @@ public class TGUser {
 	public void saveData() {
 		_user.saveInBackground();
 	}
-	
 
 }

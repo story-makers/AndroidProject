@@ -62,7 +62,9 @@ public class PostListFragment extends Fragment {
 	public void addAll(List<TGPost> postsList) {
 		storyPostAdapter.addAll(postsList);
 	}
-
+	public void addPost(TGPost p) {
+		storyPostAdapter.add(p);
+	}
 	/*public void populateTimeLine(long max_id) {
 		StorySegment seg1 = new StorySegment("text1 one two three",
 				StorySegment.SegmentTypes.TextNote);
