@@ -16,6 +16,16 @@
         android:src="@drawable/ic_launcher_old"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
+    
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbLoading"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true" />
 
     <RelativeLayout
         android:id="@+id/rlTitleGroup"

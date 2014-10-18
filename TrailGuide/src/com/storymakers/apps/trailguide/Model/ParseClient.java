@@ -19,6 +19,7 @@ public class ParseClient {
 	private Context context;
 
 	private ParseClient(Context ctx) {
+
 		ParseObject.registerSubclass(TGPost.class);
 		ParseObject.registerSubclass(TGStory.class);
 		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
@@ -43,6 +44,7 @@ public class ParseClient {
 
 	public TGUser getCurrentUser() {
 		if (parse_user == null) {
+			String uname = TGUtils.getUserEmailOnDevice(context);
 			RemoteDBClient.getUsersByEmail(new FindCallback<ParseUser>() {
 
 				@Override

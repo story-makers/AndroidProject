@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +22,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -30,17 +30,53 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.MapInfoWindowItemAdapter;
+import com.storymakers.apps.trailguide.fragments.CustomMapFragment.OnMapReadyListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGStory;
 
-public class StoryMapFragment extends Fragment {
+public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	private TGStory story;
-	private SupportMapFragment mapFragment;
+	private CustomMapFragment mapFragment;
 	private GoogleMap map;
 	private ArrayList<TGPost> posts;
 	private Map<Marker, List<TGPost>> markerData;
+
+	private onGoogleMapCreationListener listener;
+
+	public interface onGoogleMapCreationListener {
+		public void onGoogleMapCreation(CustomMapFragment mapFragment,
+				StoryMapFragment storyFragment);
+	}
+
+	@Override
+	public void onMapReady() {
+		GoogleMap mMap = mapFragment.getMap();
+		Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
+		initializeMap();
+		getPosts();
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		listener.onGoogleMapCreation(mapFragment, this);
+
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (activity instanceof onGoogleMapCreationListener) {
+			listener = (onGoogleMapCreationListener) activity;
+		} else {
+			throw new ClassCastException(
+					activity.toString()
+							+ " must implement StoryMapFragment.onGoogleMapCreationListener");
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,24 +99,23 @@ public class StoryMapFragment extends Fragment {
 		return v;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		initializeMap();
-		getPosts();
-	}
+	/*
+	 * @Override public void onResume() { super.onResume(); initializeMap();
+	 * getPosts(); }
+	 */
 
 	private void setupMapFragment() {
-		mapFragment = SupportMapFragment.newInstance();
+		mapFragment = CustomMapFragment.newInstance();
 		// Begin the transaction
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 		// Replace the container with the new fragment
 		ft.replace(R.id.flMapContainer, mapFragment, "map_fragment");
 		// Execute the changes specified
 		ft.commit();
+		// getChildFragmentManager().executePendingTransactions();
 	}
 
-	private void initializeMap() {
+	public void initializeMap() {
 		if (mapFragment != null) {
 			map = mapFragment.getMap();
 			if (map != null) {
@@ -101,7 +136,7 @@ public class StoryMapFragment extends Fragment {
 		}
 	}
 
-	private void getPosts() {
+	public void getPosts() {
 		// replace logic with data from intent / bundle args
 		/*
 		 * posts = new ArrayList<TGPost>(); posts.add(new TGPost(38.0423209,
