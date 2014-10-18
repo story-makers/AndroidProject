@@ -176,7 +176,7 @@ public class TGStory extends ParseObject {
 	}
 
 	/* returns number of items to save. */
-	public int completeStory(final UploadProgressHandler handler) {
+	public int completeStory(final UploadProgressHandler uploadProgressHandler) {
 		setState(StoryType.COMPLETE);
 		setEndDate(new Date());
 		final int total_items = 1 + this.posts.size(); // for the story itself
@@ -185,12 +185,12 @@ public class TGStory extends ParseObject {
 
 			@Override
 			public void done(ParseException e) {
-				if (handler != null)
-					handler.progress(1);
+				if (uploadProgressHandler != null)
+					uploadProgressHandler.progress(1);
 				u_items += 1;
 				if (u_items >= total_items) {
-					if (handler != null)
-						handler.complete();
+					if (uploadProgressHandler != null)
+						uploadProgressHandler.complete();
 				}
 
 			}

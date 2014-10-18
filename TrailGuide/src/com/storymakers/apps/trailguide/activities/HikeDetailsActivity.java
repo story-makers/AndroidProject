@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
-import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeDetailsActivity extends FragmentActivity {
 
@@ -59,7 +57,7 @@ public class HikeDetailsActivity extends FragmentActivity {
                         "home", StoryDetailFragment.class, fragmentArgs));
 
 		actionBar.addTab(hikeDetailTab);
-		//actionBar.selectTab(hikeDetailTab);
+		actionBar.selectTab(hikeDetailTab);
 
 		Tab storyMapTab = actionBar
 		    .newTab()
@@ -68,7 +66,6 @@ public class HikeDetailsActivity extends FragmentActivity {
 		    .setTabListener(new FragmentTabListener<StoryMapFragment>(R.id.flContainer, this,
                         "mentions", StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
-		actionBar.selectTab(storyMapTab);
 		
 	}
 
