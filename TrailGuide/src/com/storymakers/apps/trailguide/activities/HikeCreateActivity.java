@@ -129,7 +129,7 @@ public class HikeCreateActivity extends FragmentActivity {
 	}
 
 	public void recordLocation(View v) {
-		
+
 	}
 
 	private void addNote() {
@@ -170,8 +170,11 @@ public class HikeCreateActivity extends FragmentActivity {
 				Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri
 						.getPath());
 				// Load the taken image into a preview dialog fragment
-				/*ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
-				ivPreview.setImageBitmap(takenImage);*/
+				/*
+				 * ImageView ivPreview = (ImageView)
+				 * findViewById(R.id.ivPreview);
+				 * ivPreview.setImageBitmap(takenImage);
+				 */
 				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
 				p.setPhotoFromUri(this, takenPhotoUri);
 				story.addPost(p);
