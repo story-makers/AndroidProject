@@ -14,9 +14,7 @@ import com.parse.ParseObject;
 import com.parse.SaveCallback;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 
-import org.parceler.Parcel;
 
-@Parcel
 @ParseClassName("TGPost") 
 public class TGPost extends ParseObject {
 	public enum PostType {

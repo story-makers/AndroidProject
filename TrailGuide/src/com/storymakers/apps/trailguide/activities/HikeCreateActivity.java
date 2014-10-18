@@ -1,7 +1,9 @@
 package com.storymakers.apps.trailguide.activities;
 
 import java.io.File;
+import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,16 +21,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
+import com.parse.ui.ParseLoginBuilder;
 import com.storymakers.apps.trailguide.ClickableButtonEditText;
 import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
-import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
 import com.storymakers.apps.trailguide.fragments.PostListFragment;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
+import com.storymakers.apps.trailguide.model.ParseClient;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
@@ -41,7 +47,7 @@ public class HikeCreateActivity extends FragmentActivity {
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
-	private TGStory story;
+	private TGStory story = null;
 	private TGUser user;
 
 	private ClickableButtonEditText etNewNote;
@@ -59,15 +65,33 @@ public class HikeCreateActivity extends FragmentActivity {
 		setContentView(R.layout.activity_hike_create);
 
 		user = TrailGuideApplication.getCurrentUser();
-		story = TGDraftStories.getInstance().getDraftStory();
+		
 		postlistFragment = (PostListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.fragmentPostList);
+		findDraftStory();
 		initializeViews();
 		setEditTextClickListener();
-		if (story != null) {
-			Toast.makeText(this, "Found story " + story.getTitle(),
-					Toast.LENGTH_SHORT).show();
-		}
+		
+	}
+
+	private void findDraftStory() {
+		final ProgressDialog d = new ProgressDialog(this);
+		d.setTitle("Looking for drafts...");
+		d.show();
+		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+			
+			@Override
+			public void done(List<TGStory> arg0, ParseException arg1) {
+				if (arg1 == null && arg0.size() > 0){
+					story = arg0.get(0);
+					story.getPosts(null);
+				}
+				d.cancel();
+				
+			}
+		});
+		
+		
 	}
 
 	@Override
@@ -75,9 +99,15 @@ public class HikeCreateActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		if (ParseUser.getCurrentUser() == null){
-			TrailGuideApplication.showLoginWindow(HikeCreateActivity.this);
+			showloginwindow();
 		}
 	}
+	private void showloginwindow() {
+			ParseLoginBuilder loginBuilder = new ParseLoginBuilder(HikeCreateActivity.this);
+			startActivityForResult(loginBuilder.build(), ParseClient.LOGIN_REQUEST);
+	}
+
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

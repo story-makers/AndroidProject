@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.parceler.Parcel;
-
 import android.util.Log;
 
 import com.parse.ParseClassName;
@@ -18,7 +16,7 @@ import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 
-@Parcel
+
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 	public enum StoryType {

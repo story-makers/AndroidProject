@@ -1,15 +1,8 @@
 package com.storymakers.apps.trailguide.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.parceler.Parcel;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
-@Parcel
+
 public class TGUser {
 	private ParseUser _user;
 
@@ -41,6 +34,5 @@ public class TGUser {
 	public void saveData() {
 		_user.saveInBackground();
 	}
-
 
 }
