@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.parceler.Parcel;
-
 import android.util.Log;
 
 import com.parse.ParseClassName;
@@ -14,11 +12,12 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 
-@Parcel
+
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 	public enum StoryType {
@@ -165,11 +164,11 @@ public class TGStory extends ParseObject {
 		increment("likes");
 	}
 
-	public void addPost(TGPost p) {
+	public void addPost(TGPost p, ProgressNotificationHandler progress) {
 		this.posts.add(p);
 		p.setStory(this);
 		p.setSequenceId(this.posts.size());
-		p.saveData();
+		p.saveData(progress);
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}

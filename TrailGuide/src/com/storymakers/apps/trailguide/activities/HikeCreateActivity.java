@@ -1,7 +1,9 @@
 package com.storymakers.apps.trailguide.activities;
 
 import java.io.File;
+import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,13 +22,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
+import com.parse.ui.ParseLoginBuilder;
+import com.storymakers.apps.trailguide.DrawableClickListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.fragments.CreateDialogFragment;
 import com.storymakers.apps.trailguide.fragments.PostListFragment;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
+import com.storymakers.apps.trailguide.model.ParseClient;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
@@ -50,28 +60,72 @@ public class HikeCreateActivity extends FragmentActivity {
 	private Uri photoUriToSave;
 	private String photoNametoSave;
 	private PostListFragment postlistFragment;
+	private ProgressNotificationHandler progressbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_create);
-
+		progressbar = new ProgressNotificationHandler() {
+			
+			@Override
+			public void endAction() {
+				Log.i("CREATE_PROGRESS", "Progress is complete");
+				Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+			}
+			
+			@Override
+			public void beginAction() {
+				Log.i("CREATE_PROGRESS", "Begin progress bar");
+				
+			}
+		};
 		user = TrailGuideApplication.getCurrentUser();
-		story = TGDraftStories.getInstance().getDraftStory();
+		
 		postlistFragment = (PostListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.fragmentPostList);
+		findDraftStory();
 		initializeViews();
-		if (story != null) {
-			Toast.makeText(this, "Found story " + story.getTitle(),
-					Toast.LENGTH_SHORT).show();
-		} else {
-			if (story == null) {
+		if (story == null) {
 				// default name until someone fills in the title.
 				story = TGDraftStories.getInstance().createNewDraft(user, "New Hike");
 				// show dialog fragment (for title)
 				//showCreateDialog(PostType.METADATA, null);
-			}
 		}
+		
+	}
+
+	private void findDraftStory() {
+		final ProgressDialog d = new ProgressDialog(this);
+		d.setTitle("Looking for drafts...");
+		d.show();
+		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+			
+			@Override
+			public void done(List<TGStory> arg0, ParseException arg1) {
+				if (arg1 == null && arg0.size() > 0){
+					story = arg0.get(0);
+					story.getPosts(null);
+				}
+				d.cancel();
+				
+			}
+		});
+		
+		
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		if (ParseUser.getCurrentUser() == null){
+			showloginwindow();
+		}
+	}
+	private void showloginwindow() {
+		ParseLoginBuilder loginBuilder = new ParseLoginBuilder(HikeCreateActivity.this);
+		startActivityForResult(loginBuilder.build(), ParseClient.LOGIN_REQUEST);
 	}
 
 	private void showCreateDialog(PostType type) {
@@ -83,7 +137,6 @@ public class HikeCreateActivity extends FragmentActivity {
 	    createDialogFragment.show(fm, "fragment_create_dialog");
 	}
 	
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -120,10 +173,11 @@ public class HikeCreateActivity extends FragmentActivity {
 					}
 
 					@Override
-					public void complete() {
-						Toast.makeText(HikeCreateActivity.this, "complete",
-								Toast.LENGTH_SHORT).show();
-						HikeCreateActivity.this.story = null;
+					public void foundLocation(ParseGeoPoint point) {
+						p.setLocation(point.getLatitude(), point.getLongitude());
+						
+						story.addPost(p, null);
+						postlistFragment.addPost(p);
 					}
 				});
 			}
@@ -156,7 +210,7 @@ public class HikeCreateActivity extends FragmentActivity {
 		/*if (text.length() > 0) {
 			TGPost p = TGPost.createNewPost(story, PostType.NOTE);
 			p.setNote(text);
-			story.addPost(p);
+			story.addPost(p, progressbar);
 			postlistFragment.addPost(p);
 			Toast.makeText(this, "Saved a note", Toast.LENGTH_SHORT).show();
 			etNewNote.setText("");
@@ -197,8 +251,8 @@ public class HikeCreateActivity extends FragmentActivity {
 				 */
 				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
 				p.setPhotoFromUri(this, takenPhotoUri);
-				//story.addPost(p);
-				//postlistFragment.addPost(p);
+				story.addPost(p, progressbar);
+				postlistFragment.addPost(p);
 				showCreateDialog(PostType.PHOTO);
 				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
 						.show();
@@ -238,7 +292,7 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i1));
 		p.setLocation(38.015647, -122.8583851);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -246,7 +300,7 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i2));
 		p.setLocation(38.015647, -122.8583851);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -254,11 +308,11 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i3));
 		p.setLocation(38.0180459, -122.8582825);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.NOTE);
 		p.setNote("This was a long and fun trail");
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -266,21 +320,21 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i4));
 		p.setLocation(38.0185489, -122.8625654);
-		story.addPost(p);
+		story.addPost(p, null);
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
 				getApplicationContext(),
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i5));
 		p.setLocation(38.0191769, -122.8565391);
-		story.addPost(p);
+		story.addPost(p, null);
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
 				getApplicationContext(),
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i6));
 		p.setLocation(38.0219532, -122.8579237);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -289,11 +343,11 @@ public class HikeCreateActivity extends FragmentActivity {
 						+ R.raw.i7));
 		p.setLocation(38.0283639, -122.8588262);
 		p.setNote("Somebody is hungry for mushrooms :).");
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.NOTE);
 		p.setNote("Yayy!!");
-		// story.addPost(p);
+		// story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -301,12 +355,12 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i8));
 		p.setLocation(38.0351291, -122.856799);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.NOTE);
 		p.setNote("Sunsets are really beautiful here!.");
 		p.setLocation(38.0351291, -122.856799);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -314,25 +368,25 @@ public class HikeCreateActivity extends FragmentActivity {
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i9));
 		p.setLocation(38.0351291, -122.856799);
-		story.addPost(p);
+		story.addPost(p, null);
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
 				getApplicationContext(),
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i10));
 		p.setLocation(38.0362427, -122.8558596);
-		story.addPost(p);
+		story.addPost(p, null);
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
 				getApplicationContext(),
 				Uri.parse("android.resource://" + this.getPackageName() + "/"
 						+ R.raw.i11));
 		p.setLocation(38.0379302, -122.8564391);
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.NOTE);
 		p.setNote("Almost there.");
-		story.addPost(p);
+		story.addPost(p, null);
 
 		p = TGPost.createNewPost(story, PostType.PHOTO);
 		p.setPhotoFromUri(
@@ -343,8 +397,8 @@ public class HikeCreateActivity extends FragmentActivity {
 
 		p = TGPost.createNewPost(story, PostType.NOTE);
 		p.setNote("Finally reached the end! Hurray.");
-		story.addPost(p);
-		story.addPost(p);
+		story.addPost(p, null);
+		story.addPost(p, null);
 		story.saveData();
 		story.completeStory(new UploadProgressHandler() {
 
