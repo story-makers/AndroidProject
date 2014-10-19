@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:background="#ffffff" >
+    android:paddingBottom="10dp"
+    android:background="#00dd00DD" >
 
     <ImageView
         android:id="@+id/ivPostPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="180dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher"
-        android:adjustViewBounds="true" />
-    
-   <TextView
+        android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/ab_background_textured_trailguide"
+        android:contentDescription="@string/hike_coverphoto_description"
+        android:maxHeight="180dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
         android:id="@+id/tvPostNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       	android:layout_alignBaseline="@id/ivPostPhoto"
-       	android:layout_toRightOf="@id/ivPostPhoto"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        android:layout_alignBottom="@+id/ivPostPhoto"
+        android:layout_alignRight="@+id/ivPostPhoto"
+        android:layout_margin="15dp"
         android:ellipsize="end"
         android:text="@string/note"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:typeface="sans" />
 

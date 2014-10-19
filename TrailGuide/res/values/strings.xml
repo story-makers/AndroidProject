@@ -25,5 +25,6 @@
     <string name="point_note">What\'s special at this point?</string>
     <string name="edit_note">Edit Note</string>
     <string name="add_photo">Add Photo</string>
+    <string name="hike_coverphoto_description">Hike Cover photo</string>
 
 </resources>

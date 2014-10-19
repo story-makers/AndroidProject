@@ -2,10 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:background="#ffffff" >
+    android:layout_margin="10dp"
+    android:padding="15dp"
+    android:background="#00ffffff" >
    
    <TextView
         android:id="@+id/tvPostNote"
@@ -17,6 +16,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/note"
+        android:padding="5dp"
+        android:background="#88ffffff"
         android:textSize="12sp"
         android:typeface="sans" />
 
