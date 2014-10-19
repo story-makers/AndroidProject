@@ -7,10 +7,10 @@ import android.os.Bundle;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.storymakers.apps.trailguide.DummyData;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGStory;
+import com.storymakers.apps.trailguide.tbd.DummyData;
 
 public class UserHikesFragment extends HikesListFragment {
 	

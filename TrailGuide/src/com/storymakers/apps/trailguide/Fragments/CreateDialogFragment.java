@@ -20,6 +20,7 @@ import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class CreateDialogFragment extends DialogFragment {
 	PostType type;
@@ -98,11 +99,6 @@ public class CreateDialogFragment extends DialogFragment {
     }
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	    //No call for super(). Bug on API Level > 11.
-	}
-
-	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof OnDialogDoneListener) {
@@ -137,7 +133,7 @@ public class CreateDialogFragment extends DialogFragment {
 		tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
 		// set tvPointInfo after getting response from location services.
 		etNote = (EditText) v.findViewById(R.id.etNote);
-		if (editPost.getNote() != null) {
+		if (editPost.getNote() != null && editPost.getNote().length() > 0) {
 			// populated when someone clicks a post to edit it.
 			etNote.setText(editPost.getNote());
 		}
@@ -164,7 +160,7 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}
@@ -185,15 +181,14 @@ public class CreateDialogFragment extends DialogFragment {
 		} else {
 			Uri takenPhotoUri = Uri.parse(localPhotoUrl);
 			editPost.setPhotoFromUri(getActivity(), takenPhotoUri);
-			Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-			ivPhoto.setImageBitmap(takenImage);
+			ivPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(takenPhotoUri));
 		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// create editPost of type photo.
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost); // sets the post on the story.
 				CreateDialogFragment.this.dismiss();
 			}

@@ -29,9 +29,6 @@ public class SearchHikesFragment extends HikesListFragment {
 				SearchHikesFragment.this.addAll(objects);
 				
 			}
-		}, 0, 0);
-		
+		}, 0, 0);	
 	}
-
-	
 }

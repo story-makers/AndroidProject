@@ -43,8 +43,7 @@ public class TGPost extends ParseObject {
 
 	int type;
 
-	private String local_image_path = null;
-	private long sequence_id;
+	private String localImagePath = null;
 
 	public TGPost() {
 	}
@@ -78,7 +77,7 @@ public class TGPost extends ParseObject {
 
 	public static TGPost createNewPost(TGStory story, PostType type) {
 		final TGPost post = new TGPost();
-		post.seType(type);
+		post.setType(type);
 		post.setNote("");
 		post.setPhoto_url("");
 
@@ -99,10 +98,6 @@ public class TGPost extends ParseObject {
 		post.setStory(story);
 
 		return post;
-	}
-
-	private void seType(PostType t) {
-		put(KEY_POST_TYPE, t.getNumVal());
 	}
 
 	public String getNote() {
@@ -138,10 +133,11 @@ public class TGPost extends ParseObject {
 	}
 
 	public String getPhoto_url() {
-		if (this.local_image_path != null) {
-			return local_image_path;
-		}
 		return getString("photo_url");
+	}
+
+	public String getLocalImagePath() {
+		return this.localImagePath;
 	}
 
 	public void setPhoto_url(String photo_url) {
@@ -159,7 +155,7 @@ public class TGPost extends ParseObject {
 	}
 
 	private void setLocalPhotoURL(String encodedPath) {
-		this.local_image_path = encodedPath;
+		this.localImagePath = encodedPath;
 		
 	}
 
@@ -216,12 +212,10 @@ public class TGPost extends ParseObject {
 
 	public long getSequenceId() {
 		long v = getLong(KEY_POST_SEQUENCE);
-		sequence_id = v;
 		return v;
 	}
 
 	public void setSequenceId(long sequence_id) {
-		this.sequence_id = sequence_id;
 		if (sequence_id != getSequenceId()) {
 			put(KEY_POST_SEQUENCE, sequence_id);
 		}
@@ -250,6 +244,14 @@ public class TGPost extends ParseObject {
 			}
 		});
 		
+	}
+
+	public String getLocationString() {
+		if (this.getLocation() != null) {
+			return "Lat: " + this.getLocation().getLatitude() +
+					"Lng: " + this.getLocation().getLongitude();
+		}
+		return "";
 	}
 	
 }
