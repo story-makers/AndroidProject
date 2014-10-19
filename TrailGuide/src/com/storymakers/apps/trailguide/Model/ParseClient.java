@@ -21,12 +21,12 @@ public class ParseClient {
 
 		ParseObject.registerSubclass(TGPost.class);
 		ParseObject.registerSubclass(TGStory.class);
-		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
+		
 		Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-		ParseTwitterUtils.initialize(TWITTER_APP_KEY, TWITTER_APP_SECRET);
-		// ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		Parse.enableLocalDatastore(ctx);
+		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
+		ParseTwitterUtils.initialize(TWITTER_APP_KEY, TWITTER_APP_SECRET);
 		context = ctx;
 		// If you would like all objects to be private by default, remove this
 		// line.
