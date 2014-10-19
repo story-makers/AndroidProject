@@ -1,5 +1,9 @@
 package com.storymakers.apps.trailguide.fragments;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -10,12 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
-import com.storymakers.apps.trailguide.model.TGStory;
 
 public class CreateDialogFragment extends DialogFragment {
 	PostType type;
@@ -24,24 +28,33 @@ public class CreateDialogFragment extends DialogFragment {
 	TextView tvPointInfo;
 	Button btnDone;
 	Button btnCancel;
-	TGStory draftStory;
-	TGPost editPost;
+	TGPost editPost = null;
 
 	private OnDialogDoneListener doneListener;
 
 	public interface OnDialogDoneListener {
 		public void onDone(TGPost post);
+		public void onDoneTitle(String title);
 	}
 	
 	public CreateDialogFragment() {
 		// Empty constructor required for DialogFragment
 	}
 	
-	public static CreateDialogFragment newInstance(int postType, TGStory draft) {
+	public static CreateDialogFragment newInstance(int postType, String dialogContent) {
 		CreateDialogFragment frag = new CreateDialogFragment();
 		Bundle args = new Bundle();
 		args.putInt("post_type", postType);
-		//args.putParcelable("draft_story", draft);
+		args.putString("content", dialogContent);
+		frag.setArguments(args);
+		return frag;
+	}
+
+	public static CreateDialogFragment newInstance(TGPost editPost) {
+		CreateDialogFragment frag = new CreateDialogFragment();
+		Bundle args = new Bundle();
+		args.putInt("post_type", editPost.getType().getNumVal());
+		args.putString("post_id", editPost.getObjectId());
 		frag.setArguments(args);
 		return frag;
 	}
@@ -49,14 +62,24 @@ public class CreateDialogFragment extends DialogFragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-		type = PostType.values()[getArguments().getInt("post_type")];
-		// get draft story from bundle args.
-
+		Bundle args = getArguments();
+		type = PostType.values()[args.getInt("post_type")];
+		if (args.containsKey("post_id")) {
+			fetchPost(args.getString("post_id"));
+		}
 		View view;
+		if (editPost == null && type != PostType.METADATA) {
+			editPost = TGPost.createNewPost(null, type);
+		}
 		switch(type) {
 		case PHOTO:
 			view = inflater.inflate(R.layout.fragment_create_photo, container, false);
-			addPhoto(view);
+			if (args.containsKey("content")) {
+				String photoUrl = args.getString("content");
+				addPhoto(view, photoUrl);
+			} else {
+				addPhoto(view, null);
+			}
 			break;
 		case NOTE:
 			view = inflater.inflate(R.layout.fragment_edit_note, container, false);
@@ -69,11 +92,25 @@ public class CreateDialogFragment extends DialogFragment {
 		default:
 			view = inflater.inflate(R.layout.fragment_edit_note, container, false);
 			editTitle(view);
-			/*getDialog().getWindow().setSoftInputMode(
-					WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);*/
 		}
 		return view;
+		
     }
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (activity instanceof OnDialogDoneListener) {
+			doneListener = (OnDialogDoneListener) activity;
+		} else {
+			throw new ClassCastException(activity.toString()
+					+ " must implement CreateDialogFragment.OnDoneDialogListener");
+		}
+	}
+	
+	private void fetchPost(String postId) {
+		editPost = RemoteDBClient.getPostById(postId);
+	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -96,18 +133,11 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editTitle(View v) {
 		this.getDialog().setTitle(R.string.hike_title);
 		etNote = (EditText) v.findViewById(R.id.etNote);
-		if (draftStory != null) {
-			etNote.setText(draftStory.getTitle());
-		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (draftStory == null) {
-					// draft should never be null.
-					Toast.makeText(getActivity(), "Draft story should not be null", Toast.LENGTH_SHORT).show();
-				}
-				//draftStory.setTitle(etNote.getText().toString());
+				doneListener.onDoneTitle(etNote.getText().toString());
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -117,16 +147,19 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editLocationPoint(View v) {
 		this.getDialog().setTitle(R.string.capture_point);
 		tvPointInfo = (TextView) v.findViewById(R.id.tvPointInfo);
+		tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
 		// set tvPointInfo after getting response from location services.
 		etNote = (EditText) v.findViewById(R.id.etNote);
-		if (editPost != null) { // populated when someone clicks a post to edit it.
+		if (editPost.getNote() != null) {
+			// populated when someone clicks a post to edit it.
 			etNote.setText(editPost.getNote());
 		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// create or edit the editPost.
+				editPost.setNote(String.valueOf(etNote.getText()));
+				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -136,32 +169,45 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editNote(View v) {
 		this.getDialog().setTitle(R.string.edit_note);
 		etNote = (EditText) v.findViewById(R.id.etNote);
-		if (editPost != null) { // populated when someone clicks a post to edit it.
+		if (editPost.getNote() != null) {
+			// populated when someone clicks a post to edit it.
 			etNote.setText(editPost.getNote());
 		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// create or edit the editPost.
-				// editPost.setNote(etNote.getText().toString());
+				editPost.setNote(String.valueOf(etNote.getText()));
+				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
 		setupCancelButton(v);
 	}
 
-	private void addPhoto(View v) {
+	private void addPhoto(View v, String localPhotoUrl) {
 		this.getDialog().setTitle(R.string.add_photo);
 		etNote = (EditText) v.findViewById(R.id.etNote);
+		if (editPost.getNote() != null) {
+			etNote.setText(editPost.getNote());
+		}
 		ivPhoto = (ImageView) v.findViewById(R.id.ivPhotoTaken);
 		ivPhoto.setImageResource(android.R.color.transparent);
-		// never allow someone to edit a photo post
+		if (localPhotoUrl == null) { // load from post.
+			ImageLoader.getInstance().displayImage(editPost.getPhoto_url(), ivPhoto);
+		} else {
+			Uri takenPhotoUri = Uri.parse(localPhotoUrl);
+			editPost.setPhotoFromUri(getActivity(), takenPhotoUri);
+			Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+			ivPhoto.setImageBitmap(takenImage);
+		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// create editPost of type photo.
+				editPost.setNote(String.valueOf(etNote.getText()));
+				doneListener.onDone(editPost); // sets the post on the story.
 				CreateDialogFragment.this.dismiss();
 			}
 		});

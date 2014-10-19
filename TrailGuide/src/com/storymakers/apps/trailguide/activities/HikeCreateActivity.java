@@ -44,12 +44,13 @@ import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
-public class HikeCreateActivity extends FragmentActivity {
+public class HikeCreateActivity extends FragmentActivity implements
+		CreateDialogFragment.OnDialogDoneListener {
 
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
-	private TGStory story;
+	private TGStory story = null;
 	private TGUser user;
 
 	private ImageView ivAddNote;
@@ -86,13 +87,6 @@ public class HikeCreateActivity extends FragmentActivity {
 				.findFragmentById(R.id.fragmentPostList);
 		findDraftStory();
 		initializeViews();
-		if (story == null) {
-				// default name until someone fills in the title.
-				story = TGDraftStories.getInstance().createNewDraft(user, "New Hike");
-				// show dialog fragment (for title)
-				//showCreateDialog(PostType.METADATA, null);
-		}
-		
 	}
 
 	private void findDraftStory() {
@@ -107,8 +101,12 @@ public class HikeCreateActivity extends FragmentActivity {
 					story = arg0.get(0);
 					story.getPosts(null);
 				}
+				if (story == null) {
+					// default name until someone fills in the title.
+					story = TGDraftStories.getInstance().createNewDraft(user, "New Hike");
+					showCreateDialog(PostType.METADATA, story.getTitle());
+				}
 				d.cancel();
-				
 			}
 		});
 		
@@ -123,17 +121,24 @@ public class HikeCreateActivity extends FragmentActivity {
 			showloginwindow();
 		}
 	}
+
 	private void showloginwindow() {
 		ParseLoginBuilder loginBuilder = new ParseLoginBuilder(HikeCreateActivity.this);
 		startActivityForResult(loginBuilder.build(), ParseClient.LOGIN_REQUEST);
 	}
 
-	private void showCreateDialog(PostType type) {
+	private void showCreateDialog(PostType type, String content) {
 		FragmentManager fm = getSupportFragmentManager();
 		fm.executePendingTransactions();
-		// Pass draft story too
 	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(
-	    		type.getNumVal(), story);
+	    		type.getNumVal(), content);
+	    createDialogFragment.show(fm, "fragment_create_dialog");
+	}
+
+	private void showCreateDialog(TGPost post) {
+		FragmentManager fm = getSupportFragmentManager();
+		fm.executePendingTransactions();
+	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(post);
 	    createDialogFragment.show(fm, "fragment_create_dialog");
 	}
 	
@@ -156,6 +161,18 @@ public class HikeCreateActivity extends FragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onDone(TGPost post) {
+		story.addPost(post, progressbar);
+		postlistFragment.addPost(post);
+		Toast.makeText(this, "Saved a " + post.getType().toString(), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onDoneTitle(String title) {
+		story.setTitle(title);
+	}
+
 	private void initializeViews() {
 		ivAddNote = (ImageView) findViewById(R.id.ivNoteIcon);
 		ivCamera = (ImageView) findViewById(R.id.ivCameraIcon);
@@ -173,11 +190,10 @@ public class HikeCreateActivity extends FragmentActivity {
 					}
 
 					@Override
-					public void foundLocation(ParseGeoPoint point) {
-						p.setLocation(point.getLatitude(), point.getLongitude());
-						
-						story.addPost(p, null);
-						postlistFragment.addPost(p);
+					public void complete() {
+						Toast.makeText(HikeCreateActivity.this, "complete",
+								Toast.LENGTH_SHORT).show();
+						HikeCreateActivity.this.story = null;
 					}
 				});
 			}
@@ -194,15 +210,13 @@ public class HikeCreateActivity extends FragmentActivity {
 			public void foundLocation(ParseGeoPoint point) {
 				TGPost p = TGPost.createNewPost(story, PostType.LOCATION);
 				p.setLocation(point.getLatitude(), point.getLongitude());
-				//showCreateDialog(PostType.LOCATION, p);
-				//story.addPost(p);
-				//postlistFragment.addPost(p);
+				showCreateDialog(p);
 			}
 		});
 	}
 
 	public void onAddNote(View v) {
-		showCreateDialog(PostType.NOTE);
+		showCreateDialog(PostType.NOTE, "");
 		//String text = etNewNote.getText().toString();
 		/*if (text.startsWith("dummycreate")) {
 			createEntireDummyStory();
@@ -241,19 +255,19 @@ public class HikeCreateActivity extends FragmentActivity {
 			if (resultCode == RESULT_OK) {
 				Uri takenPhotoUri = photoUriToSave; // getPhotoFileUri(photoFileName);
 				// by this point we have the camera photo on disk
-				Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri
-						.getPath());
+				/*Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri
+						.getPath());*/
 				// Load the taken image into a preview dialog fragment
 				/*
 				 * ImageView ivPreview = (ImageView)
 				 * findViewById(R.id.ivPreview);
 				 * ivPreview.setImageBitmap(takenImage);
 				 */
-				TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
-				p.setPhotoFromUri(this, takenPhotoUri);
-				story.addPost(p, progressbar);
-				postlistFragment.addPost(p);
-				showCreateDialog(PostType.PHOTO);
+				//TGPost p = TGPost.createNewPost(story, TGPost.PostType.PHOTO);
+				//p.setPhotoFromUri(this, takenPhotoUri);
+				//story.addPost(p, progressbar);
+				//postlistFragment.addPost(p);
+				showCreateDialog(PostType.PHOTO, photoUriToSave.toString());
 				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
 						.show();
 			} else { // Result was a failure
