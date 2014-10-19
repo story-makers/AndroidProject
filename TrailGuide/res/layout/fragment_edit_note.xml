@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="vertical" >
+
+    <!-- <TextView
+        android:id="@+id/tvTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Medium Text"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:background="#8f8f8f"
+        android:textAppearance="?android:attr/textAppearanceMedium" /> -->
+
+    <LinearLayout
+        android:id="@+id/llEditNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ececec" >
+
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_tile"
+            android:padding="5dp"
+            android:hint="@string/note" >
+
+            <requestFocus />
+        </EditText>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnDone"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00baa8"
+            android:layout_weight="1"
+            android:layout_marginRight="3dp"
+            android:text="@string/done" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#3189b4"
+            android:layout_marginLeft="3dp"
+            android:text="@string/cancel" />
+        
+    </LinearLayout>
+
+</LinearLayout>

@@ -23,17 +23,18 @@ public class HomeActivity extends FragmentActivity implements
 	}
 
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    	case R.id.miNewHike:
-    		createNewHike();
-    		return true;
-    	case R.id.miProfile:
-    		myProfile();
-    		return true;
-    	default: return super.onOptionsItemSelected(item);
-    	}
-    }
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.miNewHike:
+			createNewHike();
+			return true;
+		case R.id.miProfile:
+			myProfile();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,8 +52,8 @@ public class HomeActivity extends FragmentActivity implements
 	}
 
 	public void onListItemClicked(View v) {
-		SearchHikesFragment fragment = (SearchHikesFragment)
-				getSupportFragmentManager().findFragmentById(R.id.fragmentSearchHikes);
+		SearchHikesFragment fragment = (SearchHikesFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragmentSearchHikes);
 		fragment.onListItemClicked(v);
 	}
 

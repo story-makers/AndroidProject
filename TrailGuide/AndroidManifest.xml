@@ -13,6 +13,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -30,11 +34,10 @@
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+           <intent-filter>
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
         </activity>
         <activity
             android:name=".activities.HikeDetailsActivity"

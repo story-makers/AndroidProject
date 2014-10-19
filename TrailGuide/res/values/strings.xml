@@ -17,5 +17,13 @@
     <string name="end_label">End</string>
     <string name="object_key">OBJECT</string>
     <string name="view_holder_key">VIEW_HOLDER</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="caption">Caption</string>
+    <string name="hike_title">Hike Title</string>
+    <string name="capture_point">Capture a point</string>
+    <string name="point_note">What\'s special at this point?</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="add_photo">Add Photo</string>
 
 </resources>

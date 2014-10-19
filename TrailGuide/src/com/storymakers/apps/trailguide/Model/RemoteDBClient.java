@@ -41,6 +41,17 @@ public class RemoteDBClient {
 
 	}
 
+	/* Call only after you have the story in cache */
+	public static TGPost getPostById(String objectId) {
+		ParseQuery<TGPost> query = ParseQuery.getQuery(TGPost.class);
+		try {
+			return query.get(objectId);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void getDraftStoriesByUser(FindCallback<TGStory> callback) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
 		query.orderByDescending("createdAt");
