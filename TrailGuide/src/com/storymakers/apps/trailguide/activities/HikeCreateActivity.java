@@ -120,12 +120,13 @@ public class HikeCreateActivity extends FragmentActivity implements
 	    createDialogFragment.show(fm, "fragment_create_dialog");
 	}
 
+	/* When we edit a post...
 	private void showCreateDialog(TGPost post) {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentManager.enableDebugLogging(true);
 	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(post);
 	    createDialogFragment.show(fm, "fragment_create_dialog");
-	}
+	}*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -184,18 +185,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	}
 
 	public void onRecordLocation(View v) {
-		TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
-			@Override
-			public void onFail() {
-			}
-
-			@Override
-			public void foundLocation(ParseGeoPoint point) {
-				TGPost p = TGPost.createNewPost(story, PostType.LOCATION);
-				p.setLocation(point.getLatitude(), point.getLongitude());
-				showCreateDialog(p);
-			}
-		});
+		showCreateDialog(PostType.LOCATION, "");
 	}
 
 	public void onAddNote(View v) {

@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide.fragments;
+package com.storymakers.apps.trailguide.tbd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,6 @@ import android.widget.ListView;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.listeners.EndlessScrollListener;
-import com.storymakers.apps.trailguide.model.StorySegment;
-import com.storymakers.apps.trailguide.tbd.StorySegmentAdapter;
 
 public class CopyOfStoryDetailFragment extends Fragment {
 	private ArrayList<StorySegment> segments;

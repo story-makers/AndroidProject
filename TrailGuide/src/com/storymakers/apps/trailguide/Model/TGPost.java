@@ -243,7 +243,6 @@ public class TGPost extends ParseObject {
 				
 			}
 		});
-		
 	}
 
 	public String getLocationString() {
