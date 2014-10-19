@@ -19,7 +19,6 @@ public class HomeActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		// getActionBar().setTitle("TEST");
 	}
 
 	@Override
@@ -59,18 +58,17 @@ public class HomeActivity extends FragmentActivity implements
 
 	@Override
 	public void onListItemClicked(TGStory story) {
-		Intent i = new Intent(this, HikeDetailsActivity.class);
-		i.putExtra("hike", story.getObjectId());
+		Intent i = HikeDetailsActivity.getIntentForStory(this, story);
 		startActivity(i);
 	}
 
 	private void createNewHike() {
-		Intent i = new Intent(this, CreateStoryDispatchActivity.class);
+		Intent i = HikeCreateActivity.getIntentForCreateStory(this);
 		startActivity(i);
 	}
 
 	private void myProfile() {
-		Intent i = new Intent(this, HikeCreateActivity.class);
+		Intent i = ProfileActivity.getIntentForUserProfile(this);
 		startActivity(i);
 	}
 }

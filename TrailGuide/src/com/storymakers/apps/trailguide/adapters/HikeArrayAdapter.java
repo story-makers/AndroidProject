@@ -8,7 +8,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -94,7 +93,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvTitle.setText(story.getTitle());
 		convertView.setTag(R.string.object_key, story);
 		viewHolder.tvLikes.setTag(R.string.object_key, story);
-		viewHolder.tvLikes.setOnClickListener(new View.OnClickListener() {
+		/*
+		 viewHolder.tvLikes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				TGStory story = (TGStory) v.getTag(R.string.object_key);
@@ -107,8 +107,10 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				}
 			}
 		});
+		 */
 
-		viewHolder.ivCoverPhoto
+		/*
+		 viewHolder.ivCoverPhoto
 				.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v) {
@@ -157,6 +159,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 						return true;
 					}
 				});
+		 
+		 */
 		return convertView;
 	}
 

@@ -160,8 +160,13 @@ public class TGStory extends ParseObject {
 		return this.referenced_stories;
 	}
 
-	public void addLike() {
+	public void addLike(ProgressNotificationHandler progress) {
+		if(progress != null)
+			progress.beginAction();
 		increment("likes");
+		saveData();
+		if (progress != null)
+			progress.endAction();
 	}
 
 	public void addPost(TGPost p, ProgressNotificationHandler progress) {
@@ -176,26 +181,33 @@ public class TGStory extends ParseObject {
 
 	/* returns number of items to save. */
 	public int completeStory(final UploadProgressHandler uploadProgressHandler) {
+		/* add logic to compute hike time */
+		/* add loop over posts to find cover photos */
+		/* add logic for finding distance in hike */
+		
 		setState(StoryType.COMPLETE);
 		setEndDate(new Date());
 		final int total_items = 1 + this.posts.size(); // for the story itself
 		SaveCallback cb = new SaveCallback() {
-			int u_items = 0;
 
 			@Override
 			public void done(ParseException e) {
 				if (uploadProgressHandler != null)
 					uploadProgressHandler.progress(1);
-				u_items += 1;
-				if (u_items >= total_items) {
-					if (uploadProgressHandler != null)
-						uploadProgressHandler.complete();
-				}
-
 			}
 		};
-		saveInBackground(cb);
+		
 		saveAllInBackground(this.posts, cb);
+		saveInBackground(new SaveCallback() {
+			
+			@Override
+			public void done(ParseException arg0) {
+				
+				if (uploadProgressHandler != null) {
+					uploadProgressHandler.complete();
+				}
+			}
+		});
 		return total_items;
 	}
 

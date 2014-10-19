@@ -2,6 +2,8 @@ package com.storymakers.apps.trailguide.activities;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment.onGoogleMapCreationListener;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
+import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeDetailsActivity extends FragmentActivity implements
 		onGoogleMapCreationListener {
@@ -82,6 +85,12 @@ public class HikeDetailsActivity extends FragmentActivity implements
 			StoryMapFragment storyFragment) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public static Intent getIntentForStory(Context ctx, TGStory story) {
+		Intent i = new Intent(ctx, HikeDetailsActivity.class);
+		i.putExtra("hike", story.getObjectId());
+		return i;
 	}
 
 	/*private void setupFragment() {

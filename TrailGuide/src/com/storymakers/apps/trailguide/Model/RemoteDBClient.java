@@ -65,9 +65,6 @@ public class RemoteDBClient {
 		getStoriesByUser(callback, null, from, limit);
 	}
 
-	public static void postLikeAStory(TGStory s) {
-		s.addLike();
-	}
 
 	public static void getPostsForStory(TGStory s,
 			final TGPost.PostListDownloadCallback callback) {

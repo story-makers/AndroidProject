@@ -3,6 +3,7 @@ package com.storymakers.apps.trailguide.activities;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,12 +20,10 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.fragments.CreateDialogFragment;
 import com.storymakers.apps.trailguide.fragments.PostListFragment;
-import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
@@ -177,7 +176,9 @@ public class HikeCreateActivity extends FragmentActivity implements
 					public void complete() {
 						Toast.makeText(HikeCreateActivity.this, "complete",
 								Toast.LENGTH_SHORT).show();
-						HikeCreateActivity.this.story = null;
+						Intent i = HikeDetailsActivity.getIntentForStory(HikeCreateActivity.this, story);
+						HikeCreateActivity.this.startActivity(i);
+						HikeCreateActivity.this.finish();
 					}
 				});
 			}
@@ -226,5 +227,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 			showCreateDialog(PostType.PHOTO, photoUriToSave.toString());
 		}
 		returnFromCamera = false;
+	}
+
+	public static Intent getIntentForCreateStory(Context ctx) {
+		Intent i = new Intent(ctx, CreateStoryDispatchActivity.class);
+		return i;
 	}
 }
