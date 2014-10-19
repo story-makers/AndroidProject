@@ -1,15 +1,10 @@
 package com.storymakers.apps.trailguide.adapters;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,21 +88,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvTitle.setText(story.getTitle());
 		convertView.setTag(R.string.object_key, story);
 		viewHolder.tvLikes.setTag(R.string.object_key, story);
-		/*
-		 viewHolder.tvLikes.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TGStory story = (TGStory) v.getTag(R.string.object_key);
-				ViewHolder viewHolder = (ViewHolder) v
-						.getTag(R.string.view_holder_key);
-				if (viewHolder.tvLikes.getCurrentTextColor() != Color.GREEN) {
-					viewHolder.tvLikes.setTextColor(Color.GREEN);
-					story.addLike();
-					viewHolder.tvLikes.setText(String.valueOf(story.getLikes()));
-				}
-			}
-		});
-		 */
+		//viewHolder.tvLikes.setOnClickListener();
+		 
 
 		/*
 		 viewHolder.ivCoverPhoto

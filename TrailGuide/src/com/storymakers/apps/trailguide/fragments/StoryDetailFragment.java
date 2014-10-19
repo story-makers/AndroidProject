@@ -2,6 +2,7 @@ package com.storymakers.apps.trailguide.fragments;
 
 import java.util.List;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,18 @@ public class StoryDetailFragment extends Fragment {
 		tvLikes.setText(String.valueOf(story.getLikes()));
 		tvRefs.setText(String.valueOf(story.getRefs()));
 		tvTitle.setText(story.getTitle());
+		tvLikes.setTag(R.string.object_key, story);
+		tvLikes.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				TGStory story = (TGStory) v.getTag(R.string.object_key);
+				if (tvLikes.getCurrentTextColor() != Color.GREEN) {
+					tvLikes.setTextColor(Color.GREEN);
+					story.addLike(null);
+					tvLikes.setText(String.valueOf(story.getLikes()));
+				}
+			}
+		});
 	}
 
 	private void setupListFragment() {
