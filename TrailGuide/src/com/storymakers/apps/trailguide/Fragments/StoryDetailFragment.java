@@ -73,6 +73,7 @@ public class StoryDetailFragment extends Fragment {
 			public void done(List<TGPost> objs) {
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
+				//fragment.addPost(TGPost.createNewPost(story, PostType.PREAMBLE));
 				fragment.addAll(objs);
 			}
 		});
