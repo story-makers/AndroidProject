@@ -145,7 +145,7 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}

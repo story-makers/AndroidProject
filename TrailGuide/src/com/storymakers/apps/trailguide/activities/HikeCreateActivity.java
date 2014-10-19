@@ -39,6 +39,7 @@ import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
@@ -60,7 +61,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
-	private PostListFragment postlistFragment;
+	private PostListFragment postListFragment;
 	private ProgressNotificationHandler progressbar;
 	private boolean returnFromCamera;
 
@@ -84,7 +85,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 		};
 		user = TrailGuideApplication.getCurrentUser();
 		
-		postlistFragment = (PostListFragment) getSupportFragmentManager()
+		postListFragment = (PostListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.fragmentPostList);
 		findDraftStory();
 		initializeViews();
@@ -100,7 +101,18 @@ public class HikeCreateActivity extends FragmentActivity implements
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null && arg0.size() > 0){
 					story = arg0.get(0);
-					story.getPosts(null);
+					story.getPosts(new PostListDownloadCallback() {
+						
+						@Override
+						public void fail(String reason) {
+							Log.e("ERROR", reason);
+						}
+						
+						@Override
+						public void done(List<TGPost> objs) {
+							postListFragment.addAll(objs);
+						}
+					});
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
@@ -164,7 +176,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	@Override
 	public void onDone(TGPost post) {
 		story.addPost(post, progressbar);
-		postlistFragment.addPost(post);
+		postListFragment.addPost(post);
 		Toast.makeText(this, "Saved a " + post.getType().toString(), Toast.LENGTH_SHORT).show();
 	}
 
