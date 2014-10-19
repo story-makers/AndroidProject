@@ -98,6 +98,11 @@ public class CreateDialogFragment extends DialogFragment {
     }
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	    //No call for super(). Bug on API Level > 11.
+	}
+
+	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof OnDialogDoneListener) {
@@ -110,24 +115,6 @@ public class CreateDialogFragment extends DialogFragment {
 	
 	private void fetchPost(String postId) {
 		editPost = RemoteDBClient.getPostById(postId);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	    switch(type) {
-	    case PHOTO:
-			// call the appropriate handler from activity to save the post
-			break;
-		case NOTE:
-			// call the appropriate handler from activity to save the post
-			break;
-		case LOCATION:
-			// call the appropriate handler from activity to save the post
-			break;
-		default:
-			// call the appropriate handler from activity to save the post
-	    }
-	    super.onSaveInstanceState(outState);
 	}
 
 	private void editTitle(View v) {

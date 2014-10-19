@@ -3,11 +3,6 @@ package com.storymakers.apps.trailguide.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.StorySegmentAdapter;
-import com.storymakers.apps.trailguide.listeners.EndlessScrollListener;
-import com.storymakers.apps.trailguide.model.StorySegment;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.StorySegmentAdapter;
+import com.storymakers.apps.trailguide.listeners.EndlessScrollListener;
+import com.storymakers.apps.trailguide.model.StorySegment;
 
 public class CopyOfStoryDetailFragment extends Fragment {
 	private ArrayList<StorySegment> segments;

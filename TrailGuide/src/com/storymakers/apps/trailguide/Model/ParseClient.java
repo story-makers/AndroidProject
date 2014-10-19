@@ -18,12 +18,13 @@ public class ParseClient {
 	private Context context;
 
 	private ParseClient(Context ctx) {
+
 		ParseObject.registerSubclass(TGPost.class);
 		ParseObject.registerSubclass(TGStory.class);
 		Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
 		Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 		ParseTwitterUtils.initialize(TWITTER_APP_KEY, TWITTER_APP_SECRET);
-		//ParseUser.enableAutomaticUser();
+		// ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		Parse.enableLocalDatastore(ctx);
 		context = ctx;
@@ -41,7 +42,5 @@ public class ParseClient {
 		}
 		return client;
 	}
-
-	
 
 }

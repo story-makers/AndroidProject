@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.fragments.CustomMapFragment;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
+import com.storymakers.apps.trailguide.fragments.StoryMapFragment.onGoogleMapCreationListener;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 
-public class HikeDetailsActivity extends FragmentActivity {
+public class HikeDetailsActivity extends FragmentActivity implements
+		onGoogleMapCreationListener {
+
+	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +54,33 @@ public class HikeDetailsActivity extends FragmentActivity {
 		fragmentArgs.putString("hike", getIntent().getStringExtra("hike"));
 
 		Tab hikeDetailTab = actionBar
-		    .newTab()
-		    .setText("Timeline")
-		    .setTag("StoryDetailFragment")
-		    .setTabListener(new FragmentTabListener<StoryDetailFragment>(R.id.flContainer, this,
-                        "home", StoryDetailFragment.class, fragmentArgs));
+				.newTab()
+				.setText("Timeline")
+				.setTag("StoryDetailFragment")
+				.setTabListener(
+						new FragmentTabListener<StoryDetailFragment>(
+								R.id.flContainer, this, "home",
+								StoryDetailFragment.class, fragmentArgs));
 
 		actionBar.addTab(hikeDetailTab);
 		actionBar.selectTab(hikeDetailTab);
 
 		Tab storyMapTab = actionBar
-		    .newTab()
-		    .setText("Map")
-		    .setTag("StoryMapFragment")
-		    .setTabListener(new FragmentTabListener<StoryMapFragment>(R.id.flContainer, this,
-                        "mentions", StoryMapFragment.class, fragmentArgs));
+				.newTab()
+				.setText("Map")
+				.setTag("StoryMapFragment")
+				.setTabListener(
+						new FragmentTabListener<StoryMapFragment>(
+								R.id.flContainer, this, "mentions",
+								StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
+		
+	}
+
+	@Override
+	public void onGoogleMapCreation(CustomMapFragment mapFragment,
+			StoryMapFragment storyFragment) {
+		// TODO Auto-generated method stub
 		
 	}
 

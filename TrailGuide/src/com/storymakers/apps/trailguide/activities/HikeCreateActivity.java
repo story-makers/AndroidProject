@@ -62,6 +62,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	private String photoNametoSave;
 	private PostListFragment postlistFragment;
 	private ProgressNotificationHandler progressbar;
+	private boolean returnFromCamera;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private void showCreateDialog(PostType type, String content) {
 		FragmentManager fm = getSupportFragmentManager();
-		fm.executePendingTransactions();
 	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(
 	    		type.getNumVal(), content);
 	    createDialogFragment.show(fm, "fragment_create_dialog");
@@ -137,7 +137,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private void showCreateDialog(TGPost post) {
 		FragmentManager fm = getSupportFragmentManager();
-		fm.executePendingTransactions();
+		FragmentManager.enableDebugLogging(true);
 	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(post);
 	    createDialogFragment.show(fm, "fragment_create_dialog");
 	}
@@ -267,14 +267,21 @@ public class HikeCreateActivity extends FragmentActivity implements
 				//p.setPhotoFromUri(this, takenPhotoUri);
 				//story.addPost(p, progressbar);
 				//postlistFragment.addPost(p);
-				showCreateDialog(PostType.PHOTO, photoUriToSave.toString());
-				Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT)
-						.show();
+				returnFromCamera = true;
 			} else { // Result was a failure
 				Toast.makeText(this, "Picture wasn't taken!",
 						Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		if (returnFromCamera) {
+			showCreateDialog(PostType.PHOTO, photoUriToSave.toString());
+		}
+		returnFromCamera = false;
 	}
 
 	// Returns the Uri for a photo stored on disk given the fileName
