@@ -1,4 +1,6 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.tbd;
+
+import com.storymakers.apps.trailguide.tbd.DrawableClickListener.DrawablePosition;
 
 import android.content.Context;
 import android.graphics.Rect;

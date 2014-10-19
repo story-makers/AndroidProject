@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.tbd;
 
 public interface DrawableClickListener {
 	public static enum DrawablePosition { TOP, BOTTOM, LEFT, RIGHT };

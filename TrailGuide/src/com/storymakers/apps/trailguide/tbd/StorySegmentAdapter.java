@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.tbd;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -21,8 +21,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.storymakers.apps.trailguide.model.StorySegment;
-import com.storymakers.apps.trailguide.model.StorySegment.SegmentTypes;
+import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.R.id;
+import com.storymakers.apps.trailguide.R.layout;
+import com.storymakers.apps.trailguide.tbd.StorySegment.SegmentTypes;
 
 public class StorySegmentAdapter extends ArrayAdapter<StorySegment> {
 	private Context context;

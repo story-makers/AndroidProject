@@ -1,8 +1,6 @@
 package com.storymakers.apps.trailguide.fragments;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,10 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class CreateDialogFragment extends DialogFragment {
 	PostType type;
@@ -64,7 +65,7 @@ public class CreateDialogFragment extends DialogFragment {
       Bundle savedInstanceState) {
 		Bundle args = getArguments();
 		type = PostType.values()[args.getInt("post_type")];
-		if (args.containsKey("post_id")) {
+		if (args.containsKey("post_id") && args.getString("post_id") != null) {
 			fetchPost(args.getString("post_id"));
 		}
 		View view;
@@ -98,11 +99,6 @@ public class CreateDialogFragment extends DialogFragment {
     }
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	    //No call for super(). Bug on API Level > 11.
-	}
-
-	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		if (activity instanceof OnDialogDoneListener) {
@@ -112,7 +108,12 @@ public class CreateDialogFragment extends DialogFragment {
 					+ " must implement CreateDialogFragment.OnDoneDialogListener");
 		}
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle arg0) {
+		super.onSaveInstanceState(arg0);
+	}
+
 	private void fetchPost(String postId) {
 		editPost = RemoteDBClient.getPostById(postId);
 	}
@@ -134,10 +135,26 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editLocationPoint(View v) {
 		this.getDialog().setTitle(R.string.capture_point);
 		tvPointInfo = (TextView) v.findViewById(R.id.tvPointInfo);
-		tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
+		if (editPost.getLocation() != null && editPost.getLocation().getLatitude() > 0) {
+			tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
+		} else {
+			tvPointInfo.setText("Fetching location...");
+			TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
+				@Override
+				public void onFail() {
+				}
+	
+				@Override
+				public void foundLocation(ParseGeoPoint point) {
+					editPost.setLocation(point.getLatitude(), point.getLongitude());
+					tvPointInfo.setText(point.getLatitude() + ", " + point.getLongitude());
+				}
+			});
+		}
+
 		// set tvPointInfo after getting response from location services.
 		etNote = (EditText) v.findViewById(R.id.etNote);
-		if (editPost.getNote() != null) {
+		if (editPost.getNote() != null && editPost.getNote().length() > 0) {
 			// populated when someone clicks a post to edit it.
 			etNote.setText(editPost.getNote());
 		}
@@ -145,7 +162,7 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}
@@ -164,7 +181,7 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost);
 				CreateDialogFragment.this.dismiss();
 			}
@@ -185,15 +202,14 @@ public class CreateDialogFragment extends DialogFragment {
 		} else {
 			Uri takenPhotoUri = Uri.parse(localPhotoUrl);
 			editPost.setPhotoFromUri(getActivity(), takenPhotoUri);
-			Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-			ivPhoto.setImageBitmap(takenImage);
+			ivPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(takenPhotoUri));
 		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// create editPost of type photo.
-				editPost.setNote(String.valueOf(etNote.getText()));
+				editPost.setNote(etNote.getText().toString());
 				doneListener.onDone(editPost); // sets the post on the story.
 				CreateDialogFragment.this.dismiss();
 			}

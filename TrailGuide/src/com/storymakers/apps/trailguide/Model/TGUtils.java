@@ -1,6 +1,7 @@
 package com.storymakers.apps.trailguide.model;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,15 +12,19 @@ import java.util.Locale;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.parse.LocationCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 
 public class TGUtils {
@@ -140,5 +145,28 @@ public class TGUtils {
 			Log.w("My Current loction address", "Canont get Address!");
 		}
 		return strAdd;
+	}
+
+	// Returns the Uri for a photo stored on disk given the fileName
+	public static Uri getPhotoFileUri(String fileName) {
+
+		// Get safe storage directory for photos
+		File mediaStorageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				TrailGuideApplication.APP_TAG);
+
+		// Create the storage directory if it does not exist
+		if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+			Log.d(TrailGuideApplication.APP_TAG, "failed to create directory");
+		}
+
+		// Return the file target for the photo based on filename
+		return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator
+				+ fileName));
+	}
+
+	public static Bitmap getBitmapForLocalUri(Uri localUri) {
+		return BitmapFactory.decodeFile(localUri.getEncodedPath());
 	}
 }

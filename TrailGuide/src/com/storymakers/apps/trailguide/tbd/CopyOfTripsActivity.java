@@ -1,10 +1,13 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.tbd;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.R.id;
+import com.storymakers.apps.trailguide.R.layout;
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;

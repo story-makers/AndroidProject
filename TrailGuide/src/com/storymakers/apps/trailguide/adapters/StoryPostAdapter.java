@@ -3,6 +3,7 @@ package com.storymakers.apps.trailguide.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	private ImageLoader imageLoader;
@@ -48,8 +48,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			ImageView ivPostPhoto = (ImageView) convertView
 					.findViewById(R.id.ivPostPhoto);
-			if (post.getPhoto_url().length() > 0) {
-				ivPostPhoto.setImageResource(android.R.color.transparent);
+			ivPostPhoto.setImageResource(android.R.color.transparent);
+			if (post.getLocalImagePath() != null) {
+				ivPostPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(
+						Uri.parse(post.getLocalImagePath())));
+			} else if (post.getPhoto_url().length() > 0) {
 				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
 
 				TextView tvPostNote = (TextView) convertView
@@ -76,7 +79,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		if (type == TGPost.PostType.LOCATION.getNumVal()){
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
-			tvPostNote.setText("Location marker:" + post.getLocation().toString());
+			if (post.getNote() != null && post.getNote().length() > 0) {
+				tvPostNote.setText("Location marker:" + post.getNote());
+			} else {
+				tvPostNote.setText("Location marker: " + post.getLocationString());
+			}
 		}
 		return convertView;
 	}
@@ -94,6 +101,9 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_photo, null);
 		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_note, null);
+		} else if (type == TGPost.PostType.LOCATION.getNumVal()) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_note, null);
 		} else {
