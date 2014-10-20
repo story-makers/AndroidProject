@@ -75,6 +75,16 @@
             android:text="@string/num_refs"
             android:drawableLeft="@drawable/ic_like"
             android:drawablePadding="3dp" />
+
+        <ImageView
+            android:id="@+id/ivShareHikeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tvLikes"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            
+            android:src="@drawable/ic_action_share" />
         
     </RelativeLayout>
 
