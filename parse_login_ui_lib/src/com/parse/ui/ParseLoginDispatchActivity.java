@@ -50,7 +50,8 @@ import com.parse.ParseUser;
 public abstract class ParseLoginDispatchActivity extends Activity {
 
   protected abstract Class<?> getTargetClass();
-
+  
+  
   private static final int LOGIN_REQUEST = 0;
   private static final int TARGET_REQUEST = 1;
 
@@ -88,7 +89,11 @@ public abstract class ParseLoginDispatchActivity extends Activity {
   private void runDispatch() {
     if (ParseUser.getCurrentUser() != null) {
       debugLog(getString(R.string.com_parse_ui_login_dispatch_user_logged_in) + getTargetClass());
-      startActivityForResult(new Intent(this, getTargetClass()), TARGET_REQUEST);
+      Intent targetIntent = new Intent(this, getTargetClass());
+      Bundle passOnBundle = getBundledExtras();
+      if (passOnBundle != null)
+    	  targetIntent.putExtras(passOnBundle);
+      startActivityForResult(targetIntent, TARGET_REQUEST);
     } else {
       debugLog(getString(R.string.com_parse_ui_login_dispatch_user_not_logged_in));
       startActivityForResult(getParseLoginIntent(), LOGIN_REQUEST);
@@ -100,5 +105,9 @@ public abstract class ParseLoginDispatchActivity extends Activity {
         Log.isLoggable(LOG_TAG, Log.DEBUG)) {
       Log.d(LOG_TAG, message);
     }
+  }
+  
+  protected Bundle getBundledExtras() {
+	  return null;
   }
 }
