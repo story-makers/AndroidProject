@@ -9,13 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_old" />
+        android:scaleType="center"
+        android:contentDescription="Hike Photo"
+        android:src="@drawable/ic_mountain" />
 
     <RelativeLayout
         android:id="@+id/rlStoryAttrs"
         android:layout_width="match_parent"
-        android:layout_height="150dp" >
+        android:layout_height="150dp"
+        android:background="@drawable/shape_gradient_bottom_dark" 
+        >
 
         <TextView
             android:id="@+id/tvTitle"
@@ -60,5 +63,15 @@
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:typeface="monospace" />
+
+        <ImageView
+            android:id="@+id/ivLinkedStoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tvLikes"
+            android:layout_alignTop="@+id/tvLikes"
+            android:visibility="invisible"
+            android:src="@drawable/ic_link_blue" />
+
     </RelativeLayout>
 </FrameLayout>
