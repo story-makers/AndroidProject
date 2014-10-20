@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.HikeArrayAdapter;
@@ -18,9 +17,9 @@ import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikesListFragment extends Fragment {
 	private ArrayList<TGStory> stories;
-	private ListView lvHikesList;
+	protected eu.erikw.PullToRefreshListView lvHikesList;
 	private HikeArrayAdapter hikesListAdapter;
-	//private SwipeRefreshLayout swipeContainer;
+	// private SwipeRefreshLayout swipeContainer;
 
 	private OnListItemClickListener listener;
 
@@ -34,11 +33,13 @@ public class HikesListFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_hikes_list, container,
 				false /* don't attach to container yet */);
 		// Assign view preferences
-		lvHikesList = (ListView) v.findViewById(R.id.lvHikesList);
+		lvHikesList = (eu.erikw.PullToRefreshListView) v
+				.findViewById(R.id.lvHikesList);
 		lvHikesList.setAdapter(hikesListAdapter);
-		//setupScrollListener();
-		//setupSwipeListener(v);
-		//setUpListViewListeners();
+		// setupScrollListener();
+		// setupSwipeListener(v);
+		// setUpListViewListeners();
+
 		return v;
 	}
 
@@ -55,17 +56,22 @@ public class HikesListFragment extends Fragment {
 		if (activity instanceof OnListItemClickListener) {
 			listener = (OnListItemClickListener) activity;
 		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implement HikesListFragment.OnListItemClickListener");
+			throw new ClassCastException(
+					activity.toString()
+							+ " must implement HikesListFragment.OnListItemClickListener");
 		}
 	}
 
 	public void onListItemClicked(View v) {
-		listener.onListItemClicked((TGStory)v.getTag(R.string.object_key));
+		listener.onListItemClicked((TGStory) v.getTag(R.string.object_key));
 	}
 
 	public void addAll(List<TGStory> stories) {
 		hikesListAdapter.addAll(stories);
+	}
+
+	public void clear() {
+		hikesListAdapter.clear();
 	}
 
 }
