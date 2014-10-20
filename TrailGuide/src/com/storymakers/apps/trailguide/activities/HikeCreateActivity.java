@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,13 +77,13 @@ public class HikeCreateActivity extends FragmentActivity implements
 		initializeViews();
 	}
 
-	private void setupTabs() {
+	private void setupTabs(String hikeId) {
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		Bundle fragmentArgs = new Bundle();
-		fragmentArgs.putString("hike", getIntent().getStringExtra("hike"));
+		fragmentArgs.putString("hike", hikeId);
 		fragmentArgs.putString(getString(R.string.map_context_key),
 				getString(R.string.create_hike_context));
 
@@ -120,6 +121,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null && arg0.size() > 0) {
 					story = arg0.get(0);
+					Toast.makeText(HikeCreateActivity.this, "Story found: " + story.getObjectId(), Toast.LENGTH_SHORT).show();
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
 				}
@@ -129,18 +131,17 @@ public class HikeCreateActivity extends FragmentActivity implements
 							"New Hike");
 					showCreateDialog(PostType.METADATA, story.getTitle());
 				}
-				addReferencedStory(story, addRefProgressHandler);
+				if (referencedStoryRequested == false) {
+					setupTabs(story.getObjectId());
+				} else {
+					addReferencedStory(addRefProgressHandler);
+				}
 				d.cancel();
 			}
 		});
 	}
 
-	private void addReferencedStory(TGStory story,
-			final ProgressNotificationHandler handler) {
-		if (referencedStoryRequested == false) {
-			setupTabs();
-			return;
-		}
+	private void addReferencedStory(final ProgressNotificationHandler handler) {
 		if (handler != null)
 			handler.beginAction();
 		TGPost p = TGPost.createNewPost(story, PostType.REFERENCEDSTORY);
@@ -152,8 +153,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 			@Override
 			public void endAction() {
 				if (handler != null) {
+					setupTabs(story.getObjectId());
 					handler.endAction();
-					setupTabs();
 				}
 			}
 
@@ -203,7 +204,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
 				.findFragmentByTag("timeline");
 		fragment.addPost(post);
-		Toast.makeText(this, "Saved a " + post.getType().toString(),
+		Log.d("DEBUG", "Saved a " + post.getType().toString() + " story: " + post.getStory().getObjectId() + " activity story: " + story.getObjectId());
+		Toast.makeText(this, "Saved a " + post.getType().toString() + " story: " + post.getStory().getObjectId() + " activity story: " + story.getObjectId(),
 				Toast.LENGTH_SHORT).show();
 	}
 

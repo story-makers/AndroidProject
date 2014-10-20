@@ -52,8 +52,9 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 			int type = getItemViewType(position);
 			convertView = getInflatedLayoutForType(type);
 		}
+		
 		TextView tvPostInfoText = (TextView) convertView.findViewById(R.id.tvPostInfoText);
-		if (tvPostInfoText != null) {
+		if (tvPostInfoText != null && post.getNote() != null) {
 			tvPostInfoText.setText(post.getNote());
 		}
 		ImageView ivPostInfoImage = (ImageView) convertView.findViewById(R.id.ivPostInfoImage);
@@ -70,8 +71,11 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_image, null);
 		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
 			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
+		} else if (type == TGPost.PostType.LOCATION.getNumVal()) {
+			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
 		} else {
-			return null;
+			// default convert view
+			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
 		}
 	}
 }

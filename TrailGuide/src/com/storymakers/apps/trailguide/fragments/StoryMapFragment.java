@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,12 +57,12 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
 		initializeMap();
 		getStory();
-		getPosts(story, R.color.black);
+		getPosts(story, Color.rgb(0, 0, 255));
 		if (getArguments().containsKey(getString(R.string.map_context_key))
 				&& getArguments().getString(getString(R.string.map_context_key)) == getString(R.string.create_hike_context)) {
 			ArrayList<TGStory> referencedStories = story.getReferencedStories();
 			for (TGStory refStory : referencedStories) {
-				getPosts(refStory, R.color.blue);
+				getPosts(refStory, Color.rgb(255, 0, 0));
 			}
 		}
 	}
@@ -177,18 +178,24 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		ParseGeoPoint lastGeoPoint = null;
 		Marker lastMarker = null;
 		PolylineOptions path = new PolylineOptions().geodesic(true).color(color);
+		int firstPost = 0;
+		boolean firstPostSet = false;
 		for (int i = 0; i < posts.size(); i++) {
 			ParseGeoPoint point = posts.get(i).getLocation();
 			if (point == null
 					|| (point.getLatitude() == 0.0 && point.getLongitude() == 0.0)) {
 				continue;
 			}
-			if (i == 0) {
+			if (!firstPostSet) {
+				firstPost = i;
+				firstPostSet = true;
+			}
+			if (i == firstPost) {
 				lastMarker = map
 						.addMarker(new MarkerOptions()
 								.icon(BitmapDescriptorFactory
 										.fromResource(R.drawable.ic_map_marker_begin_end))
-								.anchor(0.0f, 1.0f) // Anchors the marker on the
+								.anchor(0.0f, 0.0f) // Anchors the marker on the
 													// bottom left
 								.position(
 										new LatLng(point.getLatitude(), point
@@ -204,7 +211,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 							.addMarker(new MarkerOptions()
 									.icon(BitmapDescriptorFactory
 											.fromResource(R.drawable.ic_map_marker_begin_end))
-									.anchor(0.0f, 1.0f) // Anchors the marker on
+									.anchor(0.0f, 0.0f) // Anchors the marker on
 														// the bottom left
 									.position(
 											new LatLng(point.getLatitude(),
