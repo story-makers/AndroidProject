@@ -10,7 +10,7 @@ public class CreateStoryDispatchActivity extends ParseLoginDispatchActivity {
 	protected Class<?> getTargetClass() {
 		return HikeCreateActivity.class;
 	}
-	
+
 	@Override
 	protected Bundle getBundledExtras() {
 		return getIntent().getExtras();

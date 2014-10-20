@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.HikesListFragment;
@@ -29,6 +30,9 @@ public class HomeActivity extends FragmentActivity implements
 			return true;
 		case R.id.miProfile:
 			myProfile();
+			return true;
+		case R.id.miSearch:
+			mySearch(item);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -70,5 +74,25 @@ public class HomeActivity extends FragmentActivity implements
 	private void myProfile() {
 		Intent i = ProfileActivity.getIntentForUserProfile(this);
 		startActivity(i);
+	}
+
+	private void mySearch(MenuItem searchItem) {
+		SearchView searchView = (SearchView) searchItem.getActionView();
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				SearchHikesFragment fragment = (SearchHikesFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.fragmentSearchHikes);
+				fragment.onSearchSubmit(query);
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 	}
 }
