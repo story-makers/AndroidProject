@@ -26,7 +26,9 @@ public class TGUser {
 	public String getUserName() {
 		return _user.getString("username");
 	}
-
+	public String getName() {
+		return _user.getString("name");
+	}
 	public void setUserName(String userName) {
 		_user.put("username", userName);
 	}

@@ -9,16 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:adjustViewBounds="true"
-        android:scaleType="center"
         android:contentDescription="Hike Photo"
+        android:scaleType="center"
         android:src="@drawable/ic_mountain" />
 
     <RelativeLayout
         android:id="@+id/rlStoryAttrs"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@drawable/shape_gradient_bottom_dark" 
-        >
+        android:background="@drawable/shape_gradient_bottom_dark" >
 
         <TextView
             android:id="@+id/tvTitle"
@@ -65,13 +64,22 @@
             android:typeface="monospace" />
 
         <ImageView
+            android:id="@+id/ivShareIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvLikes"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tvLikes"
+            android:src="@drawable/ic_action_share" />
+
+        <ImageView
             android:id="@+id/ivLinkedStoryIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tvLikes"
-            android:layout_alignTop="@+id/tvLikes"
-            android:visibility="invisible"
-            android:src="@drawable/ic_link_blue" />
-
+            android:layout_alignTop="@+id/ivShareIcon"
+            android:layout_toLeftOf="@+id/ivShareIcon"
+            android:src="@drawable/ic_link_blue"
+            android:visibility="invisible" />
     </RelativeLayout>
+
 </FrameLayout>

@@ -1,12 +1,18 @@
 package com.storymakers.apps.trailguide.adapters;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -27,6 +33,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		TextView tvLikes;
 		TextView tvTitle;
 		TextView tvRefs;
+		ImageView ivShareHikeIcon;
 		ProgressBar pbLoading;
 	}
 
@@ -89,7 +96,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		convertView.setTag(R.string.object_key, story);
 		viewHolder.tvLikes.setTag(R.string.object_key, story);
 		//viewHolder.tvLikes.setOnClickListener();
-		 
+		 viewHolder.ivShareHikeIcon.setTag(R.string.object_key, story);
 
 		/*
 		 viewHolder.ivCoverPhoto
@@ -157,5 +164,54 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.pbLoading = (ProgressBar) convertView
 				.findViewById(R.id.pbLoading);
 		viewHolder.ivCoverPhoto.setTag(R.string.view_holder_key, viewHolder);
+		viewHolder.ivShareHikeIcon = (ImageView) convertView.findViewById(R.id.ivShareHikeIcon);
+		viewHolder.ivShareHikeIcon.setTag(R.string.cover_photo_key, viewHolder.ivCoverPhoto);
+		viewHolder.ivShareHikeIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TGStory story = (TGStory) v.getTag(R.string.object_key);
+				ImageView iv = (ImageView) v.getTag(R.string.cover_photo_key);
+				BitmapDrawable bitmapd = (BitmapDrawable) iv.getDrawable();
+				Bitmap bitmap = bitmapd.getBitmap();
+				// Save this bitmap to a file.
+				File cacheDir = v.getContext().getExternalCacheDir();
+				File downloadingMediaFile = new File(cacheDir,
+						"abc.png");
+				try {
+					FileOutputStream out = new FileOutputStream(
+							downloadingMediaFile);
+					bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+					out.flush();
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return;
+				}
+				
+				// Now send it out to share
+				Intent share = new Intent(
+						android.content.Intent.ACTION_SEND);
+				share.setType("image/*");
+				Uri photouri = Uri.parse("file://" + downloadingMediaFile);
+				share.putExtra(Intent.EXTRA_STREAM,
+						photouri);
+				// share.putExtra(Intent.EXTRA_TITLE,
+				// "my awesome caption in the EXTRA_TITLE field");
+				share.putExtra(Intent.EXTRA_TEXT,
+						"Click here: http://trailguide.storymakers.com/story?id=" + story.getObjectId());
+
+				// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+				try {
+					v.getContext().startActivity(
+							Intent.createChooser(share, "Send Image."));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				
+			}
+		});
+				
+	
 	}
 }

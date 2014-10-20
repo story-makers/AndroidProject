@@ -50,7 +50,11 @@ public class TrailGuideApplication extends Application {
 		}
 		return loggedInUser;
 	}
-
+	
+	public static void logOutCurrentUser(){
+		loggedInUser = null;
+		ParseUser.logOut();
+	}
 	public static Boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
