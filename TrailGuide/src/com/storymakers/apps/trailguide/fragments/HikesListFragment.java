@@ -19,6 +19,7 @@ public class HikesListFragment extends Fragment {
 	private ArrayList<TGStory> stories;
 	protected eu.erikw.PullToRefreshListView lvHikesList;
 	private HikeArrayAdapter hikesListAdapter;
+	private Boolean deleteActionAllowed = false;
 	// private SwipeRefreshLayout swipeContainer;
 
 	private OnListItemClickListener listener;
@@ -72,6 +73,14 @@ public class HikesListFragment extends Fragment {
 
 	public void clear() {
 		hikesListAdapter.clear();
+	}
+
+	public Boolean getDeleteActionAllowed() {
+		return deleteActionAllowed;
+	}
+
+	public void setDeleteActionAllowed(Boolean deleteActionAllowed) {
+		this.deleteActionAllowed = deleteActionAllowed;
 	}
 
 }
