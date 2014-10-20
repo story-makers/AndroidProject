@@ -17,7 +17,6 @@ import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 
-
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 	public enum StoryType {
@@ -144,6 +143,12 @@ public class TGStory extends ParseObject {
 			@Override
 			public void done(List<TGPost> objs) {
 				TGStory.this.posts.addAll(objs);
+				for (TGPost p : objs) {
+					if (p.getType() == PostType.REFERENCEDSTORY) {
+						TGStory.this.referenced_stories.add(p
+								.getReferencedStory());
+					}
+				}
 				if (handle != null) {
 					handle.done(objs);
 				}
@@ -161,9 +166,18 @@ public class TGStory extends ParseObject {
 	}
 
 	public void addLike(ProgressNotificationHandler progress) {
-		if(progress != null)
+		if (progress != null)
 			progress.beginAction();
 		increment("likes");
+		saveData();
+		if (progress != null)
+			progress.endAction();
+	}
+
+	public void addRefs(ProgressNotificationHandler progress) {
+		if (progress != null)
+			progress.beginAction();
+		increment("refs");
 		saveData();
 		if (progress != null)
 			progress.endAction();
@@ -177,14 +191,19 @@ public class TGStory extends ParseObject {
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}
+		if (p.getType() == PostType.REFERENCEDSTORY)
+			this.referenced_stories.add(p.getReferencedStory());
 	}
 
 	/* returns number of items to save. */
 	public int completeStory(final UploadProgressHandler uploadProgressHandler) {
 		/* add logic to compute hike time */
+		computeDuration();
 		/* add loop over posts to find cover photos */
+		verifyCoverPhoto();
 		/* add logic for finding distance in hike */
-		
+		updateDistance();
+
 		setState(StoryType.COMPLETE);
 		setEndDate(new Date());
 		final int total_items = 1 + this.posts.size(); // for the story itself
@@ -196,19 +215,41 @@ public class TGStory extends ParseObject {
 					uploadProgressHandler.progress(1);
 			}
 		};
-		
+
 		saveAllInBackground(this.posts, cb);
 		saveInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException arg0) {
-				
+
 				if (uploadProgressHandler != null) {
 					uploadProgressHandler.complete();
 				}
 			}
 		});
 		return total_items;
+	}
+
+	private void updateDistance() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void computeDuration() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void verifyCoverPhoto() {
+		if (getCoverPhotoURL().length() > 0)
+			return;
+		for (TGPost p : this.posts){
+			if (p.getType() == PostType.PHOTO){
+				if (p.getPhoto_url() != null & p.getPhoto_url().length() > 0){
+					this.setCoverPhotoURL(p.getPhoto_url());
+				}
+			}
+		}
 	}
 
 	public void saveData() {

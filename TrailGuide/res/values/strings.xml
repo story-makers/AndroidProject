@@ -17,6 +17,7 @@
     <string name="end_label">End</string>
     <string name="object_key">OBJECT</string>
     <string name="view_holder_key">VIEW_HOLDER</string>
+    <string name="intent_key_add_ref">add_reference_story</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="caption">Caption</string>
