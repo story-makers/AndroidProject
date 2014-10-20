@@ -25,6 +25,7 @@ public class TGStory extends ParseObject {
 
 	public final String KEY_BEGINDATE = "beginDate";
 	public final String KEY_ENDDATE = "endDate";
+	public final String KEY_POST_SEQUENCE_NUM = "postSequenceGenerationId";
 	// VP: TODO need to follow this method for all fields
 
 	private String title;
@@ -50,6 +51,7 @@ public class TGStory extends ParseObject {
 		story.setTitle(title);
 		story.setCreator(creator);
 		story.setLikes(0);
+		story.setPostSequenceGeneration(5);
 		story.setRefs(0);
 		/*
 		 * LocationCallback cb = new LocationCallback() {
@@ -106,7 +108,14 @@ public class TGStory extends ParseObject {
 	public long getLikes() {
 		return getLong("likes");
 	}
-
+	
+	private long getPostSequenceGeneration(){
+		increment(KEY_POST_SEQUENCE_NUM);
+		return getLong(KEY_POST_SEQUENCE_NUM);
+	}
+	private void setPostSequenceGeneration(long num){
+		put(KEY_POST_SEQUENCE_NUM, num);
+	}
 	public void setLikes(long likes) {
 		this.likes = likes;
 		put("likes", likes);
@@ -189,14 +198,15 @@ public class TGStory extends ParseObject {
 			progress.endAction();
 	}
 
-	private long getGeneratedSequenceId() {
-		return (1 + this.posts.size());
-	}
 
 	public void addPost(TGPost p, ProgressNotificationHandler progress) {
 		if (hasPreamble && p.getType() == PostType.PREAMBLE) {
 			Log.e("FATAL", "Die. You cannot have multiple preambles");
 			return;
+		}
+		if (p.getType() == PostType.REFERENCEDSTORY){
+			this.referenced_stories.add(p.getReferencedStory());
+			/* TO BE FIXED: Add logic for de duplication of referenced story*/
 		}
 
 		this.posts.add(p);
@@ -206,14 +216,13 @@ public class TGStory extends ParseObject {
 			p.setSequenceId(1);
 			hasPreamble = true;
 		} else
-			p.setSequenceId(getGeneratedSequenceId());
+			p.setSequenceId(getPostSequenceGeneration());
 		
 		p.saveData(progress);
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}
-		if (p.getType() == PostType.REFERENCEDSTORY)
-			this.referenced_stories.add(p.getReferencedStory());
+		saveData();
 	}
 
 	/* returns number of items to save. */

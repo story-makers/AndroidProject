@@ -29,6 +29,26 @@ public class RemoteDBClient {
 		query.findInBackground(callback);
 	}
 
+	public static void getStoriesBySearchString(FindCallback<TGStory> callback,
+			TGUser user, int from, int limit, String searchQry){
+		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
+		query.orderByDescending("createdAt");
+		query.whereEqualTo("state", "COMPLETE");
+		if (from != 0) {
+			query.setSkip(from);
+		}
+		if (limit != 0) {
+			query.setLimit(limit);
+		}
+		if (user != null) {
+			query.whereEqualTo("creator", user.getUserIdentity());
+		}
+		if (searchQry != null && searchQry.length() >0){
+			query.whereContains("title", searchQry);
+		}
+
+		query.findInBackground(callback);
+	}
 	/* Call only after you have the story in cache */
 	public static TGStory getStoryById(String objectId) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
@@ -61,8 +81,11 @@ public class RemoteDBClient {
 	}
 
 	public static void getStories(FindCallback<TGStory> callback, int from,
-			int limit) {
-		getStoriesByUser(callback, null, from, limit);
+			int limit, String searchString) {
+		if (searchString == null)
+			getStoriesByUser(callback, null, from, limit);
+		else 
+			getStoriesBySearchString(callback, null, from, limit, searchString);
 	}
 
 
