@@ -20,49 +20,7 @@
         android:textColor="#ffffff"
         android:layout_marginTop="5dp" />
 
-	<LinearLayout
-	    android:id="@+id/llNewPostToolBar"
-	    android:layout_above="@id/btnCreateStory"
-	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentRight="true"
-	    android:layout_height="40dp"
-	    android:layout_width="match_parent"
-	    android:background="#a6ffffff"
-	    android:layout_marginLeft="5dp"
-	    android:layout_marginRight="5dp"
-	    android:layout_marginTop="5dp"
-	    android:orientation="horizontal" >
-
-		<ImageView
-		    android:id="@+id/ivNoteIcon"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:layout_gravity="center"
-		    android:src="@drawable/ic_note_icon"
-		    android:onClick="onAddNote" />
-
-		<ImageView
-		    android:id="@+id/ivCameraIcon"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		     android:layout_weight="1"
-		    android:layout_gravity="center"
-		    android:src="@drawable/ic_camera"
-		    android:onClick="onLaunchCamera" />
-
-		<ImageView
-		    android:id="@+id/ivGeoIcon"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:layout_gravity="center"
-		    android:src="@drawable/ic_geo_icon"
-		    android:onClick="onRecordLocation" />
-	    
-	</LinearLayout>
-
-    <fragment
+    <!-- <fragment
         android:id="@+id/fragmentPostList"
         android:name="com.storymakers.apps.trailguide.fragments.PostListFragment"
         android:layout_width="match_parent"
@@ -70,7 +28,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/llNewPostToolBar"
-        tools:layout="@layout/fragment_post_list" />
+        android:layout_above="@id/flCreateContainer"
+        tools:layout="@layout/fragment_post_list" /> -->
+
+    <FrameLayout
+        android:id="@+id/flCreateContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnCreateStory"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+    </FrameLayout>
 
 </RelativeLayout>

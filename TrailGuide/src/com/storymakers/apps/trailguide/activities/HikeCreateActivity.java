@@ -2,6 +2,8 @@ package com.storymakers.apps.trailguide.activities;
 
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,20 +24,23 @@ import com.parse.ParseException;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.fragments.CreateDialogFragment;
-import com.storymakers.apps.trailguide.fragments.PostListFragment;
+import com.storymakers.apps.trailguide.fragments.CustomMapFragment;
+import com.storymakers.apps.trailguide.fragments.HikeCreateTimelineFragment;
+import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
+import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
-import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeCreateActivity extends FragmentActivity implements
-		CreateDialogFragment.OnDialogDoneListener {
+		CreateDialogFragment.OnDialogDoneListener,
+		StoryMapFragment.onGoogleMapCreationListener {
 
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -48,8 +52,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
-	private PostListFragment postListFragment;
-	private ProgressNotificationHandler progressbar;
+	
+	
 	private boolean returnFromCamera;
 	private boolean referencedStoryRequested;
 	private String referencedStoryObjectId;
@@ -65,27 +69,46 @@ public class HikeCreateActivity extends FragmentActivity implements
 			referencedStoryObjectId = getIntent().getStringExtra(
 					getString(R.string.intent_key_add_ref));
 		}
-		progressbar = new ProgressNotificationHandler() {
-
-			@Override
-			public void endAction() {
-				Log.i("CREATE_PROGRESS", "Progress is complete");
-				Toast.makeText(HikeCreateActivity.this, "Item Saved",
-						Toast.LENGTH_SHORT).show();
-			}
-
-			@Override
-			public void beginAction() {
-				Log.i("CREATE_PROGRESS", "Begin progress bar");
-
-			}
-		};
+		
 		user = TrailGuideApplication.getCurrentUser();
 
-		postListFragment = (PostListFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.fragmentPostList);
 		findDraftStory();
 		initializeViews();
+		setupTabs();
+	}
+
+	private void setupTabs() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(true);
+
+		Bundle fragmentArgs = new Bundle();
+		fragmentArgs.putString("hike", getIntent().getStringExtra("hike"));
+		fragmentArgs.putString(getString(R.string.map_context_key),
+				getString(R.string.create_hike_context));
+
+		Tab hikeCreateTimelineTab = actionBar
+				.newTab()
+				.setText("Timeline")
+				.setTag("HikeCreateTimelineFragment")
+				.setTabListener(
+						new FragmentTabListener<HikeCreateTimelineFragment>(
+								R.id.flCreateContainer, this, "timeline",
+								HikeCreateTimelineFragment.class, fragmentArgs));
+
+		actionBar.addTab(hikeCreateTimelineTab);
+		actionBar.selectTab(hikeCreateTimelineTab);
+
+		Tab storyMapTab = actionBar
+				.newTab()
+				.setText("Map")
+				.setTag("StoryMapFragment")
+				.setTabListener(
+						new FragmentTabListener<StoryMapFragment>(
+								R.id.flCreateContainer, this, "map",
+								StoryMapFragment.class, fragmentArgs));
+		actionBar.addTab(storyMapTab);
+
 	}
 
 	private void findDraftStory() {
@@ -98,18 +121,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null && arg0.size() > 0) {
 					story = arg0.get(0);
-					story.getPosts(new PostListDownloadCallback() {
-
-						@Override
-						public void fail(String reason) {
-							Log.e("ERROR", reason);
-						}
-
-						@Override
-						public void done(List<TGPost> objs) {
-							postListFragment.addAll(objs);
-						}
-					});
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
 					addReferencedStory(story, addRefProgressHandler);
@@ -187,8 +198,9 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	@Override
 	public void onDone(TGPost post) {
-		story.addPost(post, progressbar);
-		postListFragment.addPost(post);
+		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
+				.findFragmentByTag("timeline");
+		fragment.addPost(post);
 		Toast.makeText(this, "Saved a " + post.getType().toString(),
 				Toast.LENGTH_SHORT).show();
 	}
@@ -273,5 +285,12 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public static Intent getIntentForCreateStory(Context ctx) {
 		Intent i = new Intent(ctx, CreateStoryDispatchActivity.class);
 		return i;
+	}
+
+	@Override
+	public void onGoogleMapCreation(CustomMapFragment mapFragment,
+			StoryMapFragment storyFragment) {
+		// TODO Auto-generated method stub
+		
 	}
 }

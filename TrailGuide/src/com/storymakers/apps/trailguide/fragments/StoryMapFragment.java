@@ -55,7 +55,15 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		GoogleMap mMap = mapFragment.getMap();
 		Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
 		initializeMap();
-		getPosts();
+		getStory();
+		getPosts(story, R.color.black);
+		if (getArguments().containsKey(getString(R.string.map_context_key))
+				&& getArguments().getString(getString(R.string.map_context_key)) == getString(R.string.create_hike_context)) {
+			ArrayList<TGStory> referencedStories = story.getReferencedStories();
+			for (TGStory refStory : referencedStories) {
+				getPosts(refStory, R.color.blue);
+			}
+		}
 	}
 
 	@Override
@@ -87,14 +95,8 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater
-				.inflate(R.layout.fragment_story_map, container, false /*
-																		 * don't
-																		 * attach
-																		 * to
-																		 * container
-																		 * yet
-																		 */);
+		View v = inflater.inflate(R.layout.fragment_story_map, container,
+				false /* don't attach to container yet */);
 		setupMapFragment();
 		return v;
 	}
@@ -119,9 +121,6 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		if (mapFragment != null) {
 			map = mapFragment.getMap();
 			if (map != null) {
-				// Toast.makeText(getActivity(),
-				// "Map Fragment was loaded properly!",
-				// Toast.LENGTH_SHORT).show();
 				map.setMyLocationEnabled(true);
 				map.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
 				// TODO: if needed set onInfoWindowClickListener to navigate to
@@ -136,23 +135,8 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		}
 	}
 
-	public void getPosts() {
+	public void getPosts(TGStory story, final int color) {
 		// replace logic with data from intent / bundle args
-		/*
-		 * posts = new ArrayList<TGPost>(); posts.add(new TGPost(38.0423209,
-		 * -122.8579315)); posts.add(new TGPost(38.0379302,-122.8564391));
-		 * posts.add(new TGPost(38.0362427,-122.8558596)); posts.add(new
-		 * TGPost(38.0351291,-122.856799)); posts.add(new
-		 * TGPost(38.0283639,-122.8588262)); posts.add(new
-		 * TGPost(38.0219532,-122.8579237)); posts.add(new
-		 * TGPost(38.0191769,-122.8565391)); posts.add(new
-		 * TGPost(38.0180459,-122.8582825)); posts.add(new
-		 * TGPost(38.0180459,-122.8582825)); posts.add(new
-		 * TGPost(38.015647,-122.8583851)); posts.add(new
-		 * TGPost(38.015647,-122.8583851)); posts.add(new
-		 * TGPost(38.0185489,-122.8625654));
-		 */
-		getStory();
 		story.getPosts(new PostListDownloadCallback() {
 			@Override
 			public void fail(String reason) {
@@ -165,7 +149,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				posts = new ArrayList<TGPost>();
 				posts.addAll(objs);
 				zoomToHikeStartPoint();
-				addPostsToMap();
+				addPostsToMap(color);
 			}
 		});
 	}
@@ -186,10 +170,10 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		story = RemoteDBClient.getStoryById(storyId);
 	}
 
-	private void addPostsToMap() {
+	private void addPostsToMap(int color) {
 		ParseGeoPoint lastGeoPoint = null;
 		Marker lastMarker = null;
-		PolylineOptions path = new PolylineOptions().geodesic(true);
+		PolylineOptions path = new PolylineOptions().geodesic(true).color(color);
 		for (int i = 0; i < posts.size(); i++) {
 			ParseGeoPoint point = posts.get(i).getLocation();
 			if (point == null

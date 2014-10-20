@@ -13,24 +13,39 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
-import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 
-public class StoryDetailFragment extends Fragment {
-	TGStory story;
+public class HikeCreateTimelineFragment extends Fragment {
+	private ProgressNotificationHandler progressbar;
+	private TGStory story;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		progressbar = new ProgressNotificationHandler() {
+
+			@Override
+			public void endAction() {
+				Log.i("CREATE_PROGRESS", "Progress is complete");
+				Toast.makeText(HikeCreateTimelineFragment.this.getActivity(), "Item Saved",
+						Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void beginAction() {
+				Log.i("CREATE_PROGRESS", "Begin progress bar");
+			}
+		};
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_story_detail, container,
+		View v = inflater.inflate(R.layout.fragment_hike_create, container,
 				false);
 		getStory();
 		setupListFragment();
@@ -56,10 +71,16 @@ public class StoryDetailFragment extends Fragment {
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
 				// Added post for cover photo.
-				fragment.addPost(TGPost.createNewPost(story, PostType.PREAMBLE));
 				fragment.addAll(objs);
 			}
 		});
+	}
+
+	public void addPost(TGPost post) {
+		PostListFragment fragment = (PostListFragment) getChildFragmentManager()
+				.findFragmentByTag("post_list_fragment");
+		story.addPost(post, progressbar);
+		fragment.addPost(post);
 	}
 
 	private void getStory() {

@@ -27,5 +27,7 @@
     <string name="edit_note">Edit Note</string>
     <string name="add_photo">Add Photo</string>
     <string name="hike_coverphoto_description">Hike Cover photo</string>
+    <string name="map_context_key">MAP_CONTEXT</string>
+    <string name="create_hike_context">create_hike</string>
 
 </resources>
