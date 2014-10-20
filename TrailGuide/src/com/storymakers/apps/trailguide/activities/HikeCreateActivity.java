@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,7 +74,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 		findDraftStory();
 		initializeViews();
-		setupTabs();
 	}
 
 	private void setupTabs() {
@@ -124,15 +122,14 @@ public class HikeCreateActivity extends FragmentActivity implements
 					story = arg0.get(0);
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
-					
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
 					story = TGDraftStories.getInstance().createNewDraft(user,
 							"New Hike");
 					showCreateDialog(PostType.METADATA, story.getTitle());
-					addReferencedStory(story, addRefProgressHandler);
 				}
+				addReferencedStory(story, addRefProgressHandler);
 				d.cancel();
 			}
 		});
@@ -140,8 +137,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private void addReferencedStory(TGStory story,
 			final ProgressNotificationHandler handler) {
-		if (referencedStoryRequested == false)
+		if (referencedStoryRequested == false) {
+			setupTabs();
 			return;
+		}
 		if (handler != null)
 			handler.beginAction();
 		TGPost p = TGPost.createNewPost(story, PostType.REFERENCEDSTORY);
@@ -152,8 +151,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 			@Override
 			public void endAction() {
-				if (handler != null)
+				if (handler != null) {
 					handler.endAction();
+					setupTabs();
+				}
 			}
 
 			@Override
@@ -161,7 +162,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 			}
 		});
-		postListFragment.addPost(p);
 	}
 
 	private void showCreateDialog(PostType type, String content) {

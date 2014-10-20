@@ -15,9 +15,11 @@ import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.HikeArrayAdapter;
 import com.storymakers.apps.trailguide.model.TGStory;
 
+import eu.erikw.PullToRefreshListView;
+
 public class HikesListFragment extends Fragment {
 	private ArrayList<TGStory> stories;
-	protected eu.erikw.PullToRefreshListView lvHikesList;
+	protected PullToRefreshListView lvHikesList;
 	private HikeArrayAdapter hikesListAdapter;
 	// private SwipeRefreshLayout swipeContainer;
 
@@ -33,7 +35,7 @@ public class HikesListFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_hikes_list, container,
 				false /* don't attach to container yet */);
 		// Assign view preferences
-		lvHikesList = (eu.erikw.PullToRefreshListView) v
+		lvHikesList = (PullToRefreshListView) v
 				.findViewById(R.id.lvHikesList);
 		lvHikesList.setAdapter(hikesListAdapter);
 		// setupScrollListener();

@@ -171,6 +171,9 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	}
 
 	private void addPostsToMap(int color) {
+		if (posts == null) {
+			return;
+		}
 		ParseGeoPoint lastGeoPoint = null;
 		Marker lastMarker = null;
 		PolylineOptions path = new PolylineOptions().geodesic(true).color(color);
@@ -195,7 +198,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				list.add(posts.get(i));
 				markerData.put(lastMarker, list);
 				path.add(new LatLng(point.getLatitude(), point.getLongitude()));
-			} else if (i == posts.size() - 1) {
+			} /*else if (i == posts.size() - 1) {
 				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
 					lastMarker = map
 							.addMarker(new MarkerOptions()
@@ -215,7 +218,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				} else {
 					markerData.get(lastMarker).add(posts.get(i));
 				}
-			} else {
+			}*/ else {
 				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
 					lastMarker = map.addMarker(new MarkerOptions()
 							.icon(BitmapDescriptorFactory
