@@ -108,11 +108,12 @@ public class HikeCreateActivity extends FragmentActivity implements
 						@Override
 						public void done(List<TGPost> objs) {
 							postListFragment.addAll(objs);
+							addReferencedStory(story, addRefProgressHandler);
 						}
 					});
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
-					addReferencedStory(story, addRefProgressHandler);
+					
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
