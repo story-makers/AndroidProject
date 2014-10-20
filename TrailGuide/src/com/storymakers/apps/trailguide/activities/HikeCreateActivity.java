@@ -149,6 +149,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 			}
 		});
+		postListFragment.addPost(p);
 	}
 
 	private void showCreateDialog(PostType type, String content) {
