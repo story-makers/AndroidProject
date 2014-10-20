@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.CustomMapFragment;
@@ -21,12 +25,25 @@ public class HikeDetailsActivity extends FragmentActivity implements
 		onGoogleMapCreationListener {
 
 	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
+	private Button btnAddToHike;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_details);
 		setupTabs();
+		btnAddToHike = (Button) findViewById(R.id.btnAddToMyHike);
+		final String requestedHikeObjectId = getIntent().getStringExtra("hike");
+		btnAddToHike.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.d("cliked", "am being asked to add to hike");
+				Intent i = HikeCreateActivity.getIntentForCreateStory(HikeDetailsActivity.this);
+				i.putExtra(getString(R.string.intent_key_add_ref), requestedHikeObjectId);
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override
@@ -77,14 +94,14 @@ public class HikeDetailsActivity extends FragmentActivity implements
 								R.id.flContainer, this, "mentions",
 								StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
-		
+
 	}
 
 	@Override
 	public void onGoogleMapCreation(CustomMapFragment mapFragment,
 			StoryMapFragment storyFragment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static Intent getIntentForStory(Context ctx, TGStory story) {
@@ -93,11 +110,11 @@ public class HikeDetailsActivity extends FragmentActivity implements
 		return i;
 	}
 
-	/*private void setupFragment() {
-		
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		StoryDetailFragment storyDetails = new StoryDetailFragment();
-		ft.replace(R.id.flContainer, storyDetails);
-		ft.commit();
-	}*/
+	/*
+	 * private void setupFragment() {
+	 * 
+	 * FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+	 * StoryDetailFragment storyDetails = new StoryDetailFragment();
+	 * ft.replace(R.id.flContainer, storyDetails); ft.commit(); }
+	 */
 }

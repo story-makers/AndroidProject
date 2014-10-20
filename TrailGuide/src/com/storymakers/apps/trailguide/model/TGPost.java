@@ -40,6 +40,7 @@ public class TGPost extends ParseObject {
 
 	public static final String KEY_POST_SEQUENCE = "seq_id";
 	public static final String KEY_POST_TYPE = "postType";
+	public static final String KEY_REF_STORY = "referencedStory";
 
 	int type;
 
@@ -80,6 +81,7 @@ public class TGPost extends ParseObject {
 		post.setType(type);
 		post.setNote("");
 		post.setPhoto_url("");
+		post.setReferencedStory(null);
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
 		TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
@@ -193,6 +195,9 @@ public class TGPost extends ParseObject {
 		if (t == PostType.METADATA.getNumVal()) {
 			return PostType.METADATA;
 		}
+		if (t == PostType.REFERENCEDSTORY.getNumVal()) {
+			return PostType.REFERENCEDSTORY;
+		}
 		if (t == PostType.LOCATION.getNumVal()) {
 			return PostType.LOCATION;
 		}
@@ -252,5 +257,18 @@ public class TGPost extends ParseObject {
 		}
 		return "";
 	}
-	
+
+	public void setReferencedStory(TGStory refedStory) {
+		if (getType() != PostType.REFERENCEDSTORY)
+			return;
+		put(KEY_REF_STORY, refedStory);
+		
+	}
+	public TGStory getReferencedStory(){
+		if (!containsKey(KEY_REF_STORY))
+			return null;
+		if (get(KEY_REF_STORY) != null)
+			return (TGStory)get(KEY_REF_STORY);
+		return null;
+	}
 }

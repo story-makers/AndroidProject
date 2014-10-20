@@ -51,27 +51,37 @@ public class HikeCreateActivity extends FragmentActivity implements
 	private PostListFragment postListFragment;
 	private ProgressNotificationHandler progressbar;
 	private boolean returnFromCamera;
+	private boolean referencedStoryRequested;
+	private String referencedStoryObjectId;
+	private ProgressNotificationHandler addRefProgressHandler = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_create);
+		referencedStoryRequested = getIntent().hasExtra(
+				getString(R.string.intent_key_add_ref));
+		if (referencedStoryRequested) {
+			referencedStoryObjectId = getIntent().getStringExtra(
+					getString(R.string.intent_key_add_ref));
+		}
 		progressbar = new ProgressNotificationHandler() {
-			
+
 			@Override
 			public void endAction() {
 				Log.i("CREATE_PROGRESS", "Progress is complete");
-				Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+				Toast.makeText(HikeCreateActivity.this, "Item Saved",
+						Toast.LENGTH_SHORT).show();
 			}
-			
+
 			@Override
 			public void beginAction() {
 				Log.i("CREATE_PROGRESS", "Begin progress bar");
-				
+
 			}
 		};
 		user = TrailGuideApplication.getCurrentUser();
-		
+
 		postListFragment = (PostListFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.fragmentPostList);
 		findDraftStory();
@@ -83,50 +93,79 @@ public class HikeCreateActivity extends FragmentActivity implements
 		d.setTitle("Looking for drafts...");
 		d.show();
 		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
-			
+
 			@Override
 			public void done(List<TGStory> arg0, ParseException arg1) {
-				if (arg1 == null && arg0.size() > 0){
+				if (arg1 == null && arg0.size() > 0) {
 					story = arg0.get(0);
 					story.getPosts(new PostListDownloadCallback() {
-						
+
 						@Override
 						public void fail(String reason) {
 							Log.e("ERROR", reason);
 						}
-						
+
 						@Override
 						public void done(List<TGPost> objs) {
 							postListFragment.addAll(objs);
 						}
 					});
-					HikeCreateActivity.this.getActionBar().setTitle(story.getTitle());
+					HikeCreateActivity.this.getActionBar().setTitle(
+							story.getTitle());
+					addReferencedStory(story, addRefProgressHandler);
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
-					story = TGDraftStories.getInstance().createNewDraft(user, "New Hike");
+					story = TGDraftStories.getInstance().createNewDraft(user,
+							"New Hike");
 					showCreateDialog(PostType.METADATA, story.getTitle());
+					addReferencedStory(story, addRefProgressHandler);
 				}
 				d.cancel();
 			}
 		});
 	}
 
-	private void showCreateDialog(PostType type, String content) {
-		FragmentManager fm = getSupportFragmentManager();
-	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(
-	    		type.getNumVal(), content);
-	    createDialogFragment.show(fm, "fragment_create_dialog");
+	private void addReferencedStory(TGStory story,
+			final ProgressNotificationHandler handler) {
+		if (referencedStoryRequested == false)
+			return;
+		if (handler != null)
+			handler.beginAction();
+		TGPost p = TGPost.createNewPost(story, PostType.REFERENCEDSTORY);
+		TGStory refedStory = RemoteDBClient
+				.getStoryById(referencedStoryObjectId);
+		p.setReferencedStory(refedStory);
+		story.addPost(p, new ProgressNotificationHandler() {
+
+			@Override
+			public void endAction() {
+				if (handler != null)
+					handler.endAction();
+			}
+
+			@Override
+			public void beginAction() {
+
+			}
+		});
 	}
 
-	/* When we edit a post...
-	private void showCreateDialog(TGPost post) {
+	private void showCreateDialog(PostType type, String content) {
 		FragmentManager fm = getSupportFragmentManager();
-		FragmentManager.enableDebugLogging(true);
-	    CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(post);
-	    createDialogFragment.show(fm, "fragment_create_dialog");
-	}*/
-	
+		CreateDialogFragment createDialogFragment = CreateDialogFragment
+				.newInstance(type.getNumVal(), content);
+		createDialogFragment.show(fm, "fragment_create_dialog");
+	}
+
+	/*
+	 * When we edit a post... private void showCreateDialog(TGPost post) {
+	 * FragmentManager fm = getSupportFragmentManager();
+	 * FragmentManager.enableDebugLogging(true); CreateDialogFragment
+	 * createDialogFragment = CreateDialogFragment.newInstance(post);
+	 * createDialogFragment.show(fm, "fragment_create_dialog"); }
+	 */
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -150,7 +189,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public void onDone(TGPost post) {
 		story.addPost(post, progressbar);
 		postListFragment.addPost(post);
-		Toast.makeText(this, "Saved a " + post.getType().toString(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Saved a " + post.getType().toString(),
+				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -176,7 +216,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 					public void complete() {
 						Toast.makeText(HikeCreateActivity.this, "complete",
 								Toast.LENGTH_SHORT).show();
-						Intent i = HikeDetailsActivity.getIntentForStory(HikeCreateActivity.this, story);
+						Intent i = HikeDetailsActivity.getIntentForStory(
+								HikeCreateActivity.this, story);
 						HikeCreateActivity.this.startActivity(i);
 						HikeCreateActivity.this.finish();
 					}
