@@ -41,8 +41,13 @@ public class SearchHikesFragment extends HikesListFragment {
 		return v;
 	}
 
-	public void onSearchSubmit(String string) {
-		populateHikesList(DISPLAYMODES.SEARCH, string);
+	public void onSearchSubmit(String query) {
+		if (query == null)
+			return;
+		if (query.length() > 0)
+			populateHikesList(DISPLAYMODES.SEARCH, query);
+		else
+			populateHikesList(DISPLAYMODES.PULLTOREFRESH, query);
 	}
 
 	// TBD: modify function to pull only new data and accommodate search
@@ -70,6 +75,6 @@ public class SearchHikesFragment extends HikesListFragment {
 				}
 
 			}
-		}, 0, 0);
+		}, 0, 0, searchString);
 	}
 }
