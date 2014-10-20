@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -123,7 +124,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 					story = arg0.get(0);
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
-					addReferencedStory(story, addRefProgressHandler);
+					
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
@@ -160,6 +161,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 			}
 		});
+		postListFragment.addPost(p);
 	}
 
 	private void showCreateDialog(PostType type, String content) {

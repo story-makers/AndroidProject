@@ -35,9 +35,11 @@ public class TGStory extends ParseObject {
 	private ArrayList<TGStory> referenced_stories;
 	private Date beginDate, endDate;
 	private String coverPhotoURL;
+	private Boolean hasPreamble;
 
 	// DO Not modify. required by Parse SDK
 	public TGStory() {
+		hasPreamble = false;
 		posts = new ArrayList<TGPost>();
 		referenced_stories = new ArrayList<TGStory>();
 	}
@@ -148,6 +150,10 @@ public class TGStory extends ParseObject {
 						TGStory.this.referenced_stories.add(p
 								.getReferencedStory());
 					}
+
+					if (p.getType() == PostType.PREAMBLE) {
+						hasPreamble = true;
+					}
 				}
 				if (handle != null) {
 					handle.done(objs);
@@ -183,10 +189,25 @@ public class TGStory extends ParseObject {
 			progress.endAction();
 	}
 
+	private long getGeneratedSequenceId() {
+		return (1 + this.posts.size());
+	}
+
 	public void addPost(TGPost p, ProgressNotificationHandler progress) {
+		if (hasPreamble && p.getType() == PostType.PREAMBLE) {
+			Log.e("FATAL", "Die. You cannot have multiple preambles");
+			return;
+		}
+
 		this.posts.add(p);
 		p.setStory(this);
-		p.setSequenceId(this.posts.size());
+
+		if (p.getType() == PostType.PREAMBLE) {
+			p.setSequenceId(1);
+			hasPreamble = true;
+		} else
+			p.setSequenceId(getGeneratedSequenceId());
+		
 		p.saveData(progress);
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
@@ -197,7 +218,10 @@ public class TGStory extends ParseObject {
 
 	/* returns number of items to save. */
 	public int completeStory(final UploadProgressHandler uploadProgressHandler) {
-		/* Add a preamble post when the story is complete to render the cover photo and details of story. */
+		/*
+		 * Add a preamble post when the story is complete to render the cover
+		 * photo and details of story.
+		 */
 		addPreamble();
 		/* add logic to compute hike time */
 		computeDuration();
@@ -250,9 +274,9 @@ public class TGStory extends ParseObject {
 	private void verifyCoverPhoto() {
 		if (getCoverPhotoURL().length() > 0)
 			return;
-		for (TGPost p : this.posts){
-			if (p.getType() == PostType.PHOTO){
-				if (p.getPhoto_url() != null & p.getPhoto_url().length() > 0){
+		for (TGPost p : this.posts) {
+			if (p.getType() == PostType.PHOTO) {
+				if (p.getPhoto_url() != null & p.getPhoto_url().length() > 0) {
 					this.setCoverPhotoURL(p.getPhoto_url());
 				}
 			}

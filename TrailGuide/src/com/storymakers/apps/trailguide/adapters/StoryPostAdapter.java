@@ -51,20 +51,20 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			ImageView ivPostPhoto = (ImageView) convertView
 					.findViewById(R.id.ivPostPhoto);
 			ivPostPhoto.setImageResource(android.R.color.transparent);
+			TextView tvPostNote = (TextView) convertView
+					.findViewById(R.id.tvPostNote);
+			if (tvPostNote != null && post.getNote() != null) {
+				tvPostNote.setText(post.getNote());
+			} else {
+				tvPostNote.setVisibility(View.GONE);
+				ivPostPhoto.setLayoutParams(getLayoutParams());
+			}
 			if (post.getLocalImagePath() != null) {
-				ivPostPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(
-						Uri.parse(post.getLocalImagePath())));
+				ivPostPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(Uri
+						.parse(post.getLocalImagePath())));
 			} else if (post.getPhoto_url().length() > 0) {
 				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
 
-				TextView tvPostNote = (TextView) convertView
-						.findViewById(R.id.tvPostNote);
-				if (tvPostNote != null && post.getNote() != null) {
-					tvPostNote.setText(post.getNote());
-				} else {
-					tvPostNote.setVisibility(View.GONE);
-					ivPostPhoto.setLayoutParams(getLayoutParams());
-				}
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
 			}
@@ -78,31 +78,40 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				tvPostNote.setVisibility(View.GONE);
 			}
 		}
-		if (type == TGPost.PostType.LOCATION.getNumVal()){
+		if (type == TGPost.PostType.LOCATION.getNumVal()) {
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
 			if (post.getNote() != null && post.getNote().length() > 0) {
 				tvPostNote.setText("Location marker:" + post.getNote());
 			} else {
-				tvPostNote.setText("Location marker: " + post.getLocationString());
+				tvPostNote.setText("Location marker: "
+						+ post.getLocationString());
 			}
 		}
 		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
-			setStoryAttributes(convertView, post);
+			setStoryAttributes(convertView, post.getStory());
+			ImageView ivLinkedStoryIcon = (ImageView) convertView.findViewById(R.id.ivLinkedStoryIcon);
+			ivLinkedStoryIcon.setVisibility(View.INVISIBLE);
+		}
+		if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
+			setStoryAttributes(convertView, post.getReferencedStory());
+			ImageView ivLinkedStoryIcon = (ImageView) convertView.findViewById(R.id.ivLinkedStoryIcon);
+			ivLinkedStoryIcon.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}
 
-	private void setStoryAttributes(View v, TGPost post) {
-		TGStory story = post.getStory();
+	private void setStoryAttributes(View v, TGStory story) {
+
 		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
 		final TextView tvLikes = (TextView) v.findViewById(R.id.tvLikes);
 		TextView tvRefs = (TextView) v.findViewById(R.id.tvRefs);
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-		
+
 		ivCoverPhoto.setImageResource(android.R.color.transparent);
-		ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(), ivCoverPhoto);
-		
+		ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
+				ivCoverPhoto);
+
 		tvLikes.setText(String.valueOf(story.getLikes()));
 		tvRefs.setText(String.valueOf(story.getRefs()));
 		tvTitle.setText(story.getTitle());
@@ -142,8 +151,12 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		} else if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_coverphoto, null);
+		} else if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_coverphoto, null);
 		} else {
-			return null;
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_null, null);
 		}
 	}
 
