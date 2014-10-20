@@ -15,11 +15,11 @@ import com.parse.SaveCallback;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 
-
-@ParseClassName("TGPost") 
+@ParseClassName("TGPost")
 public class TGPost extends ParseObject {
 	public enum PostType {
-		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3), PREAMBLE(4), REFERENCEDSTORY(5);
+		METADATA(0), NOTE(1), LOCATION(2), PHOTO(3), PREAMBLE(4), REFERENCEDSTORY(
+				5);
 
 		private int numVal;
 
@@ -64,12 +64,12 @@ public class TGPost extends ParseObject {
 		String retval = "Post (" + getObjectId() + ")";
 		ParseGeoPoint loc = getLocation();
 		if (loc != null) {
-			retval += "type: " + getType().getNumVal() + ", location: " + loc.getLatitude() + ", "
-					+ loc.getLongitude();
+			retval += "type: " + getType().getNumVal() + ", location: "
+					+ loc.getLatitude() + ", " + loc.getLongitude();
 		} else {
 			retval += "type: " + getType().getNumVal();
 		}
-		
+
 		if (getType() == PostType.PHOTO) {
 			retval = " " + getPhoto_url() + " " + retval;
 		}
@@ -85,12 +85,12 @@ public class TGPost extends ParseObject {
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
 		TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
-			
+
 			@Override
 			public void onFail() {
-				
+
 			}
-			
+
 			@Override
 			public void foundLocation(ParseGeoPoint point) {
 				post.setLocation(point.getLatitude(), point.getLongitude());
@@ -158,7 +158,7 @@ public class TGPost extends ParseObject {
 
 	private void setLocalPhotoURL(String encodedPath) {
 		this.localImagePath = encodedPath;
-		
+
 	}
 
 	public void setPhoto(byte[] imageData) {
@@ -212,7 +212,7 @@ public class TGPost extends ParseObject {
 	}
 
 	public void saveData(final ProgressNotificationHandler handle) {
-		if( handle != null) {
+		if (handle != null) {
 			handle.beginAction();
 		}
 		ParseFile p = getPhoto();
@@ -220,25 +220,25 @@ public class TGPost extends ParseObject {
 			p.saveInBackground();
 		}
 		this.pinInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException arg0) {
-				if (arg0 != null){
+				if (arg0 != null) {
 					arg0.printStackTrace();
-				}else {
-					if(handle != null)
+				} else {
+					if (handle != null)
 						handle.endAction();
 					TGPost.this.saveEventually();
 				}
-				
+
 			}
 		});
 	}
 
 	public String getLocationString() {
 		if (this.getLocation() != null) {
-			return "Lat: " + this.getLocation().getLatitude() +
-					"Lng: " + this.getLocation().getLongitude();
+			return "Lat: " + this.getLocation().getLatitude() + "Lng: "
+					+ this.getLocation().getLongitude();
 		}
 		return "";
 	}
@@ -246,14 +246,18 @@ public class TGPost extends ParseObject {
 	public void setReferencedStory(TGStory refedStory) {
 		if (getType() != PostType.REFERENCEDSTORY)
 			return;
-		put(KEY_REF_STORY, refedStory);
-		
+		if (refedStory != null) {
+			put(KEY_REF_STORY, refedStory);
+			refedStory.addRefs(null);
+		}
+
 	}
-	public TGStory getReferencedStory(){
+
+	public TGStory getReferencedStory() {
 		if (!containsKey(KEY_REF_STORY))
 			return null;
 		if (get(KEY_REF_STORY) != null)
-			return (TGStory)get(KEY_REF_STORY);
+			return (TGStory) get(KEY_REF_STORY);
 		return null;
 	}
 }
