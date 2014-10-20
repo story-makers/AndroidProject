@@ -66,8 +66,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 			
 			@Override
 			public void beginAction() {
-				Log.i("CREATE_PROGRESS", "Begin progress bar");
-				
+				Log.i("CREATE_PROGRESS", "Begin progress bar");				
 			}
 		};
 		user = TrailGuideApplication.getCurrentUser();

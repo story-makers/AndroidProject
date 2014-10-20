@@ -190,19 +190,7 @@ public class TGPost extends ParseObject {
 
 	public TGPost.PostType getType() {
 		int t = getInt(KEY_POST_TYPE);
-		if (t == PostType.METADATA.getNumVal()) {
-			return PostType.METADATA;
-		}
-		if (t == PostType.LOCATION.getNumVal()) {
-			return PostType.LOCATION;
-		}
-		if (t == PostType.PHOTO.getNumVal()) {
-			return PostType.PHOTO;
-		}
-		if (t == PostType.NOTE.getNumVal()) {
-			return PostType.NOTE;
-		}
-		return PostType.METADATA;
+		return PostType.values()[t];
 	}
 
 	public void setType(PostType t) {

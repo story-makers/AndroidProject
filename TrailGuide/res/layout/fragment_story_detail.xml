@@ -5,80 +5,13 @@
     android:layout_height="match_parent" >
 
     <FrameLayout
-        android:id="@+id/flCover"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
-
-        <ImageView
-            android:id="@+id/ivCoverPhoto"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_old" />
-
-        <RelativeLayout
-            android:id="@+id/rlStoryAttrs"
-            android:layout_width="match_parent"
-            android:layout_height="150dp" >
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/trip_title"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:typeface="sans" />
-
-            <TextView
-                android:id="@+id/tvRefs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/ic_pin"
-                android:drawablePadding="3dp"
-                android:text="@string/num_refs"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
-                android:typeface="monospace" />
-
-            <TextView
-                android:id="@+id/tvLikes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/tvRefs"
-                android:drawableLeft="@drawable/ic_like"
-                android:drawablePadding="3dp"
-                android:text="@string/num_refs"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
-                android:typeface="monospace" />
-        </RelativeLayout>
-    </FrameLayout>
-
-    <FrameLayout
         android:id="@+id/flContainerPosts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/flCover" >
+        android:layout_alignParentTop="true" >
     </FrameLayout>
 
 </RelativeLayout>
