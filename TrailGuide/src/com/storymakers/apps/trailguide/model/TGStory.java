@@ -197,6 +197,8 @@ public class TGStory extends ParseObject {
 
 	/* returns number of items to save. */
 	public int completeStory(final UploadProgressHandler uploadProgressHandler) {
+		/* Add a preamble post when the story is complete to render the cover photo and details of story. */
+		addPreamble();
 		/* add logic to compute hike time */
 		computeDuration();
 		/* add loop over posts to find cover photos */
@@ -228,6 +230,11 @@ public class TGStory extends ParseObject {
 			}
 		});
 		return total_items;
+	}
+
+	private void addPreamble() {
+		TGPost post = TGPost.createNewPost(this, TGPost.PostType.PREAMBLE);
+		this.addPost(post, null);
 	}
 
 	private void updateDistance() {
