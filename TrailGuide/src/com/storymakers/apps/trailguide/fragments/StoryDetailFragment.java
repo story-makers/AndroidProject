@@ -10,13 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
-import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class StoryDetailFragment extends Fragment {

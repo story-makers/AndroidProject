@@ -1,6 +1,5 @@
 package com.storymakers.apps.trailguide.fragments;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import com.parse.ParseException;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGStory;
-import com.storymakers.apps.trailguide.tbd.DummyData;
 
 public class UserHikesFragment extends HikesListFragment {
 	

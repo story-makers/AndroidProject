@@ -78,7 +78,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 			@Override
 			public void endAction() {
 				Log.i("CREATE_PROGRESS", "Progress is complete");
-				Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+				/*Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();*/
 			}
 
 			@Override
@@ -134,9 +134,9 @@ public class HikeCreateActivity extends FragmentActivity implements
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null && arg0.size() > 0) {
 					story = arg0.get(0);
-					Toast.makeText(HikeCreateActivity.this,
+					/*.makeText(HikeCreateActivity.this,
 							"Story found: " + story.getObjectId(),
-							Toast.LENGTH_SHORT).show();
+							Toast.LENGTH_SHORT).show();*/
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
 					setupTabs(story.getObjectId());
@@ -244,11 +244,11 @@ public class HikeCreateActivity extends FragmentActivity implements
 				"Saved a " + post.getType().toString() + " story: "
 						+ post.getStory().getObjectId() + " activity story: "
 						+ story.getObjectId());
-		Toast.makeText(
+		/*Toast.makeText(
 				this,
 				"Saved a " + post.getType().toString() + " story: "
 						+ post.getStory().getObjectId() + " activity story: "
-						+ story.getObjectId(), Toast.LENGTH_SHORT).show();
+						+ story.getObjectId(), Toast.LENGTH_SHORT).show();*/
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 					@Override
 					public void complete() {
-						Toast.makeText(HikeCreateActivity.this, "complete",
+						Toast.makeText(HikeCreateActivity.this, "Story completed",
 								Toast.LENGTH_SHORT).show();
 						Intent i = HikeDetailsActivity.getIntentForStory(
 								HikeCreateActivity.this, story);
@@ -313,8 +313,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 			if (resultCode == RESULT_OK) {
 				returnFromCamera = true;
 			} else { // Result was a failure
-				Toast.makeText(this, "Picture wasn't taken!",
-						Toast.LENGTH_SHORT).show();
+				/*Toast.makeText(this, "Picture wasn't taken!",
+						Toast.LENGTH_SHORT).show();*/
 			}
 		}
 	}

@@ -54,7 +54,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	@Override
 	public void onMapReady() {
 		GoogleMap mMap = mapFragment.getMap();
-		Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
 		initializeMap();
 		getStory();
 		getPosts(story, Color.rgb(0, 0, 255));
@@ -127,12 +127,12 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				// TODO: if needed set onInfoWindowClickListener to navigate to
 				// the specific item in timeline.
 			} else {
-				Toast.makeText(getActivity(), "Error - Map was null!!",
-						Toast.LENGTH_SHORT).show();
+				/*Toast.makeText(getActivity(), "Error - Map was null!!",
+						Toast.LENGTH_SHORT).show();*/
 			}
 		} else {
-			Toast.makeText(getActivity(), "Error - Map Fragment was null!!",
-					Toast.LENGTH_SHORT).show();
+			/*Toast.makeText(getActivity(), "Error - Map Fragment was null!!",
+					Toast.LENGTH_SHORT).show();*/
 		}
 	}
 
