@@ -58,6 +58,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	private boolean referencedStoryRequested;
 	private String referencedStoryObjectId;
 	private ProgressNotificationHandler addRefProgressHandler = null;
+	private ProgressNotificationHandler progressbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,19 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 		user = TrailGuideApplication.getCurrentUser();
 
+		progressbar = new ProgressNotificationHandler() {
+
+			@Override
+			public void endAction() {
+				Log.i("CREATE_PROGRESS", "Progress is complete");
+				Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void beginAction() {
+				Log.i("CREATE_PROGRESS", "Begin progress bar");
+			}
+		};
 		findDraftStory();
 		initializeViews();
 	}
@@ -222,9 +236,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	@Override
 	public void onDone(TGPost post) {
+		story.addPost(post, progressbar);
 		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
 				.findFragmentByTag("timeline");
-		fragment.addPost(post);
+		fragment.addPostToList(post);
 		Log.d("DEBUG",
 				"Saved a " + post.getType().toString() + " story: "
 						+ post.getStory().getObjectId() + " activity story: "

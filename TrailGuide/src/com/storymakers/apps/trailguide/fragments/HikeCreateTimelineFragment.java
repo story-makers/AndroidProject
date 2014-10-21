@@ -10,36 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeCreateTimelineFragment extends Fragment {
-	private ProgressNotificationHandler progressbar;
 	private TGStory story;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		progressbar = new ProgressNotificationHandler() {
-
-			@Override
-			public void endAction() {
-				Log.i("CREATE_PROGRESS", "Progress is complete");
-				Toast.makeText(HikeCreateTimelineFragment.this.getActivity(), "Item Saved",
-						Toast.LENGTH_SHORT).show();
-			}
-
-			@Override
-			public void beginAction() {
-				Log.i("CREATE_PROGRESS", "Begin progress bar");
-			}
-		};
 	}
 
 	@Override
@@ -74,13 +57,6 @@ public class HikeCreateTimelineFragment extends Fragment {
 				fragment.addAll(objs);
 			}
 		});
-	}
-
-	public void addPost(TGPost post) {
-		PostListFragment fragment = (PostListFragment) getChildFragmentManager()
-				.findFragmentByTag("post_list_fragment");
-		story.addPost(post, progressbar);
-		fragment.addPost(post);
 	}
 
 	public void addPostToList(TGPost post) {
