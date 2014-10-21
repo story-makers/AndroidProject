@@ -157,9 +157,14 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	}
 
 	private void zoomToHikeStartPoint() {
-		if (posts.size() <= 0)
-			return;
-		ParseGeoPoint point = posts.get(0).getLocation();
+		
+		ParseGeoPoint point =  null;
+		for (TGPost p :posts){
+			if (p.getLocation() != null && (int)p.getLocation().getLatitude() != 0){
+				point = p.getLocation();
+				break;
+			}
+		}
 		if (point != null) {
 			LatLng latLng = new LatLng(point.getLatitude(),
 					point.getLongitude());

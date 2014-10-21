@@ -79,7 +79,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 			@Override
 			public void endAction() {
 				Log.i("CREATE_PROGRESS", "Progress is complete");
-				/*Toast.makeText(HikeCreateActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();*/
+				Toast.makeText(HikeCreateActivity.this, "Post Saved", Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
