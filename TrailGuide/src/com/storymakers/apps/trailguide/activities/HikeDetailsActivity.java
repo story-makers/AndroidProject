@@ -30,6 +30,7 @@ public class HikeDetailsActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_hike_details);
 		setupTabs();
 		btnAddToHike = (Button) findViewById(R.id.btnAddToMyHike);
@@ -39,8 +40,10 @@ public class HikeDetailsActivity extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				Log.d("cliked", "am being asked to add to hike");
-				Intent i = HikeCreateActivity.getIntentForCreateStory(HikeDetailsActivity.this);
-				i.putExtra(getString(R.string.intent_key_add_ref), requestedHikeObjectId);
+				Intent i = HikeCreateActivity
+						.getIntentForCreateStory(HikeDetailsActivity.this);
+				i.putExtra(getString(R.string.intent_key_add_ref),
+						requestedHikeObjectId);
 				startActivity(i);
 			}
 		});
@@ -59,10 +62,18 @@ public class HikeDetailsActivity extends FragmentActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		switch (id) {
+		case R.id.miProfile:
+			startActivity(ProfileActivity.getIntentForUserProfile(this));
 			return true;
+		case R.id.miNewHike:
+			startActivity(HikeCreateActivity.getIntentForCreateStory(this));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+			
 		}
-		return super.onOptionsItemSelected(item);
+
 	}
 
 	private void setupTabs() {

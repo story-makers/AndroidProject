@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
+    android:paddingTop="20dp"
+    android:background="#7de8e2"
     tools:context="com.storymakers.apps.trailguide.activities.ProfileActivity" >
 
     <Button
@@ -11,9 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
+        android:background="#3189b4"
         android:onClick="onLogoutAction"
-        android:text="Logout" />
+        android:text="Logout"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
 
     <TextView
         android:id="@+id/tvUserName"
@@ -21,9 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btnLogout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
+        android:layout_alignTop="@+id/btnLogout"
         android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/btnLogout"
         android:text="Welcome"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -36,6 +43,5 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnLogout" >
     </FrameLayout>
-
 
 </RelativeLayout>

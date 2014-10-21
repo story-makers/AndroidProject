@@ -64,6 +64,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hike_create);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		referencedStoryRequested = getIntent().hasExtra(
 				getString(R.string.intent_key_add_ref));
 		if (referencedStoryRequested) {
@@ -228,7 +229,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.miProfile) {
+			startActivity(ProfileActivity.getIntentForUserProfile(this));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
