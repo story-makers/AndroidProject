@@ -11,6 +11,8 @@ The core flows of the TrailGuide application include,
 
 We are looking to improve the UI (experience) and add several cool features in our wish list such as being able to start and stop a hike and record points in the map, get notification of spots on the way.
 
+UPDATE: The github readme rendering does not stream vidoes. So here is the link to videos https://github.com/story-makers/AndroidProject/tree/master/DemoVideos
+
 Flow 1: Explore (trailguide_flow1_2.mp4)
 - open the app
 - scroll down and up
