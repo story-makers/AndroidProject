@@ -31,6 +31,8 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
+		
 		user = TrailGuideApplication.getCurrentUser();
 		if (user != null){
 			getActionBar().setTitle(user.getName() + " : Profile");

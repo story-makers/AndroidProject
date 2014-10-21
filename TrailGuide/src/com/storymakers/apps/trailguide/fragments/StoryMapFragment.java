@@ -59,7 +59,8 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		getStory();
 		getPosts(story, Color.rgb(0, 0, 255));
 		if (getArguments().containsKey(getString(R.string.map_context_key))
-				&& getArguments().getString(getString(R.string.map_context_key)) == getString(R.string.create_hike_context)) {
+				&& getArguments()
+						.getString(getString(R.string.map_context_key)) == getString(R.string.create_hike_context)) {
 			ArrayList<TGStory> referencedStories = story.getReferencedStories();
 			for (TGStory refStory : referencedStories) {
 				getPosts(refStory, Color.rgb(255, 0, 0));
@@ -156,6 +157,8 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	}
 
 	private void zoomToHikeStartPoint() {
+		if (posts.size() <= 0)
+			return;
 		ParseGeoPoint point = posts.get(0).getLocation();
 		if (point != null) {
 			LatLng latLng = new LatLng(point.getLatitude(),
@@ -177,7 +180,8 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		}
 		ParseGeoPoint lastGeoPoint = null;
 		Marker lastMarker = null;
-		PolylineOptions path = new PolylineOptions().geodesic(true).color(color);
+		PolylineOptions path = new PolylineOptions().geodesic(true)
+				.color(color);
 		int firstPost = 0;
 		boolean firstPostSet = false;
 		for (int i = 0; i < posts.size(); i++) {
