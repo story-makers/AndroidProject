@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.fragments.HikesListFragment;
+import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
 import com.storymakers.apps.trailguide.fragments.HikesListFragment.OnListItemClickListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGStory;
@@ -69,6 +70,10 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 		finish();
 	}
 
+	public void onListItemClicked(View v) {
+		hikesFragment.onListItemClicked(v);
+	}
+	
 	@Override
 	public void onListItemClicked(TGStory story) {
 		Intent i = HikeDetailsActivity.getIntentForStory(this, story);
