@@ -10,8 +10,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 public class CustomMapFragment extends SupportMapFragment {
 
-	private static final String LOG_TAG = "CustomMapFragment";
-
 	public CustomMapFragment() {
 		super();
 

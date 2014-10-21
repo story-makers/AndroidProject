@@ -62,8 +62,7 @@ public class SearchHikesFragment extends HikesListFragment {
 					return;
 				}
 				if (mode == DISPLAYMODES.SEARCH) {
-					// Toast.makeText(getActivity(), "searching",
-					// Toast.LENGTH_SHORT).show();
+					// Toast.makeText(getActivity(), "searching", Toast.LENGTH_SHORT).show();
 					SearchHikesFragment.this.clear();
 					SearchHikesFragment.this.addAll(objects);
 				} else if (mode == DISPLAYMODES.PULLTOREFRESH) {
