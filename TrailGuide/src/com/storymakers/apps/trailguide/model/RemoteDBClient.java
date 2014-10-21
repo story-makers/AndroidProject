@@ -5,7 +5,6 @@ import java.util.List;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
@@ -14,7 +13,7 @@ public class RemoteDBClient {
 	public static void getStoriesByUser(FindCallback<TGStory> callback,
 			TGUser user, int from, int limit) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		query.orderByDescending("createdAt");
+		query.orderByDescending("endDate");
 		query.whereEqualTo("state", "COMPLETE");
 		if (from != 0) {
 			query.setSkip(from);
@@ -32,7 +31,7 @@ public class RemoteDBClient {
 	public static void getStoriesBySearchString(FindCallback<TGStory> callback,
 			TGUser user, int from, int limit, String searchQry){
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);
-		query.orderByDescending("createdAt");
+		query.orderByDescending("endDate");
 		query.whereEqualTo("state", "COMPLETE");
 		if (from != 0) {
 			query.setSkip(from);
