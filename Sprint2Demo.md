@@ -64,5 +64,13 @@ Flow 5: Signout and other user (trailguide_flow5.mp4)
 
 ======================
 
+![Explore (trailguide_flow1_2.mp4)](./DemoVideos/trailguide_flow1_2.mp4)
 
+![Filtered consumption (search and user profile - trailguide_flow2_1.mp4)](./DemoVideos/trailguide_flow2_1.mp4)
+
+![Create a hike (trailguide_flow3.mp4)](./DemoVideos/trailguide_flow3.mp4)
+
+![Continue and complete hike (trailguide_flow4.mp4)](./DemoVideos/trailguide_flow4.mp4)
+
+![Signout and other user (trailguide_flow5.mp4)](./DemoVideos/trailguide_flow5.mp4)
 
