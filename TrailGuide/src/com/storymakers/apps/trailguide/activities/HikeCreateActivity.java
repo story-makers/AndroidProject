@@ -53,8 +53,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
-	
-	
+
 	private boolean returnFromCamera;
 	private boolean referencedStoryRequested;
 	private String referencedStoryObjectId;
@@ -70,7 +69,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 			referencedStoryObjectId = getIntent().getStringExtra(
 					getString(R.string.intent_key_add_ref));
 		}
-		
+
 		user = TrailGuideApplication.getCurrentUser();
 
 		findDraftStory();
@@ -121,22 +120,42 @@ public class HikeCreateActivity extends FragmentActivity implements
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null && arg0.size() > 0) {
 					story = arg0.get(0);
-					Toast.makeText(HikeCreateActivity.this, "Story found: " + story.getObjectId(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(HikeCreateActivity.this,
+							"Story found: " + story.getObjectId(),
+							Toast.LENGTH_SHORT).show();
 					HikeCreateActivity.this.getActionBar().setTitle(
 							story.getTitle());
+					setupTabs(story.getObjectId());
+					if (referencedStoryRequested) {
+						addReferencedStory(addRefProgressHandler);
+					}
+					d.cancel();
 				}
 				if (story == null) {
 					// default name until someone fills in the title.
 					story = TGDraftStories.getInstance().createNewDraft(user,
-							"New Hike");
-					showCreateDialog(PostType.METADATA, story.getTitle());
+							"New Hike", new ProgressNotificationHandler() {
+
+								@Override
+								public void endAction() {
+									d.cancel();
+									showCreateDialog(PostType.METADATA,
+											story.getTitle());
+									setupTabs(story.getObjectId());
+									if (referencedStoryRequested) {
+										addReferencedStory(addRefProgressHandler);
+									}
+								}
+
+								@Override
+								public void beginAction() {
+									// TODO Auto-generated method stub
+
+								}
+							});
+
 				}
-				if (referencedStoryRequested == false) {
-					setupTabs(story.getObjectId());
-				} else {
-					addReferencedStory(addRefProgressHandler);
-				}
-				d.cancel();
+
 			}
 		});
 	}
@@ -144,7 +163,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	private void addReferencedStory(final ProgressNotificationHandler handler) {
 		if (handler != null)
 			handler.beginAction();
-		TGPost p = TGPost.createNewPost(story, PostType.REFERENCEDSTORY);
+		final TGPost p = TGPost.createNewPost(story, PostType.REFERENCEDSTORY);
 		TGStory refedStory = RemoteDBClient
 				.getStoryById(referencedStoryObjectId);
 		p.setReferencedStory(refedStory);
@@ -152,8 +171,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 			@Override
 			public void endAction() {
+				HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
+						.findFragmentByTag("timeline");
+				fragment.addPostToList(p);
 				if (handler != null) {
-					setupTabs(story.getObjectId());
 					handler.endAction();
 				}
 			}
@@ -204,9 +225,15 @@ public class HikeCreateActivity extends FragmentActivity implements
 		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
 				.findFragmentByTag("timeline");
 		fragment.addPost(post);
-		Log.d("DEBUG", "Saved a " + post.getType().toString() + " story: " + post.getStory().getObjectId() + " activity story: " + story.getObjectId());
-		Toast.makeText(this, "Saved a " + post.getType().toString() + " story: " + post.getStory().getObjectId() + " activity story: " + story.getObjectId(),
-				Toast.LENGTH_SHORT).show();
+		Log.d("DEBUG",
+				"Saved a " + post.getType().toString() + " story: "
+						+ post.getStory().getObjectId() + " activity story: "
+						+ story.getObjectId());
+		Toast.makeText(
+				this,
+				"Saved a " + post.getType().toString() + " story: "
+						+ post.getStory().getObjectId() + " activity story: "
+						+ story.getObjectId(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -295,6 +322,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public void onGoogleMapCreation(CustomMapFragment mapFragment,
 			StoryMapFragment storyFragment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
