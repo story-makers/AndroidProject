@@ -5,22 +5,29 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.SearchView.OnCloseListener;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.HikesListFragment;
+import com.storymakers.apps.trailguide.fragments.SearchFragmentDialog;
 import com.storymakers.apps.trailguide.fragments.SearchHikesFragment;
+import com.storymakers.apps.trailguide.model.TGFilter;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HomeActivity extends FragmentActivity implements
-		HikesListFragment.OnListItemClickListener {
+		HikesListFragment.OnListItemClickListener,
+		SearchFragmentDialog.OnDataPass {
+	private String searchQuery;
+	private SearchView searchView;
+	TGFilter searchFilter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		searchFilter = new TGFilter("", "", "");
 	}
 
 	@Override
@@ -33,7 +40,7 @@ public class HomeActivity extends FragmentActivity implements
 			myProfile();
 			return true;
 		case R.id.miSearch:
-			mySearch(item);
+			showSearchDialog();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -52,7 +59,18 @@ public class HomeActivity extends FragmentActivity implements
 		 * actionBar.setCustomView(mActionBarView);
 		 * actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		 */
+		// MenuItem searchItem = menu.findItem(R.id.miSearch);
+		// searchView = (SearchView) searchItem.getActionView();
+		// mySearch(searchItem);
 		return true;
+	}
+
+	private void showSearchDialog() {
+		android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+		SearchFragmentDialog searchFragmentDialog = SearchFragmentDialog
+				.newInstance(searchFilter);
+		searchFragmentDialog.show(fm, "fragment_search");
+
 	}
 
 	public void onListItemClicked(View v) {
@@ -78,14 +96,16 @@ public class HomeActivity extends FragmentActivity implements
 	}
 
 	private void mySearch(MenuItem searchItem) {
-		SearchView searchView = (SearchView) searchItem.getActionView();
+		searchView = (SearchView) searchItem.getActionView();
+		searchQuery = "";
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
 			@Override
 			public boolean onQueryTextSubmit(String query) {
+				searchQuery = query;
 				SearchHikesFragment fragment = (SearchHikesFragment) getSupportFragmentManager()
 						.findFragmentById(R.id.fragmentSearchHikes);
-				fragment.onSearchSubmit(query);
+				fragment.onSearchSubmit();
 				return true;
 			}
 
@@ -95,5 +115,36 @@ public class HomeActivity extends FragmentActivity implements
 				return false;
 			}
 		});
+		searchItem.setOnActionExpandListener(new OnActionExpandListener() {
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				// Do something when collapsed
+				return true; // Return true to collapse action view
+			}
+
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				// Do something when expanded
+				// item.expandActionView();
+				searchView.onActionViewExpanded();
+				if (searchQuery.length() != 0) {
+					searchView.setQuery(searchQuery, false);
+				}
+				// searchView.setQueryHint(searchQuery);
+				return true; // Return true to expand action view
+			}
+		});
+
+	}
+
+	@Override
+	public void onDataPass(TGFilter filter) {
+		// Log.d("LOG","hello " + data);
+		searchFilter = filter;
+		SearchHikesFragment fragment = (SearchHikesFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragmentSearchHikes);
+		fragment.setSearchFilter(searchFilter);
+		fragment.onSearchSubmit();
+
 	}
 }

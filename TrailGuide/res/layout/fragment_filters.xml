@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+    <EditText
+        android:id="@+id/fltSearchString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textWebEditText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <EditText
+        android:id="@+id/fltdistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:layout_below="@+id/fltSearchString"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <EditText
+        android:id="@+id/fltime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/fltdistance"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:id="@+id/btnFltSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fltime"
+        android:layout_centerHorizontal="true"
+        
+        android:gravity="center"
+        android:text="Search" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anything"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/fltdistance"
+        android:layout_toLeftOf="@+id/fltSearchString"
+        android:layout_toStartOf="@+id/fltSearchString" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distance"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/fltSearchString"
+        android:layout_toStartOf="@+id/fltSearchString"
+        android:layout_alignBottom="@+id/fltdistance" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/textView4"
+        android:layout_above="@+id/btnFltSearch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/fltime"
+        android:layout_toStartOf="@+id/fltime" />
+
+</RelativeLayout>
