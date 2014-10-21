@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
-import com.storymakers.apps.trailguide.model.TGFilter;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
@@ -21,51 +20,39 @@ public class SearchHikesFragment extends HikesListFragment {
 		ALL, PULLTOREFRESH, SEARCH
 	};
 
-	private static TGFilter searchFilter;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		searchFilter = new TGFilter("", "", "");
-		populateHikesList(DISPLAYMODES.ALL, searchFilter);
-
+		populateHikesList(DISPLAYMODES.ALL, null);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
-
 		lvHikesList.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				// pbLoading.setVisibility(ProgressBar.VISIBLE);
 				// refreshNewData();
-				populateHikesList(DISPLAYMODES.PULLTOREFRESH, searchFilter);
+				populateHikesList(DISPLAYMODES.PULLTOREFRESH, null);
 			}
 		});
 		return v;
 	}
 
-	public void onSearchSubmit() {
-		// if (query == null)
-		// return;
-		// if (query.length() > 0)
-		populateHikesList(DISPLAYMODES.SEARCH, searchFilter);
-		// else
-		// populateHikesList(DISPLAYMODES.PULLTOREFRESH, searchFilter);
+	public void onSearchSubmit(String query) {
+		if (query == null)
+			return;
+		if (query.length() > 0)
+			populateHikesList(DISPLAYMODES.SEARCH, query);
+		else
+			populateHikesList(DISPLAYMODES.PULLTOREFRESH, query);
 	}
 
 	// TBD: modify function to pull only new data and accommodate search
 	public void populateHikesList(final DISPLAYMODES mode,
-			final TGFilter searchFilter) {
-		String query;
-		if (searchFilter.getSearchString().length() > 0) {
-			query = searchFilter.getSearchString();
-		} else {
-			query = null;
-
-		}
+			@Nullable String searchString) {
 		RemoteDBClient.getStories(new FindCallback<TGStory>() {
 
 			@Override
@@ -74,7 +61,6 @@ public class SearchHikesFragment extends HikesListFragment {
 					e.printStackTrace();
 					return;
 				}
-
 				if (mode == DISPLAYMODES.SEARCH) {
 					// Toast.makeText(getActivity(), "searching",
 					// Toast.LENGTH_SHORT).show();
@@ -89,12 +75,6 @@ public class SearchHikesFragment extends HikesListFragment {
 				}
 
 			}
-		}, 0, 0, query);
-	}
-
-	public void setSearchFilter(TGFilter searchFilter) {
-		this.searchFilter.setDistance(searchFilter.getDistance());
-		this.searchFilter.setDuration(searchFilter.getDuration());
-		this.searchFilter.setSearchString(searchFilter.getSearchString());
+		}, 0, 0, searchString);
 	}
 }
