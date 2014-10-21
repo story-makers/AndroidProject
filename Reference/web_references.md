@@ -4,3 +4,4 @@
   * alternate image loarding library https://github.com/koush/UrlImageViewHelper
   * some action bar notes http://www.sitepoint.com/better-user-interfaces-android-action-bar/
   * Reference to action bar search dismiss to restore existing stories https://groups.google.com/forum/#!topic/actionbarsherlock/l6Xp4UTx5kQ
+  * Reference library for fonts https://github.com/chrisjenx/Calligraphy
