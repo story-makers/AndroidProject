@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="missingPrefix"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
@@ -44,8 +46,7 @@
             android:layout_marginLeft="5dp"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:typeface="monospace"
-            android:textStyle="bold"
+            fontPath="fonts/SinkinSans-400Regular.otf"
             android:text="@string/trip_title" />
 
         <TextView

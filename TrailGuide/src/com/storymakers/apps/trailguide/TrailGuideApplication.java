@@ -1,5 +1,6 @@
 package com.storymakers.apps.trailguide;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -37,6 +38,7 @@ public class TrailGuideApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		// getCurrentUser();
 		// TGDraftStories.getInstance();
+		CalligraphyConfig.initDefault("fonts/Quicksand-Regular.otf", R.attr.fontPath);
 	}
 
 	public static TGUser getCurrentUser() {

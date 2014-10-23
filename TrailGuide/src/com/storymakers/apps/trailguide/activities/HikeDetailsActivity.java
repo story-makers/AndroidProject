@@ -1,5 +1,6 @@
 package com.storymakers.apps.trailguide.activities;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
@@ -30,7 +31,7 @@ public class HikeDetailsActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_hike_details);
 		setupTabs();
 		btnAddToHike = (Button) findViewById(R.id.btnAddToMyHike);
@@ -71,7 +72,7 @@ public class HikeDetailsActivity extends FragmentActivity implements
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
-			
+
 		}
 
 	}
@@ -128,4 +129,8 @@ public class HikeDetailsActivity extends FragmentActivity implements
 	 * StoryDetailFragment storyDetails = new StoryDetailFragment();
 	 * ft.replace(R.id.flContainer, storyDetails); ft.commit(); }
 	 */
+	@Override
+	protected void attachBaseContext(Context newBase) {
+		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+	}
 }
