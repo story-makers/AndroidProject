@@ -129,7 +129,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 		final ProgressDialog d = new ProgressDialog(this);
 		d.setTitle("Looking for drafts...");
 		d.show();
-		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+		TGDraftStories.getInstance().getDraftStories(new FindCallback<TGStory>() {
 
 			@Override
 			public void done(List<TGStory> arg0, ParseException arg1) {

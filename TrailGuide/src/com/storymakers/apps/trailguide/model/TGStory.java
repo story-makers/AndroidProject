@@ -252,6 +252,7 @@ public class TGStory extends ParseObject {
 		};
 
 		saveAllInBackground(this.posts, cb);
+		TGDraftStories.getInstance().completeDraftStory(this);
 		saveInBackground(new SaveCallback() {
 
 			@Override
