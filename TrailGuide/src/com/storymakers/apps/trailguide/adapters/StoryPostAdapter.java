@@ -26,7 +26,6 @@ import com.storymakers.apps.trailguide.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
-import com.storymakers.apps.trailguide.model.TGStory.StoryType;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class StoryPostAdapter extends ArrayAdapter<TGPost> {
@@ -77,19 +76,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
 			}
-			if (post.getStory().getState() == StoryType.COMPLETE) {
-				ivPostPhoto.setOnClickListener(new OnClickListener() {
+			ivPostPhoto.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						getContext().startActivity(
-								FullscreenPhotoViewActivity
-										.getIntentForFullscreenPhotoActivity(
-												getContext(), post));
-
+				@Override
+				public void onClick(View v) {
+					if (post.getStory().isCompleted()){
+					getContext().startActivity(
+							FullscreenPhotoViewActivity
+									.getIntentForFullscreenPhotoActivity(
+											getContext(), post));
 					}
-				});
-			}
+
+				}
+			});
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
 			TextView tvPostNote = (TextView) convertView
