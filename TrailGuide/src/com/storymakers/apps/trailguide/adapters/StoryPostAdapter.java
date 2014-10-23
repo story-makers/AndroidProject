@@ -22,9 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.storymakers.apps.trailguide.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
+import com.storymakers.apps.trailguide.model.TGStory.StoryType;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class StoryPostAdapter extends ArrayAdapter<TGPost> {
@@ -49,7 +51,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TGPost post = (TGPost) getItem(position);
+		final TGPost post = (TGPost) getItem(position);
 		int type = getItemViewType(position);
 		if (convertView == null) {
 			convertView = getInflatedLayoutForType(type);
@@ -75,6 +77,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
 			}
+			if (post.getStory().getState() == StoryType.COMPLETE) {
+				ivPostPhoto.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						getContext().startActivity(
+								FullscreenPhotoViewActivity
+										.getIntentForFullscreenPhotoActivity(
+												getContext(), post));
+
+					}
+				});
+			}
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
 			TextView tvPostNote = (TextView) convertView
@@ -97,12 +112,14 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		}
 		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
 			setStoryAttributes(convertView, post.getStory());
-			ImageView ivLinkedStoryIcon = (ImageView) convertView.findViewById(R.id.ivLinkedStoryIcon);
+			ImageView ivLinkedStoryIcon = (ImageView) convertView
+					.findViewById(R.id.ivLinkedStoryIcon);
 			ivLinkedStoryIcon.setVisibility(View.INVISIBLE);
 		}
 		if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
 			setStoryAttributes(convertView, post.getReferencedStory());
-			ImageView ivLinkedStoryIcon = (ImageView) convertView.findViewById(R.id.ivLinkedStoryIcon);
+			ImageView ivLinkedStoryIcon = (ImageView) convertView
+					.findViewById(R.id.ivLinkedStoryIcon);
 			ivLinkedStoryIcon.setVisibility(View.VISIBLE);
 		}
 		return convertView;
@@ -115,7 +132,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		TextView tvRefs = (TextView) v.findViewById(R.id.tvRefs);
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
 		ImageView ivShareIcon = (ImageView) v.findViewById(R.id.ivShareIcon);
-		
+
 		ivCoverPhoto.setImageResource(android.R.color.transparent);
 		ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
 				ivCoverPhoto);
@@ -139,7 +156,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		ivShareIcon.setTag(R.string.object_key, story);
 		ivShareIcon.setTag(R.string.cover_photo_key, ivCoverPhoto);
 		ivShareIcon.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				TGStory story = (TGStory) v.getTag(R.string.object_key);
@@ -148,8 +165,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				Bitmap bitmap = bitmapd.getBitmap();
 				// Save this bitmap to a file.
 				File cacheDir = v.getContext().getExternalCacheDir();
-				File downloadingMediaFile = new File(cacheDir,
-						"abc.png");
+				File downloadingMediaFile = new File(cacheDir, "abc.png");
 				try {
 					FileOutputStream out = new FileOutputStream(
 							downloadingMediaFile);
@@ -160,18 +176,17 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 					e.printStackTrace();
 					return;
 				}
-				
+
 				// Now send it out to share
-				Intent share = new Intent(
-						android.content.Intent.ACTION_SEND);
+				Intent share = new Intent(android.content.Intent.ACTION_SEND);
 				share.setType("image/*");
 				Uri photouri = Uri.parse("file://" + downloadingMediaFile);
-				share.putExtra(Intent.EXTRA_STREAM,
-						photouri);
+				share.putExtra(Intent.EXTRA_STREAM, photouri);
 				// share.putExtra(Intent.EXTRA_TITLE,
 				// "my awesome caption in the EXTRA_TITLE field");
 				share.putExtra(Intent.EXTRA_TEXT,
-						"Click here: http://trailguide.storymakers.com/story?id=" + story.getObjectId());
+						"Click here: http://trailguide.storymakers.com/story?id="
+								+ story.getObjectId());
 
 				// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
 				try {
@@ -180,7 +195,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				
+
 			}
 		});
 	}
