@@ -138,11 +138,11 @@ public class TGStory extends ParseObject {
 		this.location = location;
 		put("location", location);
 	}
-
+	
 	public void getPosts(final PostListDownloadCallback handle) {
 
 		this.posts = new ArrayList<TGPost>();
-		RemoteDBClient.getPostsForStory(this, new PostListDownloadCallback() {
+		RemoteDBClient.getPostsForTGStory(this, new PostListDownloadCallback() {
 
 			@Override
 			public void fail(String reason) {
@@ -326,6 +326,10 @@ public class TGStory extends ParseObject {
 		if (coverPhotoURL == null)
 			coverPhotoURL = "https://farm4.staticflickr.com/3852/15149838402_a0878021dc_z.jpg";
 		put("coverPhotoURL", coverPhotoURL);
+	}
+
+	public boolean isCompleted() {
+		return (getState() == StoryType.COMPLETE);
 	}
 
 }

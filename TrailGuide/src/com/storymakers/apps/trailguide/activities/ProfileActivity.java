@@ -49,7 +49,7 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 	}
 
 	private void populateUserHikes() {
-		RemoteDBClient.getStoriesByUser(new FindCallback<TGStory>() {
+		RemoteDBClient.getCompletedStoriesByUser(new FindCallback<TGStory>() {
 			
 			@Override
 			public void done(List<TGStory> arg0, ParseException arg1) {
