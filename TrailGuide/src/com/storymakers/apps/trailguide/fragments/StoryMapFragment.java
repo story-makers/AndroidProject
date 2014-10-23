@@ -204,7 +204,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 						.addMarker(new MarkerOptions()
 								.icon(BitmapDescriptorFactory
 										.fromResource(R.drawable.ic_map_marker_begin_end))
-								.anchor(0.0f, 0.0f) // Anchors the marker on the
+								.anchor(0.0f, 0.8f) // Anchors the marker on the
 													// bottom left
 								.position(
 										new LatLng(point.getLatitude(), point
@@ -239,7 +239,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 					lastMarker = map.addMarker(new MarkerOptions()
 							.icon(BitmapDescriptorFactory
 									.fromResource(R.drawable.ic_map_marker))
-							.anchor(0.0f, 1.0f) // Anchors the marker on the
+							.anchor(0.5f, 1.0f) // Anchors the marker on the
 												// bottom left
 							.position(
 									new LatLng(point.getLatitude(), point
