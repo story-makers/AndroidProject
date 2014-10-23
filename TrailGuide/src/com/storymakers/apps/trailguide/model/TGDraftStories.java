@@ -3,6 +3,8 @@ package com.storymakers.apps.trailguide.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -15,9 +17,11 @@ public class TGDraftStories {
 	private TGDraftStories() {
 		draftStories = new ArrayList<TGStory>();
 	}
+
 	public void addStories(List<TGStory> objs) {
 		draftStories.addAll(objs);
 	}
+
 	public static TGDraftStories getInstance() {
 		if (instance == null) {
 			instance = new TGDraftStories();
@@ -35,6 +39,35 @@ public class TGDraftStories {
 
 	public Boolean hasDraft() {
 		return (draftStories.size() > 0);
+	}
+
+	public void getDraftStories(final FindCallback<TGStory> callback) {
+		if (draftStories.size() > 0){
+			callback.done(draftStories, null);
+			return;
+		}
+		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+
+			@Override
+			public void done(List<TGStory> arg0, ParseException arg1) {
+				if (arg1 == null) {
+					addStories(arg0);
+				}
+				callback.done(arg0, arg1);
+
+			}
+		});
+	}
+
+	public void completeDraftStory(TGStory s) {
+		for (TGStory i : draftStories) {
+			if (i.getObjectId() == s.getObjectId()) {
+				Log.d("DRAFTSTORY",
+						"Removing draft story with object id: "
+								+ s.getObjectId());
+				draftStories.remove(i);
+			}
+		}
 	}
 
 	public TGStory createNewDraft(TGUser u, String title,

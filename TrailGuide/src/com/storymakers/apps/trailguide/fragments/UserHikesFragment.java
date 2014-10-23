@@ -19,7 +19,7 @@ public class UserHikesFragment extends HikesListFragment {
 	}
 
 	public void populateHikesList() {
-		RemoteDBClient.getStoriesByUser(new FindCallback<TGStory>() {
+		RemoteDBClient.getCompletedStoriesByUser(new FindCallback<TGStory>() {
 			
 			@Override
 			public void done(List<TGStory> objects, ParseException e) {
