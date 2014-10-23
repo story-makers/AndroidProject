@@ -30,5 +30,6 @@
     <string name="hike_coverphoto_description">Hike Cover photo</string>
     <string name="map_context_key">MAP_CONTEXT</string>
     <string name="create_hike_context">create_hike</string>
+    <string name="title_activity_fullscreen_photo_view">FullscreenPhotoViewActivity</string>
 
 </resources>
