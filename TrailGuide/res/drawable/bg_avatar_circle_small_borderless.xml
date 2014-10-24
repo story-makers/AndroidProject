@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/transparent" />
+            <padding android:top="@dimen/gen_avatar_border_shadow" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/five_percent_black" />
+            <padding android:left="@dimen/gen_avatar_border_shadow" android:top="@dimen/gen_avatar_border_shadow" android:right="@dimen/gen_avatar_border_shadow" android:bottom="@dimen/gen_avatar_border_shadow" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/ten_percent_black" />
+            <padding android:left="@dimen/gen_avatar_border_shadow" android:right="@dimen/gen_avatar_border_shadow" android:bottom="@dimen/gen_avatar_border_shadow" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/background_default_avatar" />
+        </shape>
+    </item>
+</layer-list>

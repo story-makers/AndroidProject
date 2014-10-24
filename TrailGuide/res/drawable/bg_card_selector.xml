@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector android:enterFadeDuration="@integer/touch_enter_fade_speed" android:exitFadeDuration="@integer/touch_exit_fade_speed"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/bg_card_active" />
+    <item android:state_focused="true" android:drawable="@drawable/bg_card_active" />
+    <item android:drawable="@drawable/bg_card" />
+</selector>

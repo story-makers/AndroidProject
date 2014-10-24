@@ -76,4 +76,695 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Trailguide</item>
     </style>
 
+<!-- Styles from external source -->
+    
+    <style name="AppThemeDark" parent="@android:style/Theme.DeviceDefault">
+        
+        <item name="textAppearance">@style/TextAppearance</item>
+    </style>
+    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">
+        
+        <item name="textAppearance">@style/TextAppearance</item>
+    </style>
+    <style name="Avatar.Convos" parent="@style/EtsyWidget">
+        <item name="android:background">@drawable/bg_avatar_circle_small_borderless</item>
+        <item name="android:layout_width">@dimen/conversation_avatar</item>
+        <item name="android:layout_height">@dimen/conversation_avatar</item>
+    </style>
+    <style name="Avatar.Convos.New.Conversation" parent="@style/Avatar.Convos.New.Smaller" />
+    <style name="Avatar.Convos.New.Larger" parent="@style/Avatar.Convos">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">@dimen/convo_larger_avatar</item>
+        <item name="android:layout_height">@dimen/convo_larger_avatar</item>
+    </style>
+    <style name="Avatar.Convos.New.List" parent="@style/Avatar.Convos.New.Smaller" />
+    <style name="Avatar.Convos.New.Smaller" parent="@style/Avatar.Convos">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">@dimen/convo_smaller_avatar</item>
+        <item name="android:layout_height">@dimen/convo_smaller_avatar</item>
+    </style>
+    <style name="Avatar.Convos.Recent" parent="@style/Avatar.Convos">
+        <item name="android:layout_width">@dimen/recent_contact_avatar</item>
+        <item name="android:layout_height">@dimen/recent_contact_avatar</item>
+    </style>
+   
+    <style name="ButtonOrangeV2" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_orange_selector_v2</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+    <style name="ButtonTextBlue.Borderless" parent="@style/TextBlue.Bold">
+        <item name="android:background">@drawable/bg_ten_percent_black_selector</item>
+    </style>
+    <style name="ButtonTransparent" parent="@style/TextGrey">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+    <style name="ButtonTransparent.Blue" parent="@style/ButtonTransparent">
+        <item name="android:textAppearance">@style/TextBlue</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+    <style name="ButtonTransparent.Small" parent="@style/ButtonTransparent">
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="ButtonWhite.Small" parent="@style/TextBlue">
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/bg_card_selector</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <style name="CardSectionTitle" parent="@style/TextDarkGrey">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="CardStyle">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">@dimen/card_shadow_padding</item>
+    </style>
+    <style name="CardStyle.Cart" parent="@style/CardStyle">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">@dimen/cart_card_padding</item>
+    </style>
+    <style name="CardStyle.Listing" parent="@style/CardStyle">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">@dimen/listing_card_shadow_padding</item>
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:foreground">@drawable/fg_card_selector</item>
+    </style>
+    <style name="CardStyle.Listing.Light" parent="@style/CardStyle.Listing">
+        <item name="android:background">@drawable/bg_card_light_transparent</item>
+        <item name="android:padding">0.0dip</item>
+    </style>
+    <style name="Cart">
+        <item name="android:background">@color/cart_background</item>
+    </style>
+    
+    <style name="ContainerLightBlue">
+        <item name="android:background">@drawable/shop_view_desc_bg</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+    <style name="ConvoCard">
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/padding_medium_large</item>
+    </style>
+    <style name="ConvoCard.ClickState" parent="@style/ConvoCard">
+        <item name="android:background">@drawable/list_selector_white</item>
+    </style>
+    <style name="ConvoCard.ClickState.New" parent="@style/ConvoCard">
+        <item name="android:background">@drawable/bg_card_selector</item>
+    </style>
+    <style name="ConvoCard.New" parent="@style/ConvoCard">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">@dimen/padding_large</item>
+    </style>
+    <style name="ConvoCard.Reply" parent="@style/ConvoCard">
+        <item name="android:padding">0.0dip</item>
+        <item name="android:paddingLeft">@dimen/fixed_small</item>
+        <item name="android:paddingTop">@dimen/fixed_small</item>
+        <item name="android:paddingRight">@dimen/fixed_small</item>
+        <item name="android:paddingBottom">0.0dip</item>
+    </style>
+    <style name="ConvoCard.Reply.New" parent="@style/ConvoCard.New">
+        <item name="android:paddingLeft">@dimen/fixed_small</item>
+        <item name="android:paddingTop">@dimen/fixed_small</item>
+        <item name="android:paddingRight">@dimen/fixed_small</item>
+        <item name="android:paddingBottom">0.0dip</item>
+    </style>
+    <style name="ConvoMessage">
+        <item name="android:textAppearance">@style/TextDarkGrey.Small</item>
+        <item name="android:textColor">@color/text_dark_grey</item>
+    </style>
+    
+    <style name="ConvoMessageCount">
+        <item name="android:textAppearance">@style/TextWhite.Small</item>
+        <item name="android:textColor">@drawable/convo_text_white_to_blue</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:background">@drawable/circle_selector</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="ConvoMessageCount.New" parent="@style/ConvoMessageCount">
+        <item name="android:textAppearance">@style/TextWhite.Small</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:background">@drawable/circle_grey_white</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="CurrencyTextView" parent="@style/TextBlack.Larger.Light">
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">@dimen/fixed_small</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="DialogDivider" parent="@style/Divider.Vertical">
+        <item name="android:background">@color/divider_dialog</item>
+    </style>
+    <style name="DialogListRow.Text" parent="@style/TextBlack.Large.Light">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/list_selector</item>
+        <item name="android:paddingLeft">@dimen/fixed_large</item>
+        <item name="android:paddingRight">@dimen/fixed_large</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="DialogRow">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/list_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_large</item>
+        <item name="android:paddingTop">@dimen/padding_medium_large</item>
+        <item name="android:paddingRight">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_medium_large</item>
+    </style>
+    <style name="DialogRow.Text" parent="@style/TextBlack.Large.Light">
+        <item name="android:ellipsize">end</item>
+        <item name="android:background">@drawable/list_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_large</item>
+        <item name="android:paddingTop">@dimen/padding_medium_large</item>
+        <item name="android:paddingRight">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_medium_large</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="DialogRow.Text.Bkg.White" parent="@style/DialogRow.Text">
+        <item name="android:background">@drawable/list_selector_white</item>
+    </style>
+    <style name="Divider">
+        <item name="android:background">@color/divider_medium</item>
+    </style>
+    <style name="Divider.Horizontal" parent="@style/Divider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+    </style>
+    <style name="Divider.Horizontal.ConvoList" parent="@style/Divider.Horizontal" />
+    <style name="Divider.Horizontal.ConvoList.New" parent="@style/Divider.Horizontal" />
+    <style name="Divider.Horizontal.Dark" parent="@style/Divider.Horizontal">
+        <item name="android:background">@color/divider_dark</item>
+    </style>
+    <style name="Divider.Horizontal.Gradient" parent="@style/Divider.Horizontal">
+        <item name="android:background">@drawable/list_divider_gradient</item>
+        <item name="android:layout_height">@dimen/padding_small</item>
+    </style>
+    <style name="Divider.Horizontal.LightBlue" parent="@style/Divider.Horizontal">
+        <item name="android:background">@color/divider_blue</item>
+    </style>
+    <style name="Divider.Vertical" parent="@style/Divider">
+        <item name="android:layout_width">1.0dip</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    <style name="Divider.Vertical.Gradient" parent="@style/Divider.Vertical">
+        <item name="android:background">@drawable/list_divider_gradient_vertical</item>
+        <item name="android:layout_width">@dimen/fixed_medium</item>
+    </style>
+    <style name="EditText">
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:background">@drawable/edit_text_holo_light</item>
+        <item name="android:paddingLeft">@dimen/fixed_medium_large</item>
+        <item name="android:paddingTop">@dimen/fixed_medium</item>
+        <item name="android:paddingRight">@dimen/fixed_medium_large</item>
+        <item name="android:paddingBottom">@dimen/fixed_medium</item>
+        <item name="android:textCursorDrawable">@drawable/default_cursor</item>
+    </style>
+    <style name="EditText.Medium" parent="@style/EditText">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+    <style name="EditText.MultiLine" parent="@style/EditText">
+        <item name="android:textColorHint">@color/light_grey</item>
+        <item name="android:background">@drawable/edit_text_holo_light</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:inputType">textCapSentences|textAutoCorrect|textMultiLine|textImeMultiLine</item>
+    </style>
+    <style name="EditText.MultiLine.Feedback" parent="@style/EditText.MultiLine">
+        <item name="android:maxLength">840</item>
+    </style>
+    <style name="EditText.MultiLine.NoteToSeller" parent="@style/EditText.MultiLine">
+        <item name="android:maxLength">@integer/cart_item_message_limit</item>
+    </style>
+    <style name="EditText.MultiLine.Small" parent="@style/EditText.MultiLine.NoteToSeller">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="EditText.SingleLine" parent="@style/EditText">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="EtsyWidget" />
+    <style name="FeedCard">
+        <item name="android:paddingLeft">@dimen/feed_card_padding</item>
+        <item name="android:paddingRight">@dimen/feed_card_padding</item>
+        <item name="android:paddingBottom">@dimen/feed_card_padding</item>
+    </style>
+    <style name="FollowersLayout">
+        <item name="android:gravity">right</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="IconFavorite.Listing" parent="@style/EtsyWidget">
+        <item name="android:background">@drawable/bg_ten_percent_black_selector</item>
+        <item name="android:padding">@dimen/listing_card_fav_padding</item>
+        <item name="android:layout_marginTop">@dimen/listing_card_fav_margin</item>
+        <item name="android:src">@drawable/ic_listing_unfavorite</item>
+    </style>
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+        <item name="android:windowShowAnimation">@anim/popup_enter</item>
+        <item name="android:windowHideAnimation">@anim/popup_exit</item>
+    </style>
+
+    <style name="PullToRefreshText" parent="@style/TextDarkGrey.Light" />
+    
+    
+    <style name="ShopInfoTitle" parent="@style/TextBlack.XXLarge">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="textStyleExtra">medium</item>
+    </style>
+    
+    
+    <style name="Text.List.Heading" parent="@style/TextLightGrey.XLarge" />
+    <style name="TextAppearance">
+        <item name="textColor">?android:textColorPrimary</item>
+        <item name="textSize">16.0sp</item>
+        <item name="textColorHighlight">?android:textColorHighlight</item>
+        <item name="textColorHint">?android:textColorHint</item>
+        <item name="textColorLink">?android:textColorLink</item>
+    </style>
+    
+    <style name="TextBlack">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
+    <style name="TextBlack.Bold" parent="@style/TextBlack">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.Large" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextBlack.Large.Bold" parent="@style/TextBlack.Large">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.Large.Light" parent="@style/TextBlack.Large">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlack.Larger" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextBlack.Larger.Bold" parent="@style/TextBlack.Larger">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.Larger.Light" parent="@style/TextBlack.Larger">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlack.Light" parent="@style/TextBlack">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlack.Lighter" parent="@style/TextBlack">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlack.Small" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextBlack.Small.Bold" parent="@style/TextBlack.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.XLarge" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextBlack.XLarge.Bold" parent="@style/TextBlack.XLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.XLarge.Light" parent="@style/TextBlack.XLarge">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlack.XXLarge" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+    </style>
+    <style name="TextBlack.XXLarge.Bold" parent="@style/TextBlack.XXLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlack.XXXLarge" parent="@style/TextBlack">
+        <item name="android:textSize">@dimen/text_xxxlarge</item>
+    </style>
+    <style name="TextBlack.XXXLarge.Bold" parent="@style/TextBlack.XXXLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlue">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+    <style name="TextBlue.Bold" parent="@style/TextBlue">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextBlue.Large" parent="@style/TextBlue">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextBlue.Large.Bold" parent="@style/TextBlue.Bold">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextBlue.Larger" parent="@style/TextBlue">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextBlue.Larger.Bold" parent="@style/TextBlue.Bold">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextBlue.Light" parent="@style/TextBlue">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextBlue.Selector" parent="@style/TextBlue">
+        <item name="android:textColor">@drawable/text_disabled_selector_blue</item>
+    </style>
+    <style name="TextBlue.Small.Bold" parent="@style/TextBlue.Bold">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextBlue.Smaller" parent="@style/TextBlue">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextBlue.XLarge" parent="@style/TextBlue">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextBlue.XLarge.Bold" parent="@style/TextBlue.Bold">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextDarkGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_dark_grey</item>
+    </style>
+    <style name="TextDarkGrey.Bold" parent="@style/TextDarkGrey">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextDarkGrey.Condensed" parent="@style/TextDarkGrey">
+        <item name="fontPath">fonts/sans-serif-condensed</item>
+    </style>
+    <style name="TextDarkGrey.Condensed.Bold" parent="@style/TextDarkGrey.Condensed">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextDarkGrey.Large" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextDarkGrey.Large.Bold" parent="@style/TextDarkGrey.Large">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextDarkGrey.Large.Light" parent="@style/TextDarkGrey.Large">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextDarkGrey.Larger" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextDarkGrey.Larger.Bold" parent="@style/TextDarkGrey.Larger">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextDarkGrey.Larger.Light" parent="@style/TextDarkGrey.Larger">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextDarkGrey.Light" parent="@style/TextDarkGrey">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextDarkGrey.Medium" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+    <style name="TextDarkGrey.Small" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextDarkGrey.Smaller" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextDarkGrey.XLarge" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextDarkGrey.XLarge.Light" parent="@style/TextDarkGrey.XLarge">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextDarkGrey.XSmall" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+    <style name="TextDarkGrey.XXLarge" parent="@style/TextDarkGrey">
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+    </style>
+    <style name="TextFeedAction" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/feed_action_text_size</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginTop">@dimen/feed_avatar_card_offset</item>
+        <item name="android:layout_marginRight">@dimen/margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_tiny</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="TextGreen">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+    <style name="TextGreen.Bold" parent="@style/TextGreen">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGreen.Large" parent="@style/TextGreen">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextGreen.Larger" parent="@style/TextGreen">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextGreen.Larger.Bold" parent="@style/TextGreen.Larger">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGreen.Small" parent="@style/TextGreen">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextGreen.Small.Bold" parent="@style/TextGreen.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGreen.Smaller" parent="@style/TextGreen">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextGreen.XLarge" parent="@style/TextGreen">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+    <style name="TextGrey.Bold" parent="@style/TextGrey">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGrey.Large" parent="@style/TextGrey">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextGrey.Large.Light" parent="@style/TextGrey.Large">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextGrey.Larger" parent="@style/TextGrey">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextGrey.Larger.Bold" parent="@style/TextGrey.Larger">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGrey.Larger.Light" parent="@style/TextGrey.Larger">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextGrey.Light" parent="@style/TextGrey">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextGrey.Small" parent="@style/TextGrey">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextGrey.Small.Bold" parent="@style/TextGrey.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextGrey.Smaller" parent="@style/TextGrey">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextGrey.XLarge" parent="@style/TextGrey">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextGreySelectable">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@drawable/text_selector_grey_blue</item>
+    </style>
+    <style name="TextGreyWhite">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_grey_white</item>
+    </style>
+    <style name="TextLightGrey" parent="@style/TextGrey">
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+    <style name="TextLightGrey.Large" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextLightGrey.Large.Light" parent="@style/TextLightGrey.Large">
+        <item name="fontPath">fonts/san-serif-light</item>
+    </style>
+    <style name="TextLightGrey.Light" parent="@style/TextLightGrey">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextLightGrey.Medium" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+    <style name="TextLightGrey.Small" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextLightGrey.Small.Bold" parent="@style/TextLightGrey.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextLightGrey.Small.Italic" parent="@style/TextLightGrey.Small">
+        <item name="android:textStyle">italic</item>
+    </style>
+    <style name="TextLightGrey.Smaller" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextLightGrey.XLarge" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextLightGrey.XSmall" parent="@style/TextLightGrey">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+    <style name="TextMidGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_mid_grey</item>
+    </style>
+    <style name="TextMidGrey.Bold" parent="@style/TextMidGrey">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextMidGrey.Large" parent="@style/TextMidGrey">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextMidGrey.Large.Light" parent="@style/TextMidGrey.Large">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextMidGrey.Small" parent="@style/TextMidGrey">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextMidGrey.Small.Light" parent="@style/TextMidGrey.Small">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextMidGrey.Smaller" parent="@style/TextMidGrey">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextOrange">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/light_orange</item>
+    </style>
+    <style name="TextOrange.XLarge" parent="@style/TextOrange">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextOrange.XLarge.Bold" parent="@style/TextOrange.XLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextSingleLine">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="TextWhite">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="TextWhite.Bold" parent="@style/TextWhite">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextWhite.Large" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="TextWhite.Large.Bold" parent="@style/TextWhite.Large">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextWhite.Large.Light" parent="@style/TextWhite.Large">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextWhite.Larger" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_larger</item>
+    </style>
+    <style name="TextWhite.Light" parent="@style/TextWhite">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextWhite.Small" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="TextWhite.Small.Light" parent="@style/TextWhite.Small">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextWhite.Smaller" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_smaller</item>
+    </style>
+    <style name="TextWhite.Smaller.Light" parent="@style/TextWhite.Smaller">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextWhite.SuperUltraLarge.Light" parent="@style/TextWhite.Light">
+        <item name="android:textSize">@dimen/text_super_ultra_large</item>
+    </style>
+    <style name="TextWhite.XLarge" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="TextWhite.XLarge.Bold" parent="@style/TextWhite.XLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextWhite.XSmall" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+    <style name="TextWhite.XXLarge" parent="@style/TextWhite">
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+    </style>
+    <style name="TextWhite.XXLarge.Light" parent="@style/TextWhite.XXLarge">
+        <item name="fontPath">fonts/sans-serif-light</item>
+    </style>
+    <style name="TextWidget" parent="@style/TextDarkGrey.Small">
+        <item name="android:textAllCaps">true</item>
+        <item name="fontPath">fonts/sans-serif-condensed</item>
+    </style>
+    <style name="TextWidgetAmounts" parent="@style/TextBlue.Bold">
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="Theme.Etsy" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/background_main_v2</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:panelFullBackground">@color/actionbar_background_v2</item>
+        
+        <item name="android:progressBarStyle">@android:style/Widget.Holo.Light.ProgressBar.Large</item>
+        <item name="android:listSelector">@drawable/list_selector</item>
+            
+        
+        
+        
+        <item name="progressBarStyle">@android:style/Widget.Holo.Light.ProgressBar.Large</item>
+                
+        
+        <item name="searchDropdownBackground">@color/white</item>
+        <item name="searchViewCloseIcon">@drawable/ic_search_close</item>
+ 
+        <item name="searchViewSearchIcon">@drawable/ic_menu_search</item>
+ 
+        
+        <item name="searchViewEditQueryBackground">@drawable/list_selector</item>
+        <item name="searchViewTextField">@drawable/textfield_searchview</item>
+        <item name="searchViewTextFieldRight">@drawable/textfield_searchview_right</item>
+        
+        
+        
+        
+    </style>
+    
+    
+    
+    <style name="Widget" />
+    <style name="Theme.Etsy.Dialog.Anim.Bottom" parent="@style/Widget">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_exit</item>
+        <item name="android:windowShowAnimation">@null</item>
+        <item name="android:windowHideAnimation">@null</item>
+    </style>
+    <style name="Theme.Etsy.Dialog.Anim.Top" parent="@style/Widget">
+        <item name="android:windowEnterAnimation">@anim/dialog_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_top_exit</item>
+        <item name="android:windowShowAnimation">@null</item>
+        <item name="android:windowHideAnimation">@null</item>
+    </style>
+    
+    
+    
 </resources>

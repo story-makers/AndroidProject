@@ -3,6 +3,8 @@ package com.storymakers.apps.trailguide;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -58,9 +60,10 @@ public class FullscreenPhotoViewActivity extends Activity {
 								position_start = count;
 
 						}
-						
+
 						if (position_start < 0) {
-							Log.e("ERROR", "could not find position start for posts");
+							Log.e("ERROR",
+									"could not find position start for posts");
 							position_start = 0;
 						}
 						// cancel the spinner
@@ -84,4 +87,9 @@ public class FullscreenPhotoViewActivity extends Activity {
 		i.putExtra("hike", forPost.getStory().getObjectId());
 		return i;
 	}
+
+	@Override
+	protected void attachBaseContext(Context newBase) {
+		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+	}	
 }

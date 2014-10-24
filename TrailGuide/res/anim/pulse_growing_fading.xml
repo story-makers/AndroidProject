@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set android:interpolator="@android:anim/decelerate_interpolator" android:shareInterpolator="true" android:fillBefore="false" android:repeatCount="infinite" android:repeatMode="restart" android:zAdjustment="normal" android:fillEnabled="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale android:duration="1700" android:pivotX="50.0%" android:pivotY="50.0%" android:repeatCount="infinite" android:repeatMode="restart" android:fromXScale="0.0" android:toXScale="1.75" android:fromYScale="0.0" android:toYScale="1.75" />
+    <alpha android:duration="1700" android:repeatCount="infinite" android:repeatMode="restart" android:fromAlpha="0.5" android:toAlpha="0.0" />
+</set>

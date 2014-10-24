@@ -38,7 +38,7 @@ public class TrailGuideApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		// getCurrentUser();
 		// TGDraftStories.getInstance();
-		CalligraphyConfig.initDefault("fonts/Quicksand-Regular.otf", R.attr.fontPath);
+		CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf", R.attr.fontPath);
 	}
 
 	public static TGUser getCurrentUser() {

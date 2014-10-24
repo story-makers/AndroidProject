@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector android:exitFadeDuration="@android:integer/config_shortAnimTime"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:color="@color/button_blue" />
+    <item android:state_selected="true" android:color="@color/button_blue" />
+    <item android:color="@color/text_mid_grey" />
+</selector>

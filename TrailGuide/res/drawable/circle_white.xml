@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:topLeftRadius="@dimen/convo_count_radius" android:topRightRadius="@dimen/convo_count_radius" android:bottomLeftRadius="@dimen/convo_count_radius" android:bottomRightRadius="@dimen/convo_count_radius" />
+    <solid android:color="@color/circle_activated" />
+    <size android:height="@dimen/convo_count_height" />
+    <margin android:left="@dimen/fixed_medium" android:top="@dimen/fixed_medium" android:right="@dimen/fixed_medium" android:bottom="@dimen/fixed_medium" />
+</shape>

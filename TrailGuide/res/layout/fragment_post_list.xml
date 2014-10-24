@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/item_post_background"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
