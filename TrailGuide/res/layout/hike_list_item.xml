@@ -4,12 +4,16 @@
     tools:ignore="missingPrefix"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
+    
+     android:paddingLeft="5dp" 
+    android:paddingRight="5dp" 
+    android:paddingBottom="5dp"
     android:id="@+id/rlHikeListItem"
     style="@style/TrailGuide.Detail.Hike"
     android:onClick="onListItemClicked" >
   
     <ImageView
+        
         android:id="@+id/ivCoverPhoto"
         android:layout_width="match_parent"
         android:layout_height="200dp"
