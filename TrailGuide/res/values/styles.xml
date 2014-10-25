@@ -124,5 +124,39 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">@dimen/text_timeline_date</item>
     </style>
+    
+    
+    
+    
+    <style name="TrailGuide.Detail.HikeListView" parent="@android:style/Widget.ListView">
+        <item name="android:background">@drawable/hike_list_background</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        
+        
+    </style>
+
+    <style name="TrailGuide.Detail.Hike">
+      <!--     <item name="android:paddingTop">@dimen/post_list_padding_top</item> -->
+        <item name="android:paddingBottom">@dimen/post_list_padding_all</item>
+        <item name="android:background">@drawable/item_hike_background</item>  
+    </style>
+    
+    
+
+    <style name="TrailGuide.Detail.HikeDescription">
+        <item name="android:textSize">@dimen/text_post_note</item>
+        <item name="fontPath">fonts/SinkinSans-400Regular.otf</item>
+        <item name="android:padding">@dimen/text_default_padding</item>
+        <item name="android:alignmentMode">alignBounds</item>
+        <item name="android:background">@drawable/item_post_background</item>
+    </style>
+    
+    <style name="TrailGuide.Detail.Hike.Photo">
+        <item name="android:textSize">@dimen/text_post_note</item>
+        
+        <item name="android:background">@drawable/item_hike_photo_background</item>
+    </style>
+    
 
 </resources>

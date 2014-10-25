@@ -35,6 +35,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		TextView tvRefs;
 		ImageView ivShareHikeIcon;
 		ProgressBar pbLoading;
+		TextView dateTime;
 	}
 
 	public HikeArrayAdapter(Context context, List<TGStory> stories) {
@@ -95,60 +96,43 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvTitle.setText(story.getTitle());
 		convertView.setTag(R.string.object_key, story);
 		viewHolder.tvLikes.setTag(R.string.object_key, story);
-		//viewHolder.tvLikes.setOnClickListener();
-		 viewHolder.ivShareHikeIcon.setTag(R.string.object_key, story);
+		// viewHolder.tvLikes.setOnClickListener();
+		viewHolder.ivShareHikeIcon.setTag(R.string.object_key, story);
+		String dateTime = story.getDisplayDate();
+		if (dateTime != null) {
+			viewHolder.dateTime.setText(story.getDisplayDate());
+		}
 
 		/*
-		 viewHolder.ivCoverPhoto
-				.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(View v) {
-						ImageView imageView = (ImageView) v;
-						BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView
-								.getDrawable();
-						Bitmap bitmap = bitmapDrawable.getBitmap();
-
-						// Save this bitmap to a file.
-						File cacheDir = v.getContext().getExternalCacheDir();
-						File downloadingMediaFile = new File(cacheDir,
-								"abc.png");
-						try {
-							FileOutputStream out = new FileOutputStream(
-									downloadingMediaFile);
-							bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-							out.flush();
-							out.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-
-						// Now send it out to share
-						Intent share = new Intent(
-								android.content.Intent.ACTION_SEND);
-						share.setType("image/*");
-						share.putExtra(Intent.EXTRA_STREAM,
-								Uri.parse("file://" + downloadingMediaFile));
-						// share.putExtra(Intent.EXTRA_TITLE,
-						// "my awesome caption in the EXTRA_TITLE field");
-						share.putExtra(Intent.EXTRA_TEXT,
-								"Click here: www.dummytrailhike.com");
-
-						// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-						try {
-							v.getContext().startActivity(
-									Intent.createChooser(share, "Send Image."));
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-						// just for testing
-						// String address = TGUtils.getCompleteAddressString(
-						// v.getContext(), 38.0351291, -122.856799);
-						// Toast.makeText(v.getContext(), address,
-						// Toast.LENGTH_LONG).show();
-						return true;
-					}
-				});
-		 
+		 * viewHolder.ivCoverPhoto .setOnLongClickListener(new
+		 * View.OnLongClickListener() {
+		 * 
+		 * @Override public boolean onLongClick(View v) { ImageView imageView =
+		 * (ImageView) v; BitmapDrawable bitmapDrawable = (BitmapDrawable)
+		 * imageView .getDrawable(); Bitmap bitmap = bitmapDrawable.getBitmap();
+		 * 
+		 * // Save this bitmap to a file. File cacheDir =
+		 * v.getContext().getExternalCacheDir(); File downloadingMediaFile = new
+		 * File(cacheDir, "abc.png"); try { FileOutputStream out = new
+		 * FileOutputStream( downloadingMediaFile);
+		 * bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); out.flush();
+		 * out.close(); } catch (IOException e) { e.printStackTrace(); }
+		 * 
+		 * // Now send it out to share Intent share = new Intent(
+		 * android.content.Intent.ACTION_SEND); share.setType("image/*");
+		 * share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" +
+		 * downloadingMediaFile)); // share.putExtra(Intent.EXTRA_TITLE, //
+		 * "my awesome caption in the EXTRA_TITLE field");
+		 * share.putExtra(Intent.EXTRA_TEXT,
+		 * "Click here: www.dummytrailhike.com");
+		 * 
+		 * // share.putExtra(Intent.EXTRA_SUBJECT, "Subject"); try {
+		 * v.getContext().startActivity( Intent.createChooser(share,
+		 * "Send Image.")); } catch (Exception ex) { ex.printStackTrace(); } //
+		 * just for testing // String address =
+		 * TGUtils.getCompleteAddressString( // v.getContext(), 38.0351291,
+		 * -122.856799); // Toast.makeText(v.getContext(), address, //
+		 * Toast.LENGTH_LONG).show(); return true; } });
 		 */
 		return convertView;
 	}
@@ -163,11 +147,16 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvLikes.setTag(R.string.view_holder_key, viewHolder);
 		viewHolder.pbLoading = (ProgressBar) convertView
 				.findViewById(R.id.pbLoading);
+		viewHolder.dateTime = (TextView) convertView
+				.findViewById(R.id.tvPostDateTime);
 		viewHolder.ivCoverPhoto.setTag(R.string.view_holder_key, viewHolder);
-		viewHolder.ivShareHikeIcon = (ImageView) convertView.findViewById(R.id.ivShareHikeIcon);
-		viewHolder.ivShareHikeIcon.setTag(R.string.cover_photo_key, viewHolder.ivCoverPhoto);
+
+		viewHolder.ivShareHikeIcon = (ImageView) convertView
+				.findViewById(R.id.ivShareHikeIcon);
+		viewHolder.ivShareHikeIcon.setTag(R.string.cover_photo_key,
+				viewHolder.ivCoverPhoto);
 		viewHolder.ivShareHikeIcon.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				TGStory story = (TGStory) v.getTag(R.string.object_key);
@@ -176,8 +165,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				Bitmap bitmap = bitmapd.getBitmap();
 				// Save this bitmap to a file.
 				File cacheDir = v.getContext().getExternalCacheDir();
-				File downloadingMediaFile = new File(cacheDir,
-						"abc.png");
+				File downloadingMediaFile = new File(cacheDir, "abc.png");
 				try {
 					FileOutputStream out = new FileOutputStream(
 							downloadingMediaFile);
@@ -188,18 +176,17 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 					e.printStackTrace();
 					return;
 				}
-				
+
 				// Now send it out to share
-				Intent share = new Intent(
-						android.content.Intent.ACTION_SEND);
+				Intent share = new Intent(android.content.Intent.ACTION_SEND);
 				share.setType("image/*");
 				Uri photouri = Uri.parse("file://" + downloadingMediaFile);
-				share.putExtra(Intent.EXTRA_STREAM,
-						photouri);
+				share.putExtra(Intent.EXTRA_STREAM, photouri);
 				// share.putExtra(Intent.EXTRA_TITLE,
 				// "my awesome caption in the EXTRA_TITLE field");
 				share.putExtra(Intent.EXTRA_TEXT,
-						"Click here: http://trailguide.storymakers.com/story?id=" + story.getObjectId());
+						"Click here: http://trailguide.storymakers.com/story?id="
+								+ story.getObjectId());
 
 				// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
 				try {
@@ -208,10 +195,9 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				
+
 			}
 		});
-				
-	
+
 	}
 }
