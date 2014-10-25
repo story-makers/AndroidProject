@@ -10,7 +10,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        
+        style="@style/TrailGuide.Detail.HikeListView"
 		android:descendantFocusability="blocksDescendants"
 		
 		

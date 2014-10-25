@@ -6,17 +6,19 @@
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
     android:id="@+id/rlHikeListItem"
+    style="@style/TrailGuide.Detail.Hike"
     android:onClick="onListItemClicked" >
-
+  
     <ImageView
         android:id="@+id/ivCoverPhoto"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_launcher_old"
         android:adjustViewBounds="true"
+        style="@style/TrailGuide.Detail.Hike.Photo"
         android:scaleType="centerCrop" />
     
     <ProgressBar
@@ -28,14 +30,70 @@
         android:layout_centerVertical="true"
         android:visibility="invisible"
         android:layout_centerHorizontal="true" />
-
+    
     <RelativeLayout
         android:id="@+id/rlTitleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_gradient_bottom_dark" >
+
+        <TextView
+            android:id="@+id/tvRefs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:drawableLeft="@drawable/ic_pin"
+            android:drawablePadding="3dp"
+            android:text="@string/num_refs"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/tvRefs"
+            android:drawableLeft="@drawable/ic_like"
+            android:drawablePadding="3dp"
+            android:text="@string/num_refs"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="monospace" />
+
+        <ImageView
+            android:id="@+id/ivShareHikeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvLikes"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tvLikes"
+            android:src="@drawable/ic_action_share" />
+
+        <ImageView
+            android:id="@+id/ivLinkedStoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ivShareHikeIcon"
+            android:layout_toLeftOf="@+id/ivShareHikeIcon"
+            android:src="@drawable/ic_link_blue"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlTitleGroupHeader"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/ivCoverPhoto"
-        android:background="#47b4ea" >
+        style="@style/TrailGuide.Detail.Post.Note"
+      >
 
         <TextView
             android:id="@+id/tvTitle"
@@ -44,49 +102,33 @@
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
+            
+            
             fontPath="fonts/SinkinSans-400Regular.otf"
             android:text="@string/trip_title" />
 
-        <TextView
-            android:id="@+id/tvRefs"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:gravity="center_vertical"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:typeface="monospace"
-            android:text="@string/num_refs"
-            android:drawableLeft="@drawable/ic_pin"
-            android:drawablePadding="3dp" />
+    <TextView
+        android:id="@+id/tvPostDateTime"
+        style="@style/TrailGuide.Detail.Post.DateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ivTimelineDot"
+        android:layout_alignBottom="@+id/tvTitle"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/text_default_padding"
+        
+        android:text="Oct 22, 8:00pm" />
 
-        <TextView
-            android:id="@+id/tvLikes"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/tvRefs"
-            android:layout_marginRight="5dp"
-            android:gravity="center_vertical"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:typeface="monospace"
-            android:text="@string/num_refs"
-            android:drawableLeft="@drawable/ic_like"
-            android:drawablePadding="3dp" />
-
-        <ImageView
-            android:id="@+id/ivShareHikeIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tvLikes"
-            android:layout_marginRight="5dp"
-            android:gravity="center_vertical"
-            
-            android:src="@drawable/ic_action_share" />
+    <ImageView
+        android:id="@+id/ivTimelineDot"
+        android:layout_width="@dimen/feed_system_icon_diameter"
+        android:layout_height="@dimen/feed_system_icon_diameter"
+        android:layout_alignBottom="@+id/tvTitle"
+        
+        android:layout_toLeftOf="@+id/tvPostDateTime"
+        android:src="@drawable/feed_item_system" />
         
     </RelativeLayout>
+ 
 
 </RelativeLayout>

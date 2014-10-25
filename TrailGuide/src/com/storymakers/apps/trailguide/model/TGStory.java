@@ -360,4 +360,9 @@ public class TGStory extends ParseObject {
 		return (getState() == StoryType.COMPLETE);
 	}
 
+	public String getDisplayDate() {
+		// Date to display on hike story list
+		return null;
+	}
+
 }
