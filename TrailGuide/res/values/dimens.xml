@@ -2,6 +2,27 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
+   
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="list_horizontal_card_padding">12.0dip</dimen>
+    <dimen name="list_horizontal_padding">16.0dip</dimen>
 
+    <dimen name="feed_system_icon_diameter">14dip</dimen>
+    <dimen name="post_list_strip_left">70dip</dimen>
+    <dimen name="post_list_dot_left">66dip</dimen>
+    <dimen name="post_list_strip_right">76dip</dimen>
+    <dimen name="post_list_padding_top">14dip</dimen>
+    <dimen name="post_list_padding_all">12dip</dimen>
+    <dimen name="post_list_bg_padding_top">12dip</dimen>
+    <dimen name="post_list_bg_padding">6dip</dimen>
+    <dimen name="post_list_bg_shadow_padding">7dip</dimen>
+    <dimen name="post_list_padding_bottom">12dip</dimen>
+    <dimen name="background_rounded_rect_corner_radius">3dip</dimen>
+    <dimen name="text_default_padding">5dip</dimen>
+    
+    <!-- Text Sizes -->
+    <dimen name="text_post_note">14sp</dimen>
+    <dimen name="text_timeline_date">11sp</dimen>
+    <dimen name="text_post_caption">14sp</dimen>
+    <dimen name="text_story_title">18sp</dimen>
 </resources>

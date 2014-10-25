@@ -7,6 +7,7 @@
         android:id="@+id/lvStoryPosts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/TrailGuide.Detail.PostListView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="missingPrefix"
+    style="@style/TrailGuide.Detail.Post"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="15dp"
-    android:background="#00ffffff" >
-   
-   <TextView
-       android:id="@+id/tvPostNote"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentLeft="true"
-       android:layout_alignParentRight="true"
-       android:layout_alignParentTop="true"
-       fontPath="fonts/Quicksand-Regular.otf"
-       android:background="@color/white"
-       android:ellipsize="end"
-       android:maxHeight="60dp"
-       android:padding="5dp"
-       android:text="@string/note"
-       android:textSize="14sp" />
+    tools:ignore="missingPrefix" >
+	<ImageView
+        android:id="@+id/ivTimelineDot"
+        android:layout_width="@dimen/feed_system_icon_diameter"
+        android:layout_height="@dimen/feed_system_icon_diameter"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/post_list_dot_left"
+        android:src="@drawable/feed_item_system" />
+    
+    <TextView
+        android:id="@+id/tvPostNote"
+        style="@style/TrailGuide.Detail.Post.Note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:text="@string/note" />
+
+    <TextView
+        android:id="@+id/tvPostDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_default_padding"
+        android:layout_alignBaseline="@+id/ivTimelineDot"
+        android:layout_toRightOf="@+id/ivTimelineDot"
+        style="@style/TrailGuide.Detail.Post.DateText"
+        android:text="Oct 22, 8:00pm" />
 
 </RelativeLayout>

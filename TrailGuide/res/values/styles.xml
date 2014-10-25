@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<!--
+     File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -28,8 +29,7 @@
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Trailguide</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_trailguide</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_trailguide</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>      
-        
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>
     </style>
 
     <style name="ActionBar.Solid.Trailguide" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -45,7 +45,7 @@
     </style>
 
     <style name="PopupMenu.Trailguide" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>
     </style>
 
     <style name="DropDownListView.Trailguide" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
@@ -61,19 +61,48 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_trailguide</item>
     </style>
-    
+
     <style name="ProgressBar.Trailguide" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_trailguide</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Trailguide" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_trailguide</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Trailguide.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Trailguide</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Trailguide</item>
+    </style>
+
+    <style name="TrailGuide" />
+
+    <style name="TrailGuide.Detail" parent="TrailGuide" />
+
+    <style name="TrailGuide.Detail.PostListView" parent="@android:style/Widget.ListView">
+        <item name="android:background">@drawable/post_list_background</item>
+        <item name="android:paddingTop">@dimen/post_list_padding_top</item>
+    </style>
+
+    <style name="TrailGuide.Detail.Post">
+        <item name="android:paddingTop">@dimen/post_list_padding_top</item>
+        <item name="android:paddingBottom">@dimen/post_list_padding_all</item>
+    </style>
+
+    <style name="TrailGuide.Detail.Post.Note">
+        <item name="android:textSize">@dimen/text_post_note</item>
+        <item name="fontPath">fonts/Quicksand-Regular.otf</item>
+        <item name="android:padding">@dimen/text_default_padding</item>
+        <item name="android:alignmentMode">alignBounds</item>
+        <item name="android:background">@drawable/item_post_background</item>
+    </style>
+
+    <style name="TrailGuide.Detail.Post.DateText">
+        <item name="android:padding">0dip</item>
+        <item name="android:paddingLeft">@dimen/text_default_padding</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_timeline_date</item>
     </style>
 
 </resources>
