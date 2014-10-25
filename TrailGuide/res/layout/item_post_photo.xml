@@ -6,31 +6,31 @@
     android:layout_height="wrap_content"
     tools:ignore="missingPrefix" >
 
-    <include android:id="@+id/ilPostTimeHeader"
+    <include
+        android:id="@+id/ilPostTimeHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         layout="@layout/post_time_header" />
 
     <RelativeLayout
-        android:layout_below="@+id/ilPostTimeHeader"
-        android:layout_marginTop="20dp"
-        style="@style/TrailGuide.Detail.Post.Photo"
+        style="@style/TrailGuide.Detail.Post.PhotoCard"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ilPostTimeHeader"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="@dimen/list_horizontal_card_padding"
+        android:layout_marginRight="@dimen/list_horizontal_card_padding"
+         >
 
         <ImageView
             android:id="@+id/ivPostPhoto"
+            style="@style/TrailGuide.Detail.Post.Photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/list_horizontal_card_padding"
-            android:layout_marginRight="@dimen/list_horizontal_card_padding"
-            android:adjustViewBounds="true"
             android:contentDescription="@string/hike_coverphoto_description"
-            android:scaleType="center"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_mountain" />
 
         <TextView
             android:id="@+id/tvPostNote"
@@ -39,6 +39,7 @@
             android:layout_alignLeft="@+id/ivPostPhoto"
             android:layout_below="@+id/ivPostPhoto"
             android:layout_margin="@dimen/text_default_padding"
+            android:layout_marginTop="0dp"
             android:ellipsize="end"
             android:text="@string/note"
             android:textColor="@color/black"

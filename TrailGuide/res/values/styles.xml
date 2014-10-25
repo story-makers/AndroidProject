@@ -82,7 +82,10 @@
 
     <style name="TrailGuide.Detail.PostListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@drawable/post_list_background</item>
-        <item name="android:paddingTop">@dimen/post_list_padding_top</item>
+        <item name="android:listSelector">@drawable/post_item_selector</item>
+
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dip</item>
     </style>
 
     <style name="TrailGuide.Detail.Post">
@@ -100,9 +103,17 @@
         <item name="android:background">@drawable/item_post_background</item>
     </style>
     <style name="TrailGuide.Detail.Post.Photo">
+        <item name="android:maxHeight">@dimen/photo_max_height</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitCenter</item>
+        
+            
+    </style>
+    <style name="TrailGuide.Detail.Post.PhotoCard">
         <item name="android:textSize">@dimen/text_post_note</item>
         <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
         <item name="android:padding">@dimen/text_default_padding</item>
+        <item name="android:paddingBottom">0dip</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
 
