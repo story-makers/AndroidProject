@@ -56,6 +56,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			convertView = getInflatedLayoutForType(type);
 		}
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
+			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
+			tvPostDateTime.setText(post.getFormattedCreateTime());
 			ImageView ivPostPhoto = (ImageView) convertView
 					.findViewById(R.id.ivPostPhoto);
 			ivPostPhoto.setImageResource(android.R.color.transparent);
@@ -91,6 +93,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			});
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
+			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
+			tvPostDateTime.setText(post.getFormattedCreateTime());
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
 			if (tvPostNote != null && post.getNote() != null) {

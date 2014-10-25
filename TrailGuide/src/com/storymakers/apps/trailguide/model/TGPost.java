@@ -1,7 +1,9 @@
 package com.storymakers.apps.trailguide.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
@@ -259,5 +261,13 @@ public class TGPost extends ParseObject {
 		if (get(KEY_REF_STORY) != null)
 			return (TGStory) get(KEY_REF_STORY);
 		return null;
+	}
+
+	public static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(
+			"MMM d h:mm a", Locale.US);
+
+	public CharSequence getFormattedCreateTime() {
+
+		return DATE_FORMATTER.format(getCreatedAt());
 	}
 }
