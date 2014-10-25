@@ -2,6 +2,7 @@ package com.storymakers.apps.trailguide.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
@@ -108,14 +109,16 @@ public class TGStory extends ParseObject {
 	public long getLikes() {
 		return getLong("likes");
 	}
-	
-	private long getPostSequenceGeneration(){
+
+	private long getPostSequenceGeneration() {
 		increment(KEY_POST_SEQUENCE_NUM);
 		return getLong(KEY_POST_SEQUENCE_NUM);
 	}
-	private void setPostSequenceGeneration(long num){
+
+	private void setPostSequenceGeneration(long num) {
 		put(KEY_POST_SEQUENCE_NUM, num);
 	}
+
 	public void setLikes(long likes) {
 		this.likes = likes;
 		put("likes", likes);
@@ -138,7 +141,7 @@ public class TGStory extends ParseObject {
 		this.location = location;
 		put("location", location);
 	}
-	
+
 	public void getPosts(final PostListDownloadCallback handle) {
 
 		this.posts = new ArrayList<TGPost>();
@@ -198,15 +201,14 @@ public class TGStory extends ParseObject {
 			progress.endAction();
 	}
 
-
 	public void addPost(TGPost p, ProgressNotificationHandler progress) {
 		if (hasPreamble && p.getType() == PostType.PREAMBLE) {
 			Log.e("FATAL", "Die. You cannot have multiple preambles");
 			return;
 		}
-		if (p.getType() == PostType.REFERENCEDSTORY){
+		if (p.getType() == PostType.REFERENCEDSTORY) {
 			this.referenced_stories.add(p.getReferencedStory());
-			/* TO BE FIXED: Add logic for de duplication of referenced story*/
+			/* TO BE FIXED: Add logic for de duplication of referenced story */
 		}
 
 		this.posts.add(p);
@@ -217,7 +219,7 @@ public class TGStory extends ParseObject {
 			hasPreamble = true;
 		} else
 			p.setSequenceId(getPostSequenceGeneration());
-		
+
 		p.saveData(progress);
 		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
 			setCoverPhotoURL(p.getPhoto_url());
@@ -272,13 +274,38 @@ public class TGStory extends ParseObject {
 	}
 
 	private void updateDistance() {
-		// TODO Auto-generated method stub
-
+		// distance in miles. Need to save somewhere
+		double distance = 0;
+		ParseGeoPoint prevGp = null;
+		Iterator<TGPost> it = posts.iterator();
+		while (it.hasNext()) {
+			TGPost post = it.next();
+			ParseGeoPoint gp = post.getLocation();
+			if (gp != null) {
+				// is location a start point?
+				if (prevGp != null) {
+					distance += gp.distanceInMilesTo(prevGp);
+				}
+				prevGp = gp;
+			}
+		}
 	}
 
 	private void computeDuration() {
-		// TODO Auto-generated method stub
+		if (endDate != null && beginDate != null) {
+			long diff = endDate.getTime() - beginDate.getTime();
 
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			// long diffDays = diff / (24 * 60 * 60 * 1000);
+			String hikeDuration = "";
+			if (diffHours != 0) {
+				hikeDuration += diffHours + " hrs";
+			}
+			if (diffMinutes != 0) {
+				hikeDuration += " " + diffMinutes + "mins";
+			}
+		}
 	}
 
 	private void verifyCoverPhoto() {

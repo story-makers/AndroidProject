@@ -97,6 +97,7 @@ public class HomeActivity extends FragmentActivity implements
 			}
 		});
 	}
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		// TODO Auto-generated method stub
