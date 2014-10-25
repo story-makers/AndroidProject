@@ -92,13 +92,22 @@
 
     <style name="TrailGuide.Detail.Post.Note">
         <item name="android:textSize">@dimen/text_post_note</item>
-        <item name="fontPath">fonts/Quicksand-Regular.otf</item>
+        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:alignmentMode">alignBounds</item>
+        <item name="android:autoLink">web</item>
+        <item name="android:linksClickable">true</item>
+        <item name="android:background">@drawable/item_post_background</item>
+    </style>
+    <style name="TrailGuide.Detail.Post.Photo">
+        <item name="android:textSize">@dimen/text_post_note</item>
+        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
+        <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
 
     <style name="TrailGuide.Detail.Post.DateText">
+        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
         <item name="android:padding">0dip</item>
         <item name="android:paddingLeft">@dimen/text_default_padding</item>
         <item name="android:textColor">@color/grey</item>

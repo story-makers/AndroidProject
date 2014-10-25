@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff" >
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/TrailGuide.Detail.Post"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="missingPrefix" >
 
-    <ImageView
-        android:id="@+id/ivPostPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="10dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/ab_background_textured_trailguide"
-        android:contentDescription="@string/hike_coverphoto_description"
-        android:maxHeight="180dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/tvPostNote"
+    <include android:id="@+id/ilPostTimeHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivPostPhoto"
-        android:layout_alignRight="@+id/ivPostPhoto"
-        android:layout_margin="15dp"
-        android:ellipsize="end"
-        android:text="@string/note"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:typeface="sans" />
+        layout="@layout/post_time_header" />
+
+    <RelativeLayout
+        android:layout_below="@+id/ilPostTimeHeader"
+        android:layout_marginTop="20dp"
+        style="@style/TrailGuide.Detail.Post.Photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/ivPostPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/list_horizontal_card_padding"
+            android:layout_marginRight="@dimen/list_horizontal_card_padding"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/hike_coverphoto_description"
+            android:scaleType="center"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvPostNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivPostPhoto"
+            android:layout_below="@+id/ivPostPhoto"
+            android:layout_margin="@dimen/text_default_padding"
+            android:ellipsize="end"
+            android:text="@string/note"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_post_note" />
+    </RelativeLayout>
 
 </RelativeLayout>

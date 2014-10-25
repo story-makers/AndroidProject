@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/ivTimelineDot"
+        android:layout_width="@dimen/feed_system_icon_diameter"
+        android:layout_height="@dimen/feed_system_icon_diameter"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/post_list_dot_left"
+        android:src="@drawable/feed_item_system" />
+
+    <TextView
+        android:id="@+id/tvPostDateTime"
+        style="@style/TrailGuide.Detail.Post.DateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ivTimelineDot"
+        android:layout_marginLeft="@dimen/text_default_padding"
+        android:layout_toRightOf="@+id/ivTimelineDot"
+        android:text="Oct 22, 8:00pm" />
+
+</merge>
