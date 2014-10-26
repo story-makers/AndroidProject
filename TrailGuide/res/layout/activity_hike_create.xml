@@ -81,6 +81,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
     </FrameLayout>
-
+<include layout="@layout/progress_view"/>
 
 </RelativeLayout>

@@ -27,7 +27,7 @@
     <color name="button_secondary_text_light">#aa0192b5</color>
     <color name="button_white_selected">#ffe5e5e5</color>
 	<color name="date_text_grey">#ffdddddd</color>
-    <color name="dark_orange">#ffe24800</color>
+    <color name="dark_orange">#ffd35400</color>
     <color name="black">#ff000000</color>
     <color name="black_alpha">#3f000000</color>
     <color name="purple_alpha">#3f663399</color>

@@ -59,6 +59,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	private String referencedStoryObjectId;
 	private ProgressNotificationHandler addRefProgressHandler = null;
 	private ProgressNotificationHandler progressbar;
+	private View progressIndicatorView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +74,22 @@ public class HikeCreateActivity extends FragmentActivity implements
 		}
 
 		user = TrailGuideApplication.getCurrentUser();
-
+		progressIndicatorView = findViewById(R.id.ivProgressView);
 		progressbar = new ProgressNotificationHandler() {
 
 			@Override
 			public void endAction() {
 				Log.i("CREATE_PROGRESS", "Progress is complete");
-				Toast.makeText(HikeCreateActivity.this, "Post Saved", Toast.LENGTH_SHORT).show();
+				if (progressIndicatorView != null){
+					progressIndicatorView.setVisibility(View.INVISIBLE);
+				}
 			}
 
 			@Override
 			public void beginAction() {
+				if (progressIndicatorView != null){
+					progressIndicatorView.setVisibility(View.VISIBLE);
+				}
 				Log.i("CREATE_PROGRESS", "Begin progress bar");
 			}
 		};
