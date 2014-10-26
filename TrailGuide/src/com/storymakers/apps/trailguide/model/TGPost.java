@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -267,7 +268,10 @@ public class TGPost extends ParseObject {
 			"MMM d h:mm a", Locale.US);
 
 	public CharSequence getFormattedCreateTime() {
-
-		return DATE_FORMATTER.format(getCreatedAt());
+		Date d = getCreatedAt();
+		if (d == null){
+			return "Sometime";
+		}
+		return DATE_FORMATTER.format(d);
 	}
 }
