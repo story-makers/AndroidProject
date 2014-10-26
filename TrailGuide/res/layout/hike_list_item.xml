@@ -88,6 +88,17 @@
             android:layout_toLeftOf="@+id/ivShareHikeIcon"
             android:src="@drawable/ic_link_blue"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/ivDeleteStory"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/tvLikes"
+            android:visibility="invisible"
+            
+            android:layout_alignLeft="@+id/ivLinkedStoryIcon"
+            android:src="@drawable/ic_delete_x" />
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -21,7 +21,7 @@ import com.storymakers.apps.trailguide.model.TGPost.PostType;
 @ParseClassName("TGStory")
 public class TGStory extends ParseObject {
 	public enum StoryType {
-		DRAFT, COMPLETE
+		DRAFT, COMPLETE, DELETED
 	};
 
 	public final String KEY_BEGINDATE = "beginDate";
@@ -74,6 +74,8 @@ public class TGStory extends ParseObject {
 			break;
 		case COMPLETE:
 			put("state", "COMPLETE");
+		case DELETED:
+			put("state", "DELETED");
 		default:
 			break;
 		}
@@ -84,8 +86,10 @@ public class TGStory extends ParseObject {
 		String s = getString("state");
 		if (s.equals("COMPLETE"))
 			return StoryType.COMPLETE;
-		else
+		else if (s.equals("DRAFT"))
 			return StoryType.DRAFT;
+		else
+			return StoryType.DELETED;
 	}
 
 	public String getTitle() {
@@ -320,14 +324,27 @@ public class TGStory extends ParseObject {
 		}
 	}
 
-	public void saveData() {
+	public void saveData(){
+		saveData(null);
+	}
+	public void saveData(final ProgressNotificationHandler handler) {
+		if(handler != null)
+			handler.beginAction();
 		if (getState() == StoryType.DRAFT) {
 			pinAllInBackground(this.posts);
 			pinInBackground();
 			return;
 		}
 		saveAllInBackground(this.posts);
-		saveInBackground();
+		saveInBackground(new SaveCallback() {
+			
+			@Override
+			public void done(ParseException arg0) {
+				// TODO Auto-generated method stub
+				if (handler != null)
+					handler.endAction();
+			}
+		});
 	}
 
 	public Date getBeginDate() {
@@ -363,6 +380,11 @@ public class TGStory extends ParseObject {
 	public String getDisplayDate() {
 		// Date to display on hike story list
 		return null;
+	}
+	
+	public void deleteStory(ProgressNotificationHandler progress){
+		setState(StoryType.DELETED);
+		saveData(progress);
 	}
 
 }

@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.parse.ParseUser;
 import com.storymakers.apps.trailguide.model.ParseClient;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGUser;
 
 public class TrailGuideApplication extends Application {
@@ -55,8 +56,10 @@ public class TrailGuideApplication extends Application {
 	
 	public static void logOutCurrentUser(){
 		loggedInUser = null;
+		RemoteDBClient.removeAllCachedData();
 		ParseUser.logOut();
 	}
+	
 	public static Boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);

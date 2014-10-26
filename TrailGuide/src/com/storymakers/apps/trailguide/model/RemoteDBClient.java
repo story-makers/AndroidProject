@@ -12,7 +12,9 @@ import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 
 public class RemoteDBClient {
-
+	public static void removeAllCachedData(){
+		ParseObject.unpinAllInBackground();
+	}
 	public static void getCompletedStoriesByUser(FindCallback<TGStory> callback,
 			TGUser user, int from, int limit) {
 		ParseQuery<TGStory> query = ParseQuery.getQuery(TGStory.class);

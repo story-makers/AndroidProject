@@ -21,7 +21,6 @@ public class HikesListFragment extends Fragment {
 	private ArrayList<TGStory> stories;
 	protected PullToRefreshListView lvHikesList;
 	private HikeArrayAdapter hikesListAdapter;
-	private Boolean deleteActionAllowed = false;
 	// private SwipeRefreshLayout swipeContainer;
 
 	private OnListItemClickListener listener;
@@ -36,8 +35,7 @@ public class HikesListFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_hikes_list, container,
 				false /* don't attach to container yet */);
 		// Assign view preferences
-		lvHikesList = (PullToRefreshListView) v
-				.findViewById(R.id.lvHikesList);
+		lvHikesList = (PullToRefreshListView) v.findViewById(R.id.lvHikesList);
 		lvHikesList.setAdapter(hikesListAdapter);
 		// setupScrollListener();
 		// setupSwipeListener(v);
@@ -77,12 +75,8 @@ public class HikesListFragment extends Fragment {
 		hikesListAdapter.clear();
 	}
 
-	public Boolean getDeleteActionAllowed() {
-		return deleteActionAllowed;
-	}
-
 	public void setDeleteActionAllowed(Boolean deleteActionAllowed) {
-		this.deleteActionAllowed = deleteActionAllowed;
+		hikesListAdapter.setDeleteActionAllowed(deleteActionAllowed);
 	}
 
 }
