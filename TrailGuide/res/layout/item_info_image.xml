@@ -8,8 +8,8 @@
         android:id="@+id/ivPostInfoImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_launcher" />

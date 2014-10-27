@@ -22,8 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.storymakers.apps.trailguide.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.activities.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUtils;
