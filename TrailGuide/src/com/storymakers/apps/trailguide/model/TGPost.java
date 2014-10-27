@@ -1,13 +1,13 @@
 package com.storymakers.apps.trailguide.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -269,8 +269,9 @@ public class TGPost extends ParseObject {
 
 	public CharSequence getFormattedCreateTime() {
 		Date d = getCreatedAt();
-		if (d == null){
-			return "Sometime";
+		if (d == null) {
+			
+			return getCreate_time();
 		}
 		return DATE_FORMATTER.format(d);
 	}

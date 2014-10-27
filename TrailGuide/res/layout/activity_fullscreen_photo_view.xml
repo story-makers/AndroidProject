@@ -8,5 +8,5 @@
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
-
+	<include layout="@layout/progress_view" android:visibility="invisible" />
 </RelativeLayout>

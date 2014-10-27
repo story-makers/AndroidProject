@@ -44,4 +44,6 @@
         android:layout_below="@+id/btnLogout" >
     </FrameLayout>
 
+    <include layout="@layout/progress_view" android:visibility="invisible" />
+
 </RelativeLayout>
