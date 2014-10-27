@@ -15,14 +15,16 @@
     <ImageView
         
         android:id="@+id/ivCoverPhoto"
+        
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/rlTitleGroup"
         android:src="@drawable/ic_launcher_old"
         android:adjustViewBounds="true"
-        style="@style/TrailGuide.Detail.Hike.Photo"
+        style="@style/TrailGuide.Detail.HikePhoto"
         android:scaleType="centerCrop" />
     
     <ProgressBar
@@ -75,6 +77,7 @@
             android:id="@+id/ivShareHikeIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvLikes"
             android:layout_alignTop="@+id/tvLikes"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/tvLikes"
