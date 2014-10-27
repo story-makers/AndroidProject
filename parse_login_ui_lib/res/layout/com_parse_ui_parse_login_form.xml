@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/parse_signup_button"
-            style="@style/ParseLoginUI.Button"
+            style="@style/ParseLoginUI.Button.Blue"
             android:layout_marginLeft="@dimen/com_parse_ui_small_horizontal_spacing"
             android:layout_weight="0.5"
             android:text="@string/com_parse_ui_parse_signup_button_label" />

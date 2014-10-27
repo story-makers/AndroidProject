@@ -22,10 +22,23 @@
     <dimen name="text_default_padding">5dip</dimen>
     <dimen name="photo_max_height">250dip</dimen>
     <dimen name="photo_note_min_height">20dp</dimen>
+    <dimen name="button_corner_radius">2.0dip</dimen>
+    <dimen name="button_header_height">38.0dip</dimen>
+    <dimen name="padding_large">16.0dip</dimen>
+    <dimen name="padding_medium">8.0dip</dimen>
+    <dimen name="padding_small">4.0dip</dimen>
+    <dimen name="padding_small_medium">6.0dip</dimen>
+    <dimen name="padding_tiny">2.0dip</dimen>
+
     <!-- Text Sizes -->
     <dimen name="text_post_note">14sp</dimen>
     <dimen name="text_timeline_date">11sp</dimen>
     <dimen name="text_post_caption">14sp</dimen>
     <dimen name="text_story_title">18sp</dimen>
+    <dimen name="text_large">16.0sp</dimen>
+    <dimen name="text_larger">18.0sp</dimen>
+    <dimen name="text_medium">14.0sp</dimen>
+    <dimen name="text_small">12.0sp</dimen>
+    <dimen name="text_smaller">10.0sp</dimen>
 
 </resources>

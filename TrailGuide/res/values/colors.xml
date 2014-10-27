@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!-- Post list background colors -->
+    <!-- Post list background colors -->
     <color name="post_list_timeline_strip">#ffe9e9f3</color>
     <color name="app_background_main">#fff7f6f2</color>
     <color name="background_off_white">#fff9f9f9</color>
@@ -11,8 +11,9 @@
     <color name="background_white">#ffffffff</color>
     <color name="background_white_smoke">#eeffffff</color>
     <color name="background_yellow_highlight">#fffff9d2</color>
-	
-	<color name="transparent_black">#88000000</color>
+    <color name="text_grey">@color/grey</color>
+    <color name="text_grey_white">#ffcccccc</color>
+    <color name="transparent_black">#88000000</color>
     <color name="button_blue">#ff2ba8c6</color>
     <color name="button_blue_disabled">#772792b2</color>
     <color name="button_blue_selected">#ff2797b2</color>
@@ -27,7 +28,7 @@
     <color name="button_secondary_text">#ff0192b5</color>
     <color name="button_secondary_text_light">#aa0192b5</color>
     <color name="button_white_selected">#ffe5e5e5</color>
-	<color name="date_text_grey">#ffdddddd</color>
+    <color name="date_text_grey">#ffdddddd</color>
     <color name="dark_orange">#ffd35400</color>
     <color name="black">#ff000000</color>
     <color name="black_alpha">#3f000000</color>
@@ -41,6 +42,5 @@
     <color name="dark_grey">#9f000000</color>
     <color name="background_grey">#0f000000</color>
     <color name="blue_action_bar">#ff36648b</color>
-    
 
 </resources>

@@ -95,7 +95,6 @@
 
     <style name="TrailGuide.Detail.Post.Note">
         <item name="android:textSize">@dimen/text_post_note</item>
-        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:alignmentMode">alignBounds</item>
         <item name="android:autoLink">web</item>
@@ -157,6 +156,67 @@
     <style name="TrailGuide.Detail.Hike.Photo">
         <item name="android:textSize">@dimen/text_post_note</item>
         <item name="android:background">@drawable/item_hike_photo_background</item>
+    </style>
+
+    <style name="TrailGuide.ButtonOrange" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_orange_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonBlue" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_blue_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonGreen" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_green_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_small</item>
+        <item name="android:paddingRight">@dimen/padding_small</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonGrey" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_grey_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="ButtonTransparent" parent="@style/TextGrey">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+
+    <style name="ButtonTransparent.Blue" parent="@style/ButtonTransparent">
+        <item name="android:textAppearance">@style/TextBlue</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
+    <style name="TextWhite">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextWhite.Bold" parent="@style/TextWhite">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextBlue">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextBlue.Bold" parent="@style/TextBlue">
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
