@@ -11,7 +11,8 @@
     <color name="background_white">#ffffffff</color>
     <color name="background_white_smoke">#eeffffff</color>
     <color name="background_yellow_highlight">#fffff9d2</color>
-
+	
+	<color name="transparent_black">#88000000</color>
     <color name="button_blue">#ff2ba8c6</color>
     <color name="button_blue_disabled">#772792b2</color>
     <color name="button_blue_selected">#ff2797b2</color>

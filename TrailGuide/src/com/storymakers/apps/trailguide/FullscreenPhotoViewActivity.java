@@ -26,6 +26,7 @@ public class FullscreenPhotoViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fullscreen_photo_view);
+		getActionBar().hide();
 		final String requestedHikeObjectId = getIntent().getStringExtra("hike");
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
