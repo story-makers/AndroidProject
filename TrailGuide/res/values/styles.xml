@@ -27,6 +27,7 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Trailguide</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Trailguide</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Trailguide</item>
+        <item name="android:actionBarSize">@dimen/actionbar_size</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_trailguide</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_trailguide</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>
@@ -83,7 +84,6 @@
     <style name="TrailGuide.Detail.PostListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@drawable/post_list_background</item>
         <item name="android:listSelector">@drawable/post_item_selector</item>
-
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dip</item>
     </style>
@@ -102,13 +102,21 @@
         <item name="android:linksClickable">true</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
+
     <style name="TrailGuide.Detail.Post.Photo">
         <item name="android:maxHeight">@dimen/photo_max_height</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
-        
-            
     </style>
+
+    <style name="TrailGuide.Detail.PhotoNote">
+        <item name="android:minHeight">@dimen/photo_note_min_height</item>
+        <item name="android:background">@color/transparent_black</item>
+        <item name="android:padding">@dimen/text_default_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">30dp</item>
+    </style>
+
     <style name="TrailGuide.Detail.Post.PhotoCard">
         <item name="android:textSize">@dimen/text_post_note</item>
         <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
@@ -124,25 +132,19 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">@dimen/text_timeline_date</item>
     </style>
-    
-    
-    
-    
+
     <style name="TrailGuide.Detail.HikeListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@drawable/hike_list_background</item>
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dp</item>
-        
-        
     </style>
 
     <style name="TrailGuide.Detail.Hike">
-      <!--     <item name="android:paddingTop">@dimen/post_list_padding_top</item> -->
+
+        <!-- <item name="android:paddingTop">@dimen/post_list_padding_top</item> -->
         <item name="android:paddingBottom">@dimen/post_list_padding_all</item>
-        <item name="android:background">@drawable/item_hike_background</item>  
+        <item name="android:background">@drawable/item_hike_background</item>
     </style>
-    
-    
 
     <style name="TrailGuide.Detail.HikeDescription">
         <item name="android:textSize">@dimen/text_post_note</item>
@@ -153,10 +155,9 @@
     </style>
     
     <style name="TrailGuide.Detail.HikePhoto">
+
         <item name="android:textSize">@dimen/text_post_note</item>
-        
         <item name="android:background">@drawable/item_hike_photo_background</item>
     </style>
-    
 
 </resources>

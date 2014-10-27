@@ -2,7 +2,7 @@
 <resources>
 
 <!-- Post list background colors -->
-    <color name="post_list_timeline_strip">#FFE9E9F3</color>
+    <color name="post_list_timeline_strip">#ffe9e9f3</color>
     <color name="app_background_main">#fff7f6f2</color>
     <color name="background_off_white">#fff9f9f9</color>
     <color name="background_secondary">#ffe5e4e3</color>
@@ -11,7 +11,8 @@
     <color name="background_white">#ffffffff</color>
     <color name="background_white_smoke">#eeffffff</color>
     <color name="background_yellow_highlight">#fffff9d2</color>
-
+	
+	<color name="transparent_black">#88000000</color>
     <color name="button_blue">#ff2ba8c6</color>
     <color name="button_blue_disabled">#772792b2</color>
     <color name="button_blue_selected">#ff2797b2</color>

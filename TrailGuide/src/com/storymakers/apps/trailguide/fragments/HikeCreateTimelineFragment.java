@@ -42,7 +42,7 @@ public class HikeCreateTimelineFragment extends Fragment {
 		ft.replace(R.id.flContainerPosts, new PostListFragment(), "post_list_fragment");
 		// Execute the changes specified
 		ft.commit();
-		story.getPosts(new PostListDownloadCallback() {
+		story.getAllPosts(new PostListDownloadCallback() {
 			
 			@Override
 			public void fail(String reason) {

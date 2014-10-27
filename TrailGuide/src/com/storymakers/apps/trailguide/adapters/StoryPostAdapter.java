@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,18 +23,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.storymakers.apps.trailguide.FullscreenPhotoViewActivity;
+import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
+import com.storymakers.apps.trailguide.activities.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	private ImageLoader imageLoader;
+	private OnClickListener onMapClickListener;
 
 	public StoryPostAdapter(Context context, List<TGPost> objects) {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
+		onMapClickListener = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TGPost p = (TGPost) v.getTag(R.string.object_post_key);
+				float mLatitude = (float) p.getLocation().getLatitude();
+				float mLongitude = (float) p.getLocation().getLongitude();
+				int mZoom = 9;
+				StoryPostAdapter.this.getContext().startActivity( new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + mLatitude + "," + mLongitude
+                        + "?q=" + mLatitude + "," + mLongitude + "&z=" + mZoom)));
+				
+			}
+		};
 	}
 
 	// Return an integer representing the type by fetching the enum type val
@@ -53,7 +71,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		final TGPost post = (TGPost) getItem(position);
 		int type = getItemViewType(position);
 		if (convertView == null) {
-			convertView = getInflatedLayoutForType(type);
+			convertView = getInflatedLayoutForPost(post);
 		}
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
@@ -103,15 +121,22 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				tvPostNote.setVisibility(View.GONE);
 			}
 		}
-		if (type == TGPost.PostType.LOCATION.getNumVal()) {
+		if (type == TGPost.PostType.LOCATION.getNumVal() && post.getNote().length() > 0) {
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
 			if (post.getNote() != null && post.getNote().length() > 0) {
-				tvPostNote.setText("Location marker:" + post.getNote());
+				tvPostNote.setText(post.getNote());
 			} else {
 				tvPostNote.setText("Location marker: "
 						+ post.getLocationString());
 			}
+			ImageView gsmvStaticMap = (ImageView) convertView.findViewById(R.id.gsmvStaticLocationView);
+			ParseGeoPoint geoPoint = post.getLocation();
+			Uri staticMapUri = TrailGuideApplication.getStaticMapObject().getMap((float)geoPoint.getLatitude(), (float)geoPoint.getLongitude(), 240, 240, true, null);
+			Log.d("STATIC MAP URL", staticMapUri.toString());
+			gsmvStaticMap.setTag(R.string.object_post_key, post);
+			gsmvStaticMap.setOnClickListener(onMapClickListener);
+			imageLoader.displayImage(staticMapUri.toString(), gsmvStaticMap);
 		}
 		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
 			setStoryAttributes(convertView, post.getStory());
@@ -211,20 +236,21 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 
 	// Given the item type, responsible for returning the correct inflated XML
 	// layout file
-	private View getInflatedLayoutForType(int type) {
-		if (type == TGPost.PostType.PHOTO.getNumVal()) {
+	private View getInflatedLayoutForPost(TGPost post) {
+		PostType type = post.getType();
+		if (type == TGPost.PostType.PHOTO) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_photo, null);
-		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
+		} else if (type == TGPost.PostType.NOTE) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_note, null);
-		} else if (type == TGPost.PostType.LOCATION.getNumVal()) {
+		} else if (type == TGPost.PostType.LOCATION && post.getNote().length() > 0) {
 			return LayoutInflater.from(getContext()).inflate(
-					R.layout.item_post_note, null);
-		} else if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
+					R.layout.item_post_location, null);
+		} else if (type == TGPost.PostType.PREAMBLE) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_coverphoto, null);
-		} else if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
+		} else if (type == TGPost.PostType.REFERENCEDSTORY) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_coverphoto, null);
 		} else {

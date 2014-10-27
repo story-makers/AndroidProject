@@ -1,4 +1,4 @@
-package com.storymakers.apps.trailguide;
+package com.storymakers.apps.trailguide.activities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.R.id;
+import com.storymakers.apps.trailguide.R.layout;
 import com.storymakers.apps.trailguide.adapters.PhotoViewAdapter;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
@@ -26,6 +29,7 @@ public class FullscreenPhotoViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fullscreen_photo_view);
+		getActionBar().hide();
 		final String requestedHikeObjectId = getIntent().getStringExtra("hike");
 
 		viewPager = (ViewPager) findViewById(R.id.pager);

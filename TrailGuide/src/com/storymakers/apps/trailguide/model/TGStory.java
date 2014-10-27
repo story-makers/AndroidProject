@@ -146,7 +146,7 @@ public class TGStory extends ParseObject {
 		put("location", location);
 	}
 
-	public void getPosts(final PostListDownloadCallback handle) {
+	public void getAllPosts(final PostListDownloadCallback handle) {
 
 		this.posts = new ArrayList<TGPost>();
 		RemoteDBClient.getPostsForTGStory(this, new PostListDownloadCallback() {
@@ -178,6 +178,37 @@ public class TGStory extends ParseObject {
 		});
 
 	}
+
+	public void getPosts(final PostListDownloadCallback handle) {
+		this.posts = new ArrayList<TGPost>();
+		RemoteDBClient.getOriginalPostsForTGStory(this, new PostListDownloadCallback() {
+
+			@Override
+			public void fail(String reason) {
+				Log.e("ERROR", reason);
+				if (handle != null)
+					handle.fail(reason);
+			}
+
+			@Override
+			public void done(List<TGPost> objs) {
+				TGStory.this.posts.addAll(objs);
+				for (TGPost p : objs) {
+					if (p.getType() == PostType.REFERENCEDSTORY) {
+						TGStory.this.referenced_stories.add(p
+								.getReferencedStory());
+					}
+
+					if (p.getType() == PostType.PREAMBLE) {
+						hasPreamble = true;
+					}
+				}
+				if (handle != null) {
+					handle.done(objs);
+				}
+			}
+		});
+	};
 
 	public ArrayList<TGPost> getPosts() {
 		return this.posts;

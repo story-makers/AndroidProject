@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
@@ -23,20 +23,13 @@ public class PhotoViewAdapter extends PagerAdapter {
 	private int count;
 	private LayoutInflater inflater;
 	private Activity activity;
-	private OnClickListener closeApplicationClickListener;
+
 	public PhotoViewAdapter(Activity act, List<TGPost> postlist){
 		activity = act;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		posts = postlist;
 		count = postlist.size();
-		closeApplicationClickListener = new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				activity.finish();
-				
-			}
-		};
+		
 	
 	}
 	@Override
@@ -52,13 +45,14 @@ public class PhotoViewAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		ImageView imgDisplay;
-		Button btnClose;
+		TextView tvPhotoNote;
 		TGPost p = posts.get(position);
 		View v = inflater.inflate(R.layout.layout_photo_viewer, container, false);
 		imgDisplay = (ImageView) v.findViewById(R.id.imgDisplay);
-		btnClose = (Button) v.findViewById(R.id.btnClose);
+		imgDisplay.setImageResource(R.drawable.spinner_blue);
 		ImageLoader.getInstance().displayImage(p.getPhoto_url(), imgDisplay);
-		btnClose.setOnClickListener(closeApplicationClickListener);
+		tvPhotoNote = (TextView) v.findViewById(R.id.tvPhotoNote);
+		tvPhotoNote.setText(p.getNote());
 		((ViewPager)container).addView(v);
 		return v;
 	}
