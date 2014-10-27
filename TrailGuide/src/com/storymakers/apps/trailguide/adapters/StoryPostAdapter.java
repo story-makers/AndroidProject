@@ -24,9 +24,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseGeoPoint;
-import com.storymakers.apps.trailguide.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
+import com.storymakers.apps.trailguide.activities.FullscreenPhotoViewActivity;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
