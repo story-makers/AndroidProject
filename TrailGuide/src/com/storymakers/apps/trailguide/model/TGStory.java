@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import android.util.Log;
 
@@ -146,8 +147,7 @@ public class TGStory extends ParseObject {
 		put("location", location);
 	}
 
-	public void getAllPosts(final PostListDownloadCallback handle) {
-
+	public void getPosts(final PostListDownloadCallback handle) {
 		this.posts = new ArrayList<TGPost>();
 		RemoteDBClient.getPostsForTGStory(this, new PostListDownloadCallback() {
 
@@ -176,39 +176,18 @@ public class TGStory extends ParseObject {
 				}
 			}
 		});
-
 	}
 
-	public void getPosts(final PostListDownloadCallback handle) {
-		this.posts = new ArrayList<TGPost>();
-		RemoteDBClient.getOriginalPostsForTGStory(this, new PostListDownloadCallback() {
-
-			@Override
-			public void fail(String reason) {
-				Log.e("ERROR", reason);
-				if (handle != null)
-					handle.fail(reason);
+	public static List<TGPost> filterPosts(List<TGPost> posts,
+			Set<TGPost.PostType> filterTypes) {
+		ArrayList<TGPost> filteredPosts = new ArrayList<TGPost>();
+		for (TGPost post : posts) {
+			if (!filterTypes.contains(post.getType())) {
+				filteredPosts.add(post);
 			}
-
-			@Override
-			public void done(List<TGPost> objs) {
-				TGStory.this.posts.addAll(objs);
-				for (TGPost p : objs) {
-					if (p.getType() == PostType.REFERENCEDSTORY) {
-						TGStory.this.referenced_stories.add(p
-								.getReferencedStory());
-					}
-
-					if (p.getType() == PostType.PREAMBLE) {
-						hasPreamble = true;
-					}
-				}
-				if (handle != null) {
-					handle.done(objs);
-				}
-			}
-		});
-	};
+		}
+		return filteredPosts;
+	}
 
 	public ArrayList<TGPost> getPosts() {
 		return this.posts;

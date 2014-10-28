@@ -15,15 +15,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.fragments.CustomMapFragment;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
-import com.storymakers.apps.trailguide.fragments.StoryMapFragment.onGoogleMapCreationListener;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 import com.storymakers.apps.trailguide.model.TGStory;
 
-public class HikeDetailsActivity extends FragmentActivity implements
-		onGoogleMapCreationListener {
+public class HikeDetailsActivity extends FragmentActivity {
 
 	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
 	private Button btnAddToHike;
@@ -106,13 +103,6 @@ public class HikeDetailsActivity extends FragmentActivity implements
 								R.id.flContainer, this, "mentions",
 								StoryMapFragment.class, fragmentArgs));
 		actionBar.addTab(storyMapTab);
-
-	}
-
-	@Override
-	public void onGoogleMapCreation(CustomMapFragment mapFragment,
-			StoryMapFragment storyFragment) {
-		// TODO Auto-generated method stub
 
 	}
 

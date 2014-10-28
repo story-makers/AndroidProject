@@ -1,5 +1,7 @@
 package com.storymakers.apps.trailguide.fragments;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
+import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class StoryDetailFragment extends Fragment {
@@ -56,10 +59,13 @@ public class StoryDetailFragment extends Fragment {
 
 			@Override
 			public void done(List<TGPost> objs) {
+				// We would like to filter reference story posts for the hike's story detail fragment
+				List<TGPost> filteredPosts = TGStory.filterPosts(objs,
+						new HashSet<PostType>(Arrays.asList(PostType.REFERENCEDSTORY)));
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
 				pb.setVisibility(ProgressBar.INVISIBLE);
-				fragment.addAll(objs);
+				fragment.addAll(filteredPosts);
 			}
 		});
 	}

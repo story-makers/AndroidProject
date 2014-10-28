@@ -25,7 +25,7 @@ import com.parse.LocationCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
-import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
+import com.storymakers.apps.trailguide.interfaces.LocationAvailableHandler;
 
 public class TGUtils {
 
@@ -77,7 +77,7 @@ public class TGUtils {
 		return latlong;
 	}
 
-	public static void getCurrentLocation(final LoactionAvailableHandler handle) {
+	public static void getCurrentLocation(final LocationAvailableHandler handle) {
 		ParseGeoPoint.getCurrentLocationInBackground(10000,
 				new LocationCallback() {
 

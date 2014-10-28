@@ -1,11 +1,12 @@
 package com.storymakers.apps.trailguide.fragments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,26 +36,27 @@ import com.storymakers.apps.trailguide.fragments.CustomMapFragment.OnMapReadyLis
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
+import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
 
 public class StoryMapFragment extends Fragment implements OnMapReadyListener {
+	private static final double DEFAULT_LAT = 37.3858058;
+	private static final double DEFAULT_LNG = -122.0808706;
+
 	private TGStory story;
 	private CustomMapFragment mapFragment;
 	private GoogleMap map;
 	private ArrayList<TGPost> posts;
 	private Map<Marker, List<TGPost>> markerData;
 
-	private onGoogleMapCreationListener listener;
-
-	public interface onGoogleMapCreationListener {
-		public void onGoogleMapCreation(CustomMapFragment mapFragment,
-				StoryMapFragment storyFragment);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		markerData = new HashMap<Marker, List<TGPost>>();
 	}
 
 	@Override
 	public void onMapReady() {
-		GoogleMap mMap = mapFragment.getMap();
-		//Toast.makeText(getActivity(), "MapFragment", Toast.LENGTH_SHORT).show();
 		initializeMap();
 		getStory();
 		getPosts(story, Color.rgb(0, 0, 255));
@@ -67,31 +70,6 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		}
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-		listener.onGoogleMapCreation(mapFragment, this);
-
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (activity instanceof onGoogleMapCreationListener) {
-			listener = (onGoogleMapCreationListener) activity;
-		} else {
-			throw new ClassCastException(
-					activity.toString()
-							+ " must implement StoryMapFragment.onGoogleMapCreationListener");
-		}
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		markerData = new HashMap<Marker, List<TGPost>>();
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -102,11 +80,6 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		return v;
 	}
 
-	/*
-	 * @Override public void onResume() { super.onResume(); initializeMap();
-	 * getPosts(); }
-	 */
-
 	private void setupMapFragment() {
 		mapFragment = CustomMapFragment.newInstance();
 		// Begin the transaction
@@ -115,25 +88,23 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 		ft.replace(R.id.flMapContainer, mapFragment, "map_fragment");
 		// Execute the changes specified
 		ft.commit();
-		// getChildFragmentManager().executePendingTransactions();
 	}
 
-	public void initializeMap() {
-		if (mapFragment != null) {
-			map = mapFragment.getMap();
-			if (map != null) {
-				map.setMyLocationEnabled(true);
-				map.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
-				// TODO: if needed set onInfoWindowClickListener to navigate to
-				// the specific item in timeline.
-			} else {
-				/*Toast.makeText(getActivity(), "Error - Map was null!!",
-						Toast.LENGTH_SHORT).show();*/
-			}
+	private void initializeMap() {
+		map = mapFragment.getMap();
+		if (map != null) {
+			//Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+			map.setMyLocationEnabled(true);
 		} else {
-			/*Toast.makeText(getActivity(), "Error - Map Fragment was null!!",
-					Toast.LENGTH_SHORT).show();*/
+			Toast.makeText(getActivity(), "Error - Map was null!!",
+					Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	private void setInfoWindowAdapter() {
+		// TODO: if needed set onInfoWindowClickListener to navigate to
+		// the specific item in timeline.
+		map.setInfoWindowAdapter(new MapInfoWindowAdapter(StoryMapFragment.this));
 	}
 
 	public void getPosts(TGStory story, final int color) {
@@ -146,31 +117,41 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 
 			@Override
 			public void done(List<TGPost> objs) {
-				Log.d("DEBUG", objs.toString());
-				posts = new ArrayList<TGPost>();
-				posts.addAll(objs);
+				// We would like to filter reference story, preamble and metadata posts
+				// for the hike's map fragment
+				posts = (ArrayList<TGPost>) TGStory.filterPosts(objs,
+						new HashSet<PostType>(Arrays.asList(PostType.REFERENCEDSTORY,
+								PostType.PREAMBLE, PostType.METADATA, PostType.LOCATION)));
 				zoomToHikeStartPoint();
 				addPostsToMap(color);
+				setInfoWindowAdapter();
 			}
 		});
 	}
 
 	private void zoomToHikeStartPoint() {
-		
-		ParseGeoPoint point =  null;
-		for (TGPost p :posts){
-			if (p.getLocation() != null && (int)p.getLocation().getLatitude() != 0){
-				point = p.getLocation();
-				break;
+		// Start with the default LATLNG.
+		LatLng latLng = new LatLng(DEFAULT_LAT, DEFAULT_LNG);
+		if (story != null) {
+			// replace with hike start point location.
+			ParseGeoPoint point = story.getLocation();
+			if (point == null) {
+				// find the first post with a location set on it.
+				for (TGPost p : posts){
+					if (p.getLocation() != null && (int)p.getLocation().getLatitude() != 0){
+						point = p.getLocation();
+						break;
+					}
+				}
 			}
+			if (point != null) {
+				latLng = new LatLng(point.getLatitude(), point.getLongitude());
+			}
+			
 		}
-		if (point != null) {
-			LatLng latLng = new LatLng(point.getLatitude(),
-					point.getLongitude());
-			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-					latLng, 17);
-			map.animateCamera(cameraUpdate);
-		}
+		CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+				latLng, 17.0f);
+		map.moveCamera(cameraUpdate);
 	}
 
 	private void getStory() {
@@ -275,7 +256,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 			LayoutInflater inflater = (LayoutInflater) storyMapFragment
 					.getActivity().getSystemService(
 							Context.LAYOUT_INFLATER_SERVICE);
-			View v = (View) inflater.inflate(R.layout.infowindow, null);
+			View v = (View) inflater.inflate(R.layout.map_info_window, null);
 			ListView lvPosts = (ListView) v.findViewById(R.id.lvPostsInfo);
 			MapInfoWindowItemAdapter customadapter = new MapInfoWindowItemAdapter(
 					storyMapFragment.getActivity(),

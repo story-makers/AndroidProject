@@ -3,6 +3,7 @@ package com.storymakers.apps.trailguide.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 
@@ -23,14 +23,6 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 	public MapInfoWindowItemAdapter(Context context, List<TGPost> posts) {
 		super(context, 0, posts);
 		imageLoader = ImageLoader.getInstance();
-		if (!imageLoader.isInited()) {
-			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-					cacheInMemory().cacheOnDisc().build();
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-					.defaultDisplayImageOptions(defaultOptions)
-					.build();
-			imageLoader.init(config);
-		}
 	}
 
 	// Return an integer representing the type by fetching the enum type val
@@ -47,35 +39,49 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TGPost post = (TGPost) getItem(position);
+		final TGPost post = (TGPost) getItem(position);
+		int type = getItemViewType(position);
 		if (convertView == null) {
-			int type = getItemViewType(position);
-			convertView = getInflatedLayoutForType(type);
+			convertView = getInflatedLayoutForType(type, parent);
 		}
-		
-		TextView tvPostInfoText = (TextView) convertView.findViewById(R.id.tvPostInfoText);
-		if (tvPostInfoText != null && post.getNote() != null) {
-			tvPostInfoText.setText(post.getNote());
-		}
-		ImageView ivPostInfoImage = (ImageView) convertView.findViewById(R.id.ivPostInfoImage);
-		if (ivPostInfoImage != null) {
+
+		if (type == TGPost.PostType.PHOTO.getNumVal()) {
+			ImageView ivPostInfoImage = (ImageView) convertView
+					.findViewById(R.id.ivPostInfoImage);
 			ivPostInfoImage.setImageResource(android.R.color.transparent);
-			imageLoader.displayImage(post.getPhoto_url(), ivPostInfoImage);
+			TextView tvPostInfoText = (TextView) convertView
+					.findViewById(R.id.tvPostInfoText);
+			if (tvPostInfoText != null && post.getNote() != null) {
+				tvPostInfoText.setText(post.getNote());
+			}
+			if (post.getLocalImagePath() != null) {
+				ivPostInfoImage.setImageBitmap(TGUtils.getBitmapForLocalUri(Uri
+						.parse(post.getLocalImagePath())));
+			} else if (post.getPhoto_url().length() > 0) {
+				imageLoader.displayImage(post.getPhoto_url(), ivPostInfoImage);
+			}
+		}
+		if (type == TGPost.PostType.NOTE.getNumVal()) {
+			TextView tvPostInfoText = (TextView) convertView
+					.findViewById(R.id.tvPostInfoText);
+			if (tvPostInfoText != null && post.getNote() != null) {
+				tvPostInfoText.setText(post.getNote());
+			}
 		}
 		return convertView;
 	}
 
 	// Given the item type, responsible for returning the correct inflated XML layout file
-	private View getInflatedLayoutForType(int type) {
+	private View getInflatedLayoutForType(int type, ViewGroup parent) {
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_image, null);
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_info_image, parent, false);
 		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
-		} else if (type == TGPost.PostType.LOCATION.getNumVal()) {
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_info_text, parent, false);
 		} else {
-			// default convert view
-			return LayoutInflater.from(getContext()).inflate(R.layout.item_info_text, null);
+			return LayoutInflater.from(getContext()).inflate(
+					R.layout.item_post_null, parent, false);
 		}
 	}
 }

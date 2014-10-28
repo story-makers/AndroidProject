@@ -112,31 +112,6 @@ public class RemoteDBClient {
 		getPostsForTGStory(s, callback);
 	}
 
-	public static void getOriginalPostsForTGStory(final TGStory s,
-			final TGPost.PostListDownloadCallback callback) {
-		ParseQuery<TGPost> query = ParseQuery.getQuery(TGPost.class);
-		query.orderByAscending(TGPost.KEY_POST_SEQUENCE);
-		query.whereEqualTo("story", s);
-		query.whereNotEqualTo(TGPost.KEY_POST_TYPE, TGPost.PostType.REFERENCEDSTORY.getNumVal());
-		query.fromPin();
-		query.findInBackground(new FindCallback<TGPost>() {
-
-			@Override
-			public void done(List<TGPost> objects, ParseException e) {
-				if (e == null) {
-					if (objects != null && objects.size() > 0) {
-						callback.done(objects);
-					} else {
-						fetchPostsForStory(s, callback);
-					}
-				} else {
-
-					callback.fail(e.getMessage());
-				}
-			}
-		});
-	}
-
 	public static void getPostsForTGStory(final TGStory s,
 			final TGPost.PostListDownloadCallback callback) {
 		ParseQuery<TGPost> query = ParseQuery.getQuery(TGPost.class);

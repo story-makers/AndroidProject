@@ -40,8 +40,7 @@ import com.storymakers.apps.trailguide.model.TGUser;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeCreateActivity extends FragmentActivity implements
-		CreateDialogFragment.OnDialogDoneListener,
-		StoryMapFragment.onGoogleMapCreationListener {
+		CreateDialogFragment.OnDialogDoneListener {
 
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -339,12 +338,5 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public static Intent getIntentForCreateStory(Context ctx) {
 		Intent i = new Intent(ctx, CreateStoryDispatchActivity.class);
 		return i;
-	}
-
-	@Override
-	public void onGoogleMapCreation(CustomMapFragment mapFragment,
-			StoryMapFragment storyFragment) {
-		// TODO Auto-generated method stub
-
 	}
 }

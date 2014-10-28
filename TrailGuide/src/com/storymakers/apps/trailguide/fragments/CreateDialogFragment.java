@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
-import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
+import com.storymakers.apps.trailguide.interfaces.LocationAvailableHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
@@ -139,7 +139,7 @@ public class CreateDialogFragment extends DialogFragment {
 			tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
 		} else {
 			tvPointInfo.setText("Fetching location...");
-			TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
+			TGUtils.getCurrentLocation(new LocationAvailableHandler() {
 				@Override
 				public void onFail() {
 				}

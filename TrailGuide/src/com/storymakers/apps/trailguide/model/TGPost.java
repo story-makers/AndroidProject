@@ -15,7 +15,7 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
-import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
+import com.storymakers.apps.trailguide.interfaces.LocationAvailableHandler;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 
 @ParseClassName("TGPost")
@@ -87,7 +87,7 @@ public class TGPost extends ParseObject {
 		post.setReferencedStory(null);
 
 		post.setCreate_time(new Date(System.currentTimeMillis()));
-		TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
+		TGUtils.getCurrentLocation(new LocationAvailableHandler() {
 
 			@Override
 			public void onFail() {

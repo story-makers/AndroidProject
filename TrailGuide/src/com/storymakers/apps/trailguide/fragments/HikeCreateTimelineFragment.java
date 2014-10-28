@@ -42,7 +42,7 @@ public class HikeCreateTimelineFragment extends Fragment {
 		ft.replace(R.id.flContainerPosts, new PostListFragment(), "post_list_fragment");
 		// Execute the changes specified
 		ft.commit();
-		story.getAllPosts(new PostListDownloadCallback() {
+		story.getPosts(new PostListDownloadCallback() {
 			
 			@Override
 			public void fail(String reason) {
@@ -51,9 +51,9 @@ public class HikeCreateTimelineFragment extends Fragment {
 			
 			@Override
 			public void done(List<TGPost> objs) {
+				// We would not like to filter any posts for hike create timeline fragment.
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
-				// Added post for cover photo.
 				fragment.addAll(objs);
 			}
 		});

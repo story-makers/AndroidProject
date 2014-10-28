@@ -34,7 +34,6 @@ public class CustomMapFragment extends SupportMapFragment {
 	 * Listener interface to tell when the map is ready
 	 */
 	public static interface OnMapReadyListener {
-
 		void onMapReady();
 	}
 }
