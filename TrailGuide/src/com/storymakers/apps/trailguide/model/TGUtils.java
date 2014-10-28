@@ -2,7 +2,6 @@ package com.storymakers.apps.trailguide.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -42,6 +41,15 @@ public class TGUtils {
 	}
 
 	public static byte[] getBytesFromUri(Context ctx, Uri photo) {
+		Bitmap imageBitmap = getBitmapForLocalUri(photo);
+		if (imageBitmap == null)
+			return null;
+		byte[] imageData = null;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        imageData = baos.toByteArray();
+        return imageData;
+		/*
 		InputStream iStream;
 		byte[] inputData = null;
 		try {
@@ -55,7 +63,7 @@ public class TGUtils {
 			e.printStackTrace();
 		}
 		return inputData;
-		/*
+
 		 * if (inputData != null) { ParseFile pphoto = new ParseFile(name,
 		 * inputData); TGPost p = TGPost.createNewPost(story,
 		 * TGPost.PostType.PHOTO); p.setPhoto(pphoto);
@@ -203,4 +211,5 @@ public class TGUtils {
 	 
 	    return BitmapFactory.decodeFile(path, options);
 	}
+	
 }

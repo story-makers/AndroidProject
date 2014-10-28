@@ -18,29 +18,32 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="40dp"
         android:layout_marginLeft="@dimen/list_horizontal_padding"
-        android:layout_marginRight="@dimen/list_horizontal_padding"
+        android:gravity="center_vertical"
         android:layout_marginTop="@dimen/activity_horizontal_margin" >
+
+        <ImageView
+            android:id="@+id/gsmvStaticLocationView"
+            android:layout_width="@dimen/static_map_image_width"
+            android:layout_height="@dimen/static_map_image_height"
+            android:layout_marginLeft="@dimen/text_default_padding"
+            android:layout_alignParentRight="true"
+
+            android:background="@drawable/bg_static_map_location"
+            android:contentDescription="Map view"
+            android:src="@drawable/ic_mountain" />
 
         <TextView
             android:id="@+id/tvPostNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:maxWidth="200dp"
             android:text="@string/note" />
 
-        <ImageView
-            android:id="@+id/gsmvStaticLocationView"
-            android:layout_width="@dimen/static_map_image_width"
-            android:layout_height="@dimen/static_map_image_height"
-            android:layout_alignTop="@+id/tvPostNote"
-            android:layout_marginLeft="@dimen/text_default_padding"
-            android:layout_toRightOf="@+id/tvPostNote"
-            android:background="@drawable/bg_static_map_location"
-            android:contentDescription="Map view"
-            android:src="@drawable/ic_mountain" />
     </RelativeLayout>
 
 </RelativeLayout>

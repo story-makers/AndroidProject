@@ -14,12 +14,12 @@
 
     <RelativeLayout
         style="@style/TrailGuide.Detail.Post.PhotoCard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ilPostTimeHeader"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="@dimen/list_horizontal_card_padding"
-        android:layout_marginRight="@dimen/list_horizontal_card_padding"
+        android:layout_marginRight="50dp"
          >
 
         <ImageView
@@ -27,7 +27,8 @@
             style="@style/TrailGuide.Detail.Post.Photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            
+            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/hike_coverphoto_description"
             android:src="@drawable/ic_mountain" />
@@ -36,7 +37,7 @@
             android:id="@+id/tvPostNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ivPostPhoto"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/ivPostPhoto"
             android:layout_margin="@dimen/text_default_padding"
             android:layout_marginTop="0dp"

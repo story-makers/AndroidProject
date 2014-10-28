@@ -16,6 +16,7 @@
     <string name="start_label">Start</string>
     <string name="end_label">End</string>
     <string name="object_key">OBJECT</string>
+    <string name="post_type_key">OBJECT_POST_TYPE</string>
     <string name="object_post_key">OBJECT_POST</string>
     <string name="cover_photo_key">COVER_PHOTO</string>
     <string name="view_holder_key">VIEW_HOLDER</string>

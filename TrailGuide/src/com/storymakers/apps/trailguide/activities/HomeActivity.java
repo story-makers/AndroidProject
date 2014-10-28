@@ -1,7 +1,5 @@
 package com.storymakers.apps.trailguide.activities;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -98,9 +96,5 @@ public class HomeActivity extends FragmentActivity implements
 		});
 	}
 
-	@Override
-	protected void attachBaseContext(Context newBase) {
-		// TODO Auto-generated method stub
-		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
-	}
+	
 }

@@ -72,6 +72,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		int type = getItemViewType(position);
 		if (convertView == null) {
 			convertView = getInflatedLayoutForPost(post);
+			convertView.setTag(R.string.post_type_key, post.getType());
+		}
+		
+		if (post.getType() != convertView.getTag(R.string.post_type_key)){
+			Log.e("ERROR", "Convert view is for different type than type" + post.getType());
 		}
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
@@ -132,11 +137,16 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			}
 			ImageView gsmvStaticMap = (ImageView) convertView.findViewById(R.id.gsmvStaticLocationView);
 			ParseGeoPoint geoPoint = post.getLocation();
+			if (geoPoint != null){
 			Uri staticMapUri = TrailGuideApplication.getStaticMapObject().getMap((float)geoPoint.getLatitude(), (float)geoPoint.getLongitude(), 240, 240, true, null);
+			
 			Log.d("STATIC MAP URL", staticMapUri.toString());
 			gsmvStaticMap.setTag(R.string.object_post_key, post);
 			gsmvStaticMap.setOnClickListener(onMapClickListener);
 			imageLoader.displayImage(staticMapUri.toString(), gsmvStaticMap);
+			}else {
+				Log.e("ERROR", "How come geoPoint is null?");
+			}
 		}
 		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
 			setStoryAttributes(convertView, post.getStory());

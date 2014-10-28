@@ -74,8 +74,10 @@ public class TGStory extends ParseObject {
 			break;
 		case COMPLETE:
 			put("state", "COMPLETE");
+			break;
 		case DELETED:
 			put("state", "DELETED");
+			break;
 		default:
 			break;
 		}
