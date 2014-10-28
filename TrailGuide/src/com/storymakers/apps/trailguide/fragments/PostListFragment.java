@@ -46,11 +46,19 @@ public class PostListFragment extends Fragment {
 
 	public void addAll(List<TGPost> postsList) {
 		storyPostAdapter.addAll(postsList);
+		
 	}
 
 	public void addPost(TGPost p) {
 		storyPostAdapter.add(p);
-		lvStoryPosts.smoothScrollToPosition(storyPostAdapter.getCount() - 1);
+		scrollToEnd();
+
+	}
+
+	public void scrollToEnd() {
+		if (storyPostAdapter.getCount() > 0)
+			lvStoryPosts
+					.smoothScrollToPosition(storyPostAdapter.getCount() - 1);
 	}
 
 	public void setFooterView(View v) {

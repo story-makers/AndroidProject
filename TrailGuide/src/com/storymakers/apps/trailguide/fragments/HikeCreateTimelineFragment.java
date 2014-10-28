@@ -60,7 +60,7 @@ public class HikeCreateTimelineFragment extends Fragment {
 						.findFragmentByTag("post_list_fragment");
 				// Added post for cover photo.
 				fragment.addAll(objs);
-				
+				fragment.scrollToEnd();
 			}
 		});
 	}

@@ -32,7 +32,7 @@
 
             android:background="@drawable/bg_static_map_location"
             android:contentDescription="Map view"
-            android:src="@drawable/ic_mountain" />
+            android:src="@drawable/ic_loading_location" />
 
         <TextView
             android:id="@+id/tvPostNote"

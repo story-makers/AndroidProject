@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.LoactionAvailableHandler;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
@@ -26,7 +27,7 @@ public class CreateDialogFragment extends DialogFragment {
 	PostType type;
 	EditText etNote;
 	ImageView ivPhoto;
-	TextView tvPointInfo;
+	ImageView ivPointInfo;
 	Button btnDone;
 	Button btnCancel;
 	TGPost editPost = null;
@@ -135,11 +136,17 @@ public class CreateDialogFragment extends DialogFragment {
 
 	private void editLocationPoint(View v) {
 		this.getDialog().setTitle(R.string.capture_point);
-		tvPointInfo = (TextView) v.findViewById(R.id.tvPointInfo);
+		ivPointInfo = (ImageView) v.findViewById(R.id.ivPointInfo);
 		if (editPost.getLocation() != null && editPost.getLocation().getLatitude() > 0) {
-			tvPointInfo.setText(editPost.getLocation().getLatitude() + ", " + editPost.getLocation().getLongitude());
+			ParseGeoPoint geoPoint = editPost.getLocation();
+			Uri staticMapUri = TrailGuideApplication.getStaticMapObject()
+					.getMap((float) geoPoint.getLatitude(),
+							(float) geoPoint.getLongitude(), 240, 240,
+							true, null);
+			ImageLoader.getInstance().displayImage(staticMapUri.toString(), ivPointInfo);
+
 		} else {
-			tvPointInfo.setText("Fetching location...");
+			//ivPointInfo.setText("Fetching location...");
 			TGUtils.getCurrentLocation(new LoactionAvailableHandler() {
 				@Override
 				public void onFail() {
@@ -148,12 +155,16 @@ public class CreateDialogFragment extends DialogFragment {
 				@Override
 				public void foundLocation(ParseGeoPoint point) {
 					editPost.setLocation(point.getLatitude(), point.getLongitude());
-					tvPointInfo.setText(point.getLatitude() + ", " + point.getLongitude());
+					Uri staticMapUri = TrailGuideApplication.getStaticMapObject()
+							.getMap((float) point.getLatitude(),
+									(float) point.getLongitude(), 240, 240,
+									true, null);
+					ImageLoader.getInstance().displayImage(staticMapUri.toString(), ivPointInfo);
 				}
 			});
 		}
 
-		// set tvPointInfo after getting response from location services.
+		// set ivPointInfo after getting response from location services.
 		etNote = (EditText) v.findViewById(R.id.etNote);
 		if (editPost.getNote() != null && editPost.getNote().length() > 0) {
 			// populated when someone clicks a post to edit it.

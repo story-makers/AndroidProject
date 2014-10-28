@@ -26,14 +26,14 @@
         android:orientation="vertical"
         android:paddingBottom="20dp" >
 
-        <TextView
-            android:id="@+id/tvPointInfo"
+        <ImageView
+            android:id="@+id/ivPointInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/edit_tile"
+            android:src="@drawable/ic_loading_location"
             android:padding="5dp"
-            android:text="Info about location (visual, nodb)" />
+            android:contentDescription="Info about location (visual, nodb)" />
 
         <EditText
             android:id="@+id/etNote"
