@@ -9,65 +9,38 @@
         android:id="@+id/llEditNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ececec"
+        android:background="@color/background_secondary"
+        android:paddingBottom="20dp"
         android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/ivPhotoTaken"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:adjustViewBounds="true"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_launcher"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp" />
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_launcher" />
 
         <EditText
             android:id="@+id/etNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/edit_tile"
-            android:padding="5dp"
-            android:hint="@string/caption" >
+            android:ems="10"
+            android:hint="@string/caption"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="5dp" >
 
             <requestFocus />
         </EditText>
-        
-    </LinearLayout>
+    
 
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btnDone"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00baa8"
-            android:layout_weight="1"
-            android:layout_marginRight="3dp"
-            android:text="@string/done" />
-
-        <Button
-            android:id="@+id/btnCancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#3189b4"
-            android:layout_marginLeft="3dp"
-            android:text="@string/cancel" />
-        
-    </LinearLayout>
-
+    <include layout="@layout/include_dialog_buttons"/>
+</LinearLayout>
 </LinearLayout>

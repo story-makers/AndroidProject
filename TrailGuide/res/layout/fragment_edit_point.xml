@@ -5,7 +5,8 @@
     android:layout_margin="20dp"
     android:orientation="vertical" >
 
-    <!-- <TextView
+    <!--
+         <TextView
         android:id="@+id/tvTitleBar"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -14,14 +15,16 @@
         android:textSize="20sp"
         android:padding="5dp"
         android:background="#8f8f8f"
-        android:textAppearance="?android:attr/textAppearanceMedium" /> -->
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    -->
 
     <LinearLayout
         android:id="@+id/llEditNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ececec"
-        android:orientation="vertical" >
+        android:background="@color/background_secondary"
+        android:orientation="vertical"
+        android:paddingBottom="20dp" >
 
         <TextView
             android:id="@+id/tvPointInfo"
@@ -36,46 +39,17 @@
             android:id="@+id/etNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:layout_margin="10dp"
             android:background="@drawable/edit_tile"
-            android:padding="5dp"
-            android:hint="@string/point_note" >
+            android:ems="10"
+            android:hint="@string/point_note"
+            android:inputType="textMultiLine|textCapSentences"
+            android:padding="5dp" >
 
             <requestFocus />
         </EditText>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btnDone"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00baa8"
-            android:layout_weight="1"
-            android:layout_marginRight="3dp"
-            android:text="@string/done" />
-
-        <Button
-            android:id="@+id/btnCancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#3189b4"
-            android:layout_marginLeft="3dp"
-            android:text="@string/cancel" />
-        
+        <include layout="@layout/include_dialog_buttons" />
     </LinearLayout>
 
 </LinearLayout>
