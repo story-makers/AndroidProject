@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,8 @@ import com.storymakers.apps.trailguide.model.TGStory;
 public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	private ImageLoader imageLoader;
 	private Boolean deleteActionAllowed;
+
+	ProgressDialog shareWaitDialog;
 
 	private static class ViewHolder {
 		ImageView ivCoverPhoto;
@@ -101,7 +104,6 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.ivDeleteStory.setTag(R.string.object_key, story);
 		if (deleteActionAllowed)
 			viewHolder.ivDeleteStory.setVisibility(View.VISIBLE);
-		viewHolder.tvLikes.setTag(R.string.object_key, story);
 		// viewHolder.tvLikes.setOnClickListener();
 		viewHolder.ivShareHikeIcon.setTag(R.string.object_key, story);
 		String dateTime = story.getDisplayDate();
@@ -146,7 +148,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	private void initializeViews(ViewHolder viewHolder, View convertView) {
 		viewHolder.ivCoverPhoto = (ImageView) convertView
 				.findViewById(R.id.ivCoverPhoto);
-		viewHolder.ivDeleteStory = (ImageView) convertView.findViewById(R.id.ivDeleteStory);
+		viewHolder.ivDeleteStory = (ImageView) convertView
+				.findViewById(R.id.ivDeleteStory);
 		viewHolder.tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		viewHolder.tvRefs = (TextView) convertView.findViewById(R.id.tvRefs);
 		viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
@@ -159,7 +162,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.ivCoverPhoto.setTag(R.string.view_holder_key, viewHolder);
 
 		viewHolder.ivDeleteStory.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				TGStory s = (TGStory) v.getTag(R.string.object_key);
@@ -174,6 +177,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 
 			@Override
 			public void onClick(View v) {
+
+				// shareWaitDialog(v);
 				TGStory story = (TGStory) v.getTag(R.string.object_key);
 				ImageView iv = (ImageView) v.getTag(R.string.cover_photo_key);
 				BitmapDrawable bitmapd = (BitmapDrawable) iv.getDrawable();
@@ -184,7 +189,18 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				try {
 					FileOutputStream out = new FileOutputStream(
 							downloadingMediaFile);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+					// PNG compress is always done in SW. JPEG is faster and
+					// uses HW when available.
+					// Right solution is to create bitmap when impage is loaded
+					// and make it a part of story
+					// will slow loading of pic's a bit, but sharing will be
+					// much faster. Another option is
+					// to do it async , but problem is that it may slowdown app
+					// or if it is done with
+					// low priority user may click on share before bitmap is
+					// ready - need mechanism to track
+					// if bitmap is ready and also add shareWaitDialog
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 					out.flush();
 					out.close();
 				} catch (IOException e) {
@@ -202,7 +218,6 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				share.putExtra(Intent.EXTRA_TEXT,
 						"Click here: http://trailguide.storymakers.com/story?id="
 								+ story.getObjectId());
-
 				// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
 				try {
 					v.getContext().startActivity(
@@ -213,6 +228,16 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 
 			}
 		});
+
+	}
+
+	private void shareWaitDialog(View v) {
+
+		shareWaitDialog = new ProgressDialog(v.getContext());
+		shareWaitDialog.setTitle("Sharing..."); //
+		// shareWaitDialog.setMessage(subject);
+		shareWaitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		shareWaitDialog.show();
 
 	}
 

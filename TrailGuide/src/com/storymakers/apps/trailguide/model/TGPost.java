@@ -106,11 +106,11 @@ public class TGPost extends ParseObject {
 	}
 
 	public String getNote() {
-		return getString("note");
+		return TGUtils.capitalizeSentence(getString("note"));
 	}
 
 	public void setNote(String note) {
-		put("note", note);
+		put("note", TGUtils.capitalizeSentence(note));
 	}
 
 	public String getCreate_time() {
@@ -259,8 +259,16 @@ public class TGPost extends ParseObject {
 	public TGStory getReferencedStory() {
 		if (!containsKey(KEY_REF_STORY))
 			return null;
-		if (get(KEY_REF_STORY) != null)
-			return (TGStory) get(KEY_REF_STORY);
+		if (get(KEY_REF_STORY) != null) {
+			TGStory s = (TGStory) get(KEY_REF_STORY);
+			try {
+				s.fetchIfNeeded();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return s;
+		}
 		return null;
 	}
 
@@ -270,7 +278,7 @@ public class TGPost extends ParseObject {
 	public CharSequence getFormattedCreateTime() {
 		Date d = getCreatedAt();
 		if (d == null) {
-			
+
 			return getCreate_time();
 		}
 		return DATE_FORMATTER.format(d);

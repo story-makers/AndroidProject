@@ -62,7 +62,8 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_trailguide</item>
     </style>
-
+	<style name="TrailGuide.progressBar" parent="@android:attr/progressBarStyleLarge" />
+	<style name="TrailGuide.progressBar.Large"> </style>
     <style name="ProgressBar.Trailguide" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_trailguide</item>
     </style>
@@ -84,7 +85,6 @@
     <style name="TrailGuide.Detail.PostListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@drawable/post_list_background</item>
         <item name="android:listSelector">@drawable/post_item_selector</item>
-
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dip</item>
     </style>
@@ -96,68 +96,133 @@
 
     <style name="TrailGuide.Detail.Post.Note">
         <item name="android:textSize">@dimen/text_post_note</item>
-        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:alignmentMode">alignBounds</item>
+        <item name="android:minWidth">@dimen/post_min_width</item>
         <item name="android:autoLink">web</item>
         <item name="android:linksClickable">true</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
+
     <style name="TrailGuide.Detail.Post.Photo">
-        <item name="android:maxHeight">@dimen/photo_max_height</item>
         <item name="android:adjustViewBounds">true</item>
+        <item name="android:minWidth">300dp</item>
+        <item name="android:minHeight">100dp</item>
+        <item name="android:src">@drawable/spinner_blue</item>
         <item name="android:scaleType">fitCenter</item>
-        
-            
     </style>
+
+    <style name="TrailGuide.Detail.PhotoNote">
+        <item name="android:minHeight">@dimen/photo_note_min_height</item>
+        <item name="android:background">@color/transparent_black</item>
+        <item name="android:padding">@dimen/text_default_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingBottom">30dp</item>
+    </style>
+
     <style name="TrailGuide.Detail.Post.PhotoCard">
         <item name="android:textSize">@dimen/text_post_note</item>
-        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
+        
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:paddingBottom">0dip</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
 
     <style name="TrailGuide.Detail.Post.DateText">
-        <item name="fontPath">fonts/HelveticaNeue-Thin.otf</item>
+        
         <item name="android:padding">0dip</item>
         <item name="android:paddingLeft">@dimen/text_default_padding</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">@dimen/text_timeline_date</item>
     </style>
-    
-    
-    
-    
+
     <style name="TrailGuide.Detail.HikeListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@drawable/hike_list_background</item>
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dp</item>
-        
-        
     </style>
 
     <style name="TrailGuide.Detail.Hike">
-      <!--     <item name="android:paddingTop">@dimen/post_list_padding_top</item> -->
+
+        <!-- <item name="android:paddingTop">@dimen/post_list_padding_top</item> -->
         <item name="android:paddingBottom">@dimen/post_list_padding_all</item>
-        <item name="android:background">@drawable/item_hike_background</item>  
+        <item name="android:background">@drawable/item_hike_background</item>
     </style>
-    
-    
 
     <style name="TrailGuide.Detail.HikeDescription">
         <item name="android:textSize">@dimen/text_post_note</item>
-        <item name="fontPath">fonts/SinkinSans-400Regular.otf</item>
+        
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:alignmentMode">alignBounds</item>
         <item name="android:background">@drawable/item_post_background</item>
     </style>
     
-    <style name="TrailGuide.Detail.Hike.Photo">
+    <style name="TrailGuide.Detail.HikePhoto">
+
         <item name="android:textSize">@dimen/text_post_note</item>
-        
         <item name="android:background">@drawable/item_hike_photo_background</item>
     </style>
-    
+
+    <style name="TrailGuide.ButtonOrange" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_orange_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonBlue" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_blue_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonGreen" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_green_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_small</item>
+        <item name="android:paddingRight">@dimen/padding_small</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="TrailGuide.ButtonGrey" parent="@style/TextWhite.Bold">
+        <item name="android:background">@drawable/btn_grey_selector</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:layout_height">@dimen/button_header_height</item>
+    </style>
+
+    <style name="ButtonTransparent" parent="@style/TextGrey">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+
+    <style name="ButtonTransparent.Blue" parent="@style/ButtonTransparent">
+        <item name="android:textAppearance">@style/TextBlue</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextGrey">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
+    <style name="TextWhite">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextWhite.Bold" parent="@style/TextWhite">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextBlue">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextBlue.Bold" parent="@style/TextBlue">
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>

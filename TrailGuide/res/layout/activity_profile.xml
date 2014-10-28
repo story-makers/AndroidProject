@@ -13,13 +13,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
-        android:background="#3189b4"
+        style="@style/TrailGuide.ButtonBlue"
         android:onClick="onLogoutAction"
         android:text="Logout"
-        android:textColor="#ffffff"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:typeface="monospace" />
+         />
 
     <TextView
         android:id="@+id/tvUserName"

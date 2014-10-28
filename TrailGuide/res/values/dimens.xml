@@ -1,11 +1,15 @@
 <resources>
+
     <dimen name="actionbar_size">36dp</dimen>
-	<!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="post_min_width">180dip</dimen>
+    <dimen name="post_margin_right">46dip</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="static_map_image_width">100dp</dimen>
+    <dimen name="static_map_image_height">100dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_horizontal_card_padding">12.0dip</dimen>
     <dimen name="list_horizontal_padding">16.0dip</dimen>
-
     <dimen name="feed_system_icon_diameter">14dip</dimen>
     <dimen name="post_list_strip_left">70dip</dimen>
     <dimen name="post_list_dot_left">66dip</dimen>
@@ -19,9 +23,24 @@
     <dimen name="background_rounded_rect_corner_radius">3dip</dimen>
     <dimen name="text_default_padding">5dip</dimen>
     <dimen name="photo_max_height">250dip</dimen>
+    <dimen name="photo_note_min_height">20dp</dimen>
+    <dimen name="button_corner_radius">2.0dip</dimen>
+    <dimen name="button_header_height">38.0dip</dimen>
+    <dimen name="padding_large">16.0dip</dimen>
+    <dimen name="padding_medium">8.0dip</dimen>
+    <dimen name="padding_small">4.0dip</dimen>
+    <dimen name="padding_small_medium">6.0dip</dimen>
+    <dimen name="padding_tiny">2.0dip</dimen>
+
     <!-- Text Sizes -->
     <dimen name="text_post_note">14sp</dimen>
     <dimen name="text_timeline_date">11sp</dimen>
     <dimen name="text_post_caption">14sp</dimen>
     <dimen name="text_story_title">18sp</dimen>
+    <dimen name="text_large">16.0sp</dimen>
+    <dimen name="text_larger">18.0sp</dimen>
+    <dimen name="text_medium">14.0sp</dimen>
+    <dimen name="text_small">12.0sp</dimen>
+    <dimen name="text_smaller">10.0sp</dimen>
+
 </resources>

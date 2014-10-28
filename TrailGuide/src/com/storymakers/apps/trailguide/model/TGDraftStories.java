@@ -19,7 +19,10 @@ public class TGDraftStories {
 	}
 
 	public void addStories(List<TGStory> objs) {
-		draftStories.addAll(objs);
+		for (TGStory o : objs){
+			draftStories.add(o);
+			o.saveData();
+		}
 	}
 
 	public static TGDraftStories getInstance() {
@@ -53,6 +56,7 @@ public class TGDraftStories {
 				if (arg1 == null) {
 					addStories(arg0);
 				}
+				
 				callback.done(arg0, arg1);
 
 			}

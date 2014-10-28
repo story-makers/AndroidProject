@@ -79,14 +79,14 @@ public class HikeCreateActivity extends FragmentActivity implements
 			@Override
 			public void endAction() {
 				Log.i("CREATE_PROGRESS", "Progress is complete");
-				if (progressIndicatorView != null){
+				if (progressIndicatorView != null) {
 					progressIndicatorView.setVisibility(View.INVISIBLE);
 				}
 			}
 
 			@Override
 			public void beginAction() {
-				if (progressIndicatorView != null){
+				if (progressIndicatorView != null) {
 					progressIndicatorView.setVisibility(View.VISIBLE);
 				}
 				Log.i("CREATE_PROGRESS", "Begin progress bar");
@@ -134,50 +134,62 @@ public class HikeCreateActivity extends FragmentActivity implements
 		final ProgressDialog d = new ProgressDialog(this);
 		d.setTitle("Looking for drafts...");
 		d.show();
-		TGDraftStories.getInstance().getDraftStories(new FindCallback<TGStory>() {
+		TGDraftStories.getInstance().getDraftStories(
+				new FindCallback<TGStory>() {
 
-			@Override
-			public void done(List<TGStory> arg0, ParseException arg1) {
-				if (arg1 == null && arg0.size() > 0) {
-					story = arg0.get(0);
-					/*.makeText(HikeCreateActivity.this,
-							"Story found: " + story.getObjectId(),
-							Toast.LENGTH_SHORT).show();*/
-					HikeCreateActivity.this.getActionBar().setTitle(
-							story.getTitle());
-					setupTabs(story.getObjectId());
-					if (referencedStoryRequested) {
-						addReferencedStory(addRefProgressHandler);
+					@Override
+					public void done(List<TGStory> arg0, ParseException arg1) {
+						if (arg1 == null && arg0.size() > 0) {
+							story = arg0.get(0);
+							/*
+							 * .makeText(HikeCreateActivity.this,
+							 * "Story found: " + story.getObjectId(),
+							 * Toast.LENGTH_SHORT).show();
+							 */
+							HikeCreateActivity.this.getActionBar().setTitle(
+									story.getTitle());
+							if (story.getTitle().equals("New Hike"))
+								showCreateDialog(PostType.METADATA,
+										story.getTitle());
+							story.saveData();
+							setupTabs(story.getObjectId());
+							if (referencedStoryRequested) {
+								addReferencedStory(addRefProgressHandler);
+							}
+							d.cancel();
+						}
+						if (story == null) {
+							// default name until someone fills in the title.
+							story = TGDraftStories.getInstance()
+									.createNewDraft(user, "New Hike",
+											new ProgressNotificationHandler() {
+
+												@Override
+												public void endAction() {
+													story.saveData();
+													d.cancel();
+													showCreateDialog(
+															PostType.METADATA,
+															story.getTitle());
+													setupTabs(story
+															.getObjectId());
+													if (referencedStoryRequested) {
+														addReferencedStory(addRefProgressHandler);
+													}
+												}
+
+												@Override
+												public void beginAction() {
+													// TODO Auto-generated
+													// method stub
+
+												}
+											});
+
+						}
+
 					}
-					d.cancel();
-				}
-				if (story == null) {
-					// default name until someone fills in the title.
-					story = TGDraftStories.getInstance().createNewDraft(user,
-							"New Hike", new ProgressNotificationHandler() {
-
-								@Override
-								public void endAction() {
-									d.cancel();
-									showCreateDialog(PostType.METADATA,
-											story.getTitle());
-									setupTabs(story.getObjectId());
-									if (referencedStoryRequested) {
-										addReferencedStory(addRefProgressHandler);
-									}
-								}
-
-								@Override
-								public void beginAction() {
-									// TODO Auto-generated method stub
-
-								}
-							});
-
-				}
-
-			}
-		});
+				});
 	}
 
 	private void addReferencedStory(final ProgressNotificationHandler handler) {
@@ -251,11 +263,11 @@ public class HikeCreateActivity extends FragmentActivity implements
 				"Saved a " + post.getType().toString() + " story: "
 						+ post.getStory().getObjectId() + " activity story: "
 						+ story.getObjectId());
-		/*Toast.makeText(
-				this,
-				"Saved a " + post.getType().toString() + " story: "
-						+ post.getStory().getObjectId() + " activity story: "
-						+ story.getObjectId(), Toast.LENGTH_SHORT).show();*/
+		/*
+		 * Toast.makeText( this, "Saved a " + post.getType().toString() +
+		 * " story: " + post.getStory().getObjectId() + " activity story: " +
+		 * story.getObjectId(), Toast.LENGTH_SHORT).show();
+		 */
 	}
 
 	@Override
@@ -279,8 +291,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 					@Override
 					public void complete() {
-						Toast.makeText(HikeCreateActivity.this, "Story completed",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(HikeCreateActivity.this,
+								"Story completed", Toast.LENGTH_SHORT).show();
 						Intent i = HikeDetailsActivity.getIntentForStory(
 								HikeCreateActivity.this, story);
 						HikeCreateActivity.this.startActivity(i);
@@ -320,8 +332,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 			if (resultCode == RESULT_OK) {
 				returnFromCamera = true;
 			} else { // Result was a failure
-				/*Toast.makeText(this, "Picture wasn't taken!",
-						Toast.LENGTH_SHORT).show();*/
+				/*
+				 * Toast.makeText(this, "Picture wasn't taken!",
+				 * Toast.LENGTH_SHORT).show();
+				 */
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package com.storymakers.apps.trailguide;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,6 +13,7 @@ import com.parse.ParseUser;
 import com.storymakers.apps.trailguide.model.ParseClient;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGUser;
+import com.storymakers.apps.trailguide.views.GoogleStaticMaps;
 
 public class TrailGuideApplication extends Application {
 	public final static String APP_TAG = "TrailGuide";
@@ -21,7 +21,7 @@ public class TrailGuideApplication extends Application {
 	private static ParseClient client;
 	private static Context context;
 	private static TGUser loggedInUser = null;
-
+	private static GoogleStaticMaps staticMapObject;
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -39,7 +39,13 @@ public class TrailGuideApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		// getCurrentUser();
 		// TGDraftStories.getInstance();
-		CalligraphyConfig.initDefault("fonts/Quicksand-Regular.otf", R.attr.fontPath);
+		
+		staticMapObject = new GoogleStaticMaps(this, null);
+		staticMapObject.setExtraArg("zoom", "9");
+	}
+	
+	public static GoogleStaticMaps getStaticMapObject() {
+		return staticMapObject;
 	}
 
 	public static TGUser getCurrentUser() {
