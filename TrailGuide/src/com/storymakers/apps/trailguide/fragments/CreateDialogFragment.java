@@ -121,6 +121,7 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editTitle(View v) {
 		this.getDialog().setTitle(R.string.hike_title);
 		etNote = (EditText) v.findViewById(R.id.etNote);
+		etNote.setHint(R.string.cutom_hike_title);
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override

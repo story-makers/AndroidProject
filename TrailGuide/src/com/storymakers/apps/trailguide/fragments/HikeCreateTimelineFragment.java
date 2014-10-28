@@ -19,6 +19,7 @@ import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeCreateTimelineFragment extends Fragment {
 	private TGStory story;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class HikeCreateTimelineFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hike_create, container,
 				false);
+		
 		getStory();
 		setupListFragment();
 		return v;
@@ -38,23 +40,27 @@ public class HikeCreateTimelineFragment extends Fragment {
 	private void setupListFragment() {
 		// Begin the transaction
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+		PostListFragment postListfragment = new PostListFragment();
 		// Replace the container with the new fragment
-		ft.replace(R.id.flContainerPosts, new PostListFragment(), "post_list_fragment");
+		ft.replace(R.id.flContainerPosts, postListfragment,
+				"post_list_fragment");
 		// Execute the changes specified
 		ft.commit();
+		
 		story.getAllPosts(new PostListDownloadCallback() {
-			
+
 			@Override
 			public void fail(String reason) {
 				Log.e("ERROR", reason);
 			}
-			
+
 			@Override
 			public void done(List<TGPost> objs) {
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
 				// Added post for cover photo.
 				fragment.addAll(objs);
+				
 			}
 		});
 	}

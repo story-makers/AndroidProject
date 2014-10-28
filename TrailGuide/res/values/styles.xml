@@ -62,7 +62,8 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_trailguide</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_trailguide</item>
     </style>
-
+	<style name="TrailGuide.progressBar" parent="@android:attr/progressBarStyleLarge" />
+	<style name="TrailGuide.progressBar.Large"> </style>
     <style name="ProgressBar.Trailguide" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_trailguide</item>
     </style>

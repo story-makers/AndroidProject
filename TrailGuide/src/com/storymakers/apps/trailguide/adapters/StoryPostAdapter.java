@@ -19,10 +19,13 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
@@ -40,16 +43,20 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
 		onMapClickListener = new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				TGPost p = (TGPost) v.getTag(R.string.object_post_key);
 				float mLatitude = (float) p.getLocation().getLatitude();
 				float mLongitude = (float) p.getLocation().getLongitude();
 				int mZoom = 9;
-				StoryPostAdapter.this.getContext().startActivity( new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + mLatitude + "," + mLongitude
-                        + "?q=" + mLatitude + "," + mLongitude + "&z=" + mZoom)));
-				
+				StoryPostAdapter.this.getContext()
+						.startActivity(
+								new Intent(Intent.ACTION_VIEW, Uri.parse("geo:"
+										+ mLatitude + "," + mLongitude + "?q="
+										+ mLatitude + "," + mLongitude + "&z="
+										+ mZoom)));
+
 			}
 		};
 	}
@@ -74,12 +81,14 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			convertView = getInflatedLayoutForPost(post);
 			convertView.setTag(R.string.post_type_key, post.getType());
 		}
-		
-		if (post.getType() != convertView.getTag(R.string.post_type_key)){
-			Log.e("ERROR", "Convert view is for different type than type" + post.getType());
+
+		if (post.getType() != convertView.getTag(R.string.post_type_key)) {
+			Log.e("ERROR", "Convert view is for different type than type"
+					+ post.getType());
 		}
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
-			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
+			TextView tvPostDateTime = (TextView) convertView
+					.findViewById(R.id.tvPostDateTime);
 			tvPostDateTime.setText(post.getFormattedCreateTime());
 			ImageView ivPostPhoto = (ImageView) convertView
 					.findViewById(R.id.ivPostPhoto);
@@ -96,7 +105,34 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				ivPostPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(Uri
 						.parse(post.getLocalImagePath())));
 			} else if (post.getPhoto_url().length() > 0) {
-				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto);
+				final ProgressBar pbLoading = (ProgressBar) convertView.findViewById(R.id.pbLoading);
+				pbLoading.setVisibility(View.VISIBLE);
+				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto, new ImageLoadingListener() {
+					
+					@Override
+					public void onLoadingStarted(String arg0, View arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+						// TODO Auto-generated method stub
+						pbLoading.setVisibility(View.INVISIBLE);
+					}
+					
+					@Override
+					public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+						// TODO Auto-generated method stub
+						pbLoading.setVisibility(View.INVISIBLE);
+					}
+					
+					@Override
+					public void onLoadingCancelled(String arg0, View arg1) {
+						// TODO Auto-generated method stub
+						pbLoading.setVisibility(View.INVISIBLE);
+					}
+				});
 
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
@@ -105,18 +141,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 
 				@Override
 				public void onClick(View v) {
-					if (post.getStory().isCompleted()){
-					getContext().startActivity(
-							FullscreenPhotoViewActivity
-									.getIntentForFullscreenPhotoActivity(
-											getContext(), post));
+					if (post.getStory().isCompleted()) {
+						getContext().startActivity(
+								FullscreenPhotoViewActivity
+										.getIntentForFullscreenPhotoActivity(
+												getContext(), post));
 					}
 
 				}
 			});
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
-			TextView tvPostDateTime = (TextView) convertView.findViewById(R.id.tvPostDateTime);
+			TextView tvPostDateTime = (TextView) convertView
+					.findViewById(R.id.tvPostDateTime);
 			tvPostDateTime.setText(post.getFormattedCreateTime());
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
@@ -126,7 +163,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				tvPostNote.setVisibility(View.GONE);
 			}
 		}
-		if (type == TGPost.PostType.LOCATION.getNumVal() && post.getNote().length() > 0) {
+		if (type == TGPost.PostType.LOCATION.getNumVal()
+				&& post.getNote().length() > 0) {
 			TextView tvPostNote = (TextView) convertView
 					.findViewById(R.id.tvPostNote);
 			if (post.getNote() != null && post.getNote().length() > 0) {
@@ -135,16 +173,21 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				tvPostNote.setText("Location marker: "
 						+ post.getLocationString());
 			}
-			ImageView gsmvStaticMap = (ImageView) convertView.findViewById(R.id.gsmvStaticLocationView);
+			ImageView gsmvStaticMap = (ImageView) convertView
+					.findViewById(R.id.gsmvStaticLocationView);
 			ParseGeoPoint geoPoint = post.getLocation();
-			if (geoPoint != null){
-			Uri staticMapUri = TrailGuideApplication.getStaticMapObject().getMap((float)geoPoint.getLatitude(), (float)geoPoint.getLongitude(), 240, 240, true, null);
-			
-			Log.d("STATIC MAP URL", staticMapUri.toString());
-			gsmvStaticMap.setTag(R.string.object_post_key, post);
-			gsmvStaticMap.setOnClickListener(onMapClickListener);
-			imageLoader.displayImage(staticMapUri.toString(), gsmvStaticMap);
-			}else {
+			if (geoPoint != null) {
+				Uri staticMapUri = TrailGuideApplication.getStaticMapObject()
+						.getMap((float) geoPoint.getLatitude(),
+								(float) geoPoint.getLongitude(), 240, 240,
+								true, null);
+
+				Log.d("STATIC MAP URL", staticMapUri.toString());
+				gsmvStaticMap.setTag(R.string.object_post_key, post);
+				gsmvStaticMap.setOnClickListener(onMapClickListener);
+				imageLoader
+						.displayImage(staticMapUri.toString(), gsmvStaticMap);
+			} else {
 				Log.e("ERROR", "How come geoPoint is null?");
 			}
 		}
@@ -172,9 +215,10 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		ImageView ivShareIcon = (ImageView) v.findViewById(R.id.ivShareIcon);
 
 		ivCoverPhoto.setImageResource(android.R.color.transparent);
-		ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
-				ivCoverPhoto);
-
+		if (story.getCoverPhotoURL() != null) {
+			ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
+					ivCoverPhoto);
+		}
 		tvLikes.setText(String.valueOf(story.getLikes()));
 		tvRefs.setText(String.valueOf(story.getRefs()));
 		tvTitle.setText(story.getTitle());
@@ -254,7 +298,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		} else if (type == TGPost.PostType.NOTE) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_note, null);
-		} else if (type == TGPost.PostType.LOCATION && post.getNote().length() > 0) {
+		} else if (type == TGPost.PostType.LOCATION
+				&& post.getNote().length() > 0) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_location, null);
 		} else if (type == TGPost.PostType.PREAMBLE) {

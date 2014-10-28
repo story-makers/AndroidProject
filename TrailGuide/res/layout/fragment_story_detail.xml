@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true" >
     </FrameLayout>
     <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
+        style="@style/TrailGuide.progressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pbLoading"

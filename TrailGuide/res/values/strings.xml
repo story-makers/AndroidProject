@@ -11,8 +11,12 @@
     <string name="title_activity_home">Trail Guide</string>
     <string name="num_refs">10</string>
     <string name="add_to_my_hike">Add to my hike</string>
-    <string name="note">This is a note</string>
+    <string name="note">Whats up?</string>
+    <string name="cutom_hike_title">Add custom hike title</string>
     <string name="create_story">Create Story</string>
+    <string name="begin_hike">Begin Hike</string>
+    <string name="end_hike">End Hike</string>
+    <string name="complete_story">Publish Story</string>
     <string name="start_label">Start</string>
     <string name="end_label">End</string>
     <string name="object_key">OBJECT</string>

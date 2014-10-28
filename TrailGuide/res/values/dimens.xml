@@ -3,6 +3,7 @@
     <dimen name="actionbar_size">36dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="post_min_width">180dip</dimen>
+    <dimen name="post_margin_right">46dip</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="static_map_image_width">100dp</dimen>
     <dimen name="static_map_image_height">100dp</dimen>

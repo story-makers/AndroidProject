@@ -95,10 +95,11 @@ public class TGStory extends ParseObject {
 	}
 
 	public String getTitle() {
-		return getString("title");
+		return TGUtils.capitalizeSentence(getString("title"));
 	}
 
 	public void setTitle(String title) {
+		title = TGUtils.capitalizeSentence(title);
 		this.title = title;
 		put("title", title);
 	}
@@ -113,6 +114,8 @@ public class TGStory extends ParseObject {
 	}
 
 	public long getLikes() {
+		if (!has("likes"))
+			return 0;
 		return getLong("likes");
 	}
 
@@ -131,6 +134,8 @@ public class TGStory extends ParseObject {
 	}
 
 	public long getRefs() {
+		if (!has("refs"))
+			return 0;
 		return getLong("refs");
 	}
 
@@ -183,33 +188,34 @@ public class TGStory extends ParseObject {
 
 	public void getPosts(final PostListDownloadCallback handle) {
 		this.posts = new ArrayList<TGPost>();
-		RemoteDBClient.getOriginalPostsForTGStory(this, new PostListDownloadCallback() {
+		RemoteDBClient.getOriginalPostsForTGStory(this,
+				new PostListDownloadCallback() {
 
-			@Override
-			public void fail(String reason) {
-				Log.e("ERROR", reason);
-				if (handle != null)
-					handle.fail(reason);
-			}
-
-			@Override
-			public void done(List<TGPost> objs) {
-				TGStory.this.posts.addAll(objs);
-				for (TGPost p : objs) {
-					if (p.getType() == PostType.REFERENCEDSTORY) {
-						TGStory.this.referenced_stories.add(p
-								.getReferencedStory());
+					@Override
+					public void fail(String reason) {
+						Log.e("ERROR", reason);
+						if (handle != null)
+							handle.fail(reason);
 					}
 
-					if (p.getType() == PostType.PREAMBLE) {
-						hasPreamble = true;
+					@Override
+					public void done(List<TGPost> objs) {
+						TGStory.this.posts.addAll(objs);
+						for (TGPost p : objs) {
+							if (p.getType() == PostType.REFERENCEDSTORY) {
+								TGStory.this.referenced_stories.add(p
+										.getReferencedStory());
+							}
+
+							if (p.getType() == PostType.PREAMBLE) {
+								hasPreamble = true;
+							}
+						}
+						if (handle != null) {
+							handle.done(objs);
+						}
 					}
-				}
-				if (handle != null) {
-					handle.done(objs);
-				}
-			}
-		});
+				});
 	};
 
 	public ArrayList<TGPost> getPosts() {
@@ -346,7 +352,7 @@ public class TGStory extends ParseObject {
 	}
 
 	private void verifyCoverPhoto() {
-		if (getCoverPhotoURL().length() > 0)
+		if (getCoverPhotoURL() == null || getCoverPhotoURL().length() > 0)
 			return;
 		for (TGPost p : this.posts) {
 			if (p.getType() == PostType.PHOTO) {
@@ -357,11 +363,12 @@ public class TGStory extends ParseObject {
 		}
 	}
 
-	public void saveData(){
+	public void saveData() {
 		saveData(null);
 	}
+
 	public void saveData(final ProgressNotificationHandler handler) {
-		if(handler != null)
+		if (handler != null)
 			handler.beginAction();
 		if (getState() == StoryType.DRAFT) {
 			pinAllInBackground(this.posts);
@@ -370,7 +377,7 @@ public class TGStory extends ParseObject {
 		}
 		saveAllInBackground(this.posts);
 		saveInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException arg0) {
 				// TODO Auto-generated method stub
@@ -397,6 +404,8 @@ public class TGStory extends ParseObject {
 	}
 
 	public String getCoverPhotoURL() {
+		if (!has("coverPhotoURL"))
+			return null;
 		return getString("coverPhotoURL");
 	}
 
@@ -414,8 +423,8 @@ public class TGStory extends ParseObject {
 		// Date to display on hike story list
 		return null;
 	}
-	
-	public void deleteStory(ProgressNotificationHandler progress){
+
+	public void deleteStory(ProgressNotificationHandler progress) {
 		setState(StoryType.DELETED);
 		saveData(progress);
 	}

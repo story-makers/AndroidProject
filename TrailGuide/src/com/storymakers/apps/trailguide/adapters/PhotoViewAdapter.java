@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -11,10 +12,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
 
@@ -49,8 +53,37 @@ public class PhotoViewAdapter extends PagerAdapter {
 		TGPost p = posts.get(position);
 		View v = inflater.inflate(R.layout.layout_photo_viewer, container, false);
 		imgDisplay = (ImageView) v.findViewById(R.id.imgDisplay);
-		imgDisplay.setImageResource(R.drawable.spinner_blue);
-		ImageLoader.getInstance().displayImage(p.getPhoto_url(), imgDisplay);
+		final ProgressBar pbloading = (ProgressBar) v.findViewById(R.id.pbLoading);
+		pbloading.setVisibility(View.VISIBLE);
+		imgDisplay.setImageResource(R.drawable.transparent_shape);
+		
+		ImageLoader.getInstance().displayImage(p.getPhoto_url(), imgDisplay, new ImageLoadingListener() {
+			
+			@Override
+			public void onLoadingStarted(String arg0, View arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+				// TODO Auto-generated method stub
+				pbloading.setVisibility(View.INVISIBLE);
+			}
+			
+			@Override
+			public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+				// TODO Auto-generated method stub
+				pbloading.setVisibility(View.INVISIBLE);
+			}
+			
+			@Override
+			public void onLoadingCancelled(String arg0, View arg1) {
+				// TODO Auto-generated method stub
+				pbloading.setVisibility(View.INVISIBLE);
+				
+			}
+		});
 		tvPhotoNote = (TextView) v.findViewById(R.id.tvPhotoNote);
 		tvPhotoNote.setText(p.getNote());
 		((ViewPager)container).addView(v);
