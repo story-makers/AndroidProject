@@ -129,8 +129,8 @@ public class RemoteDBClient {
 						fetchPostsForStory(s, callback);
 					}
 				} else {
-
-					callback.fail(e.getMessage());
+					fetchPostsForStory(s, callback);
+					//callback.fail(e.getMessage());
 				}
 			}
 		});
