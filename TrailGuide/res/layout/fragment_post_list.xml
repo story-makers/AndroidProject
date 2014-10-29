@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ListView
+    <com.storymakers.apps.trailguide.views.ParallaxListView
         android:id="@+id/lvStoryPosts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        parallax_factor="1.9"
         android:layout_alignParentBottom="true" />
 <include layout="@layout/progress_view" android:visibility="invisible" />
 </RelativeLayout>

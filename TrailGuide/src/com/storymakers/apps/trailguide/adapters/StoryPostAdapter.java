@@ -191,7 +191,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				Log.e("ERROR", "How come geoPoint is null?");
 			}
 		}
-		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
+		if (type == TGPost.PostType.PREAMBLE.getNumVal() && false) {
 			setStoryAttributes(convertView, post.getStory());
 			ImageView ivLinkedStoryIcon = (ImageView) convertView
 					.findViewById(R.id.ivLinkedStoryIcon);
@@ -304,7 +304,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 					R.layout.item_post_location, null);
 		} else if (type == TGPost.PostType.PREAMBLE) {
 			return LayoutInflater.from(getContext()).inflate(
-					R.layout.item_post_coverphoto, null);
+					R.layout.item_post_null, null);
 		} else if (type == TGPost.PostType.REFERENCEDSTORY) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_coverphoto, null);
