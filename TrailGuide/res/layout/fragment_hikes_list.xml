@@ -12,9 +12,12 @@
         android:layout_alignParentRight="true"
         style="@style/TrailGuide.Detail.HikeListView"
 		android:descendantFocusability="blocksDescendants"
-		
-		
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:divider="@android:color/transparent"
+  		android:dividerHeight="15dp" >
 
      </eu.erikw.PullToRefreshListView>
     

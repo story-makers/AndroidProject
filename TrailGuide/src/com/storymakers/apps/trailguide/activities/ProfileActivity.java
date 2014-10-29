@@ -53,7 +53,7 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 			@Override
 			public void done(List<TGStory> arg0, ParseException arg1) {
 				if (arg1 == null){
-					hikesFragment.setDeleteActionAllowed(true);
+					//hikesFragment.setDeleteActionAllowed(true);
 					hikesFragment.addAll(arg0);
 				}
 			}

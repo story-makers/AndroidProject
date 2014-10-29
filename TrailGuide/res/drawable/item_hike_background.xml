@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-     <!-- "background shadow" -->
+    <!-- background shadow -->
     <item>
         <shape android:shape="rectangle" >
-            <solid android:color="#F5EDED" />
-
-            
+            <solid android:color="#cccaca" />
         </shape>
     </item>
-    <!-- background color -->
+
+	<!-- background color -->
     <item
-        android:bottom="10dp"
-        android:left="10dp"
-        android:right="10dp"
-         android:top="10dp">
+        android:bottom="2dp"
+        android:right="2dp">
         <shape android:shape="rectangle" >
             <solid android:color="@color/background_white" />
-
-
-            
         </shape>
     </item>
-   
 
 </layer-list>

@@ -272,8 +272,7 @@ public class TGPost extends ParseObject {
 		return null;
 	}
 
-	public static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(
-			"MMM d h:mm a", Locale.US);
+	
 
 	public CharSequence getFormattedCreateTime() {
 		Date d = getCreatedAt();
@@ -281,6 +280,6 @@ public class TGPost extends ParseObject {
 
 			return getCreate_time();
 		}
-		return DATE_FORMATTER.format(d);
+		return TGUtils.DATE_FORMATTER.format(d);
 	}
 }

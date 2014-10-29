@@ -399,7 +399,11 @@ public class TGStory extends ParseObject {
 
 	public String getDisplayDate() {
 		// Date to display on hike story list
-		return null;
+		Date d = getEndDate();
+		if (d == null){
+			d = getBeginDate();
+		}
+		return TGUtils.DATE_FORMATTER.format(d);
 	}
 
 	public void deleteStory(ProgressNotificationHandler progress) {
