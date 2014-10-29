@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,17 +29,17 @@ import com.storymakers.apps.trailguide.model.TGStory;
 
 public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	private ImageLoader imageLoader;
-	private Boolean deleteActionAllowed;
+	//private Boolean deleteActionAllowed;
 
 	ProgressDialog shareWaitDialog;
 
 	private static class ViewHolder {
 		ImageView ivCoverPhoto;
-		ImageView ivDeleteStory;
+		//ImageView ivDeleteStory;
 		TextView tvLikes;
 		TextView tvTitle;
 		TextView tvRefs;
-		ImageView ivShareHikeIcon;
+		Button ivShareHikeIcon;
 		ProgressBar pbLoading;
 		TextView dateTime;
 	}
@@ -46,7 +47,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	public HikeArrayAdapter(Context context, List<TGStory> stories) {
 		super(context, R.layout.hike_list_item, stories);
 		imageLoader = ImageLoader.getInstance();
-		deleteActionAllowed = false;
+		//deleteActionAllowed = false;
 	}
 
 	@Override
@@ -101,9 +102,9 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 		viewHolder.tvRefs.setText(String.valueOf(story.getRefs()));
 		viewHolder.tvTitle.setText(story.getTitle());
 		convertView.setTag(R.string.object_key, story);
-		viewHolder.ivDeleteStory.setTag(R.string.object_key, story);
+		/*viewHolder.ivDeleteStory.setTag(R.string.object_key, story);
 		if (deleteActionAllowed)
-			viewHolder.ivDeleteStory.setVisibility(View.VISIBLE);
+			viewHolder.ivDeleteStory.setVisibility(View.VISIBLE);*/
 		// viewHolder.tvLikes.setOnClickListener();
 		viewHolder.ivShareHikeIcon.setTag(R.string.object_key, story);
 		String dateTime = story.getDisplayDate();
@@ -148,8 +149,8 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 	private void initializeViews(ViewHolder viewHolder, View convertView) {
 		viewHolder.ivCoverPhoto = (ImageView) convertView
 				.findViewById(R.id.ivCoverPhoto);
-		viewHolder.ivDeleteStory = (ImageView) convertView
-				.findViewById(R.id.ivDeleteStory);
+		/*viewHolder.ivDeleteStory = (ImageView) convertView
+				.findViewById(R.id.ivDeleteStory);*/
 		viewHolder.tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		viewHolder.tvRefs = (TextView) convertView.findViewById(R.id.tvRefs);
 		viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
@@ -161,15 +162,15 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 				.findViewById(R.id.tvPostDateTime);
 		viewHolder.ivCoverPhoto.setTag(R.string.view_holder_key, viewHolder);
 
-		viewHolder.ivDeleteStory.setOnClickListener(new OnClickListener() {
+		/*viewHolder.ivDeleteStory.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				TGStory s = (TGStory) v.getTag(R.string.object_key);
 				s.deleteStory(null);
 			}
-		});
-		viewHolder.ivShareHikeIcon = (ImageView) convertView
+		});*/
+		viewHolder.ivShareHikeIcon = (Button) convertView
 				.findViewById(R.id.ivShareHikeIcon);
 		viewHolder.ivShareHikeIcon.setTag(R.string.cover_photo_key,
 				viewHolder.ivCoverPhoto);
@@ -241,8 +242,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 
 	}
 
-	public void setDeleteActionAllowed(Boolean flag) {
+	/*public void setDeleteActionAllowed(Boolean flag) {
 		deleteActionAllowed = flag;
-
-	}
+	}*/
 }

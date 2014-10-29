@@ -19,7 +19,7 @@
     <dimen name="post_list_bg_padding_top">12dip</dimen>
     <dimen name="post_list_bg_padding">6dip</dimen>
     <dimen name="post_list_bg_shadow_padding">7dip</dimen>
-    <dimen name="post_list_padding_bottom">12dip</dimen>
+    <dimen name="post_list_padding_bottom">5dip</dimen>
     <dimen name="background_rounded_rect_corner_radius">3dip</dimen>
     <dimen name="text_default_padding">5dip</dimen>
     <dimen name="photo_max_height">250dip</dimen>

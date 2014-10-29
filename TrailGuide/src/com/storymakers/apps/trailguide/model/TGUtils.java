@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -27,7 +28,8 @@ import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.interfaces.LocationAvailableHandler;
 
 public class TGUtils {
-
+	public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(
+			"MMM d h:mm a", Locale.US);
 	public static byte[] getBytes(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 		int bufferSize = 1024;

@@ -280,7 +280,7 @@ public class TGStory extends ParseObject {
 
 			@Override
 			public void done(ParseException arg0) {
-
+				
 				if (uploadProgressHandler != null) {
 					uploadProgressHandler.complete();
 				}
@@ -330,14 +330,19 @@ public class TGStory extends ParseObject {
 	}
 
 	private void verifyCoverPhoto() {
-		if (getCoverPhotoURL() == null || getCoverPhotoURL().length() > 0)
+		if (getCoverPhotoURL() != null && getCoverPhotoURL().length() > 0)
 			return;
+		
 		for (TGPost p : this.posts) {
 			if (p.getType() == PostType.PHOTO) {
 				if (p.getPhoto_url() != null & p.getPhoto_url().length() > 0) {
 					this.setCoverPhotoURL(p.getPhoto_url());
 				}
 			}
+		}
+		if (getCoverPhotoURL() == null) {
+			setCoverPhotoURL("http://codepath.com/images/bg/footer-bg.png");
+			return;
 		}
 	}
 
@@ -399,7 +404,11 @@ public class TGStory extends ParseObject {
 
 	public String getDisplayDate() {
 		// Date to display on hike story list
-		return null;
+		Date d = getEndDate();
+		if (d == null){
+			d = getBeginDate();
+		}
+		return TGUtils.DATE_FORMATTER.format(d);
 	}
 
 	public void deleteStory(ProgressNotificationHandler progress) {

@@ -75,8 +75,8 @@ public class HikesListFragment extends Fragment {
 		hikesListAdapter.clear();
 	}
 
-	public void setDeleteActionAllowed(Boolean deleteActionAllowed) {
+	/*public void setDeleteActionAllowed(Boolean deleteActionAllowed) {
 		hikesListAdapter.setDeleteActionAllowed(deleteActionAllowed);
-	}
+	}*/
 
 }
