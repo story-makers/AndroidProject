@@ -18,10 +18,8 @@ import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +34,7 @@ import com.storymakers.apps.trailguide.views.ParallaxListView;
 public class PostListFragment extends Fragment {
 	private ArrayList<TGPost> posts;
 	private StoryPostAdapter storyPostAdapter;
-	private ParallaxListView  lvStoryPosts;
+	private ParallaxListView lvStoryPosts;
 	private View storyCoverPhotoView;
 	private TGStory story;
 
@@ -47,7 +45,7 @@ public class PostListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
+		// storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
 	}
 
 	@Override
@@ -56,7 +54,8 @@ public class PostListFragment extends Fragment {
 		posts = new ArrayList<TGPost>();
 		storyPostAdapter = new StoryPostAdapter(activity, posts);
 		if (activity instanceof OnPostClickListener) {
-			storyPostAdapter.setPostClickListener((OnPostClickListener)activity);
+			storyPostAdapter
+					.setPostClickListener((OnPostClickListener) activity);
 		} else {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnPostClickListener");
@@ -68,20 +67,21 @@ public class PostListFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater
 				.inflate(R.layout.fragment_post_list, container, false);
-		 storyCoverPhotoView = inflater.inflate(R.layout.item_post_coverphoto,
-		 null, false);
-		 
+		storyCoverPhotoView = inflater.inflate(R.layout.item_post_coverphoto,
+				null, false);
+
 		setStoryAttributes(storyCoverPhotoView, story);
 		lvStoryPosts = (ParallaxListView) v.findViewById(R.id.lvStoryPosts);
-		//completionFooterView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 400));
+		// completionFooterView.setLayoutParams(new
+		// AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 400));
 		lvStoryPosts.addParallaxedHeaderView(storyCoverPhotoView);
 		TextView tv = new TextView(getActivity());
 		tv.setText("PARALLAXED");
 		tv.setGravity(Gravity.CENTER);
 		tv.setTextSize(40);
 		tv.setHeight(500);
-		//tv.setBackgroundResource(R.drawable.ic_mountain);
-		//lvStoryPosts.addParallaxedHeaderView(tv);
+		// tv.setBackgroundResource(R.drawable.ic_mountain);
+		// lvStoryPosts.addParallaxedHeaderView(tv);
 		lvStoryPosts.setAdapter(storyPostAdapter);
 
 		return v;
@@ -93,7 +93,7 @@ public class PostListFragment extends Fragment {
 
 	public void addAll(List<TGPost> postsList) {
 		storyPostAdapter.addAll(postsList);
-		
+
 	}
 
 	public void addPost(TGPost p) {
@@ -111,7 +111,7 @@ public class PostListFragment extends Fragment {
 	public void setFooterView(View v) {
 		lvStoryPosts.addFooterView(v);
 	}
-	
+
 	private void setStoryAttributes(View v, TGStory story) {
 
 		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
@@ -157,7 +157,7 @@ public class PostListFragment extends Fragment {
 				try {
 					FileOutputStream out = new FileOutputStream(
 							downloadingMediaFile);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 					out.flush();
 					out.close();
 				} catch (IOException e) {

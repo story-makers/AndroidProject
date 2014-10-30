@@ -7,26 +7,32 @@
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
         style="@style/TrailGuide.ButtonBlue"
         android:onClick="onLogoutAction"
         android:text="Logout"
          />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/btnLogout"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/user_pic" />
 
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btnLogout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/btnLogout"
-        android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/btnLogout"
+        android:layout_below="@+id/imageView1"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="Welcome"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -37,7 +43,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnLogout" >
+        android:layout_below="@+id/tvUserName" >
     </FrameLayout>
 
     <include layout="@layout/progress_view" android:visibility="invisible" />
