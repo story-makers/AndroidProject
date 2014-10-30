@@ -35,12 +35,15 @@ public class CreateDialogFragment extends DialogFragment {
 	TGPost editPost = null;
 	Mode dialogMode;
 
-	public enum Mode { ADD, EDIT }
+	public enum Mode {
+		ADD, EDIT
+	}
 
 	private OnDialogDoneListener doneListener;
 
 	public interface OnDialogDoneListener {
 		public void onDone(TGPost post, Mode mode);
+
 		public void onDoneTitle(String title, Mode mode);
 	}
 
@@ -149,7 +152,8 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				doneListener.onDoneTitle(etNote.getText().toString(), dialogMode);
+				doneListener.onDoneTitle(etNote.getText().toString(),
+						dialogMode);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -170,16 +174,7 @@ public class CreateDialogFragment extends DialogFragment {
 
 		// Start the animation (looped playback by default).
 		// frameAnimation.start();
-		Animation animation = new AlphaAnimation(1, 0);
-		animation.setDuration(1000); // duration - half a second
 
-		animation.setInterpolator(new LinearInterpolator()); // do not alter
-																// animation
-																// rate
-		animation.setRepeatCount(Animation.INFINITE); // Repeat animation
-														// infinitely
-		// animation.setRepeatMode(Animation.REVERSE);
-		ivPointInfo.startAnimation(animation);
 		if (editPost.getLocation() != null
 				&& editPost.getLocation().getLatitude() > 0) {
 			ParseGeoPoint geoPoint = editPost.getLocation();
@@ -192,7 +187,17 @@ public class CreateDialogFragment extends DialogFragment {
 					ivPointInfo);
 
 		} else {
+			Animation animation = new AlphaAnimation(1, 0);
+			animation.setDuration(1000); // duration - half a second
+
+			animation.setInterpolator(new LinearInterpolator()); // do not alter
+																	// animation
+																	// rate
+			animation.setRepeatCount(Animation.INFINITE); // Repeat animation
+															// infinitely
+			// animation.setRepeatMode(Animation.REVERSE);
 			// ivPointInfo.setText("Fetching location...");
+			ivPointInfo.startAnimation(animation);
 			TGUtils.getCurrentLocation(new LocationAvailableHandler() {
 				@Override
 				public void onFail() {
@@ -282,7 +287,8 @@ public class CreateDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				// create editPost of type photo.
 				editPost.setNote(etNote.getText().toString());
-				doneListener.onDone(editPost, dialogMode); // sets the post on the story.
+				doneListener.onDone(editPost, dialogMode); // sets the post on
+															// the story.
 				CreateDialogFragment.this.dismiss();
 			}
 		});
