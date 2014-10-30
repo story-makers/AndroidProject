@@ -64,16 +64,21 @@ public class HomeActivity extends FragmentActivity implements
 	public void onListItemClicked(TGStory story) {
 		Intent i = HikeDetailsActivity.getIntentForStory(this, story);
 		startActivity(i);
+		overridePendingTransition(R.anim.right_in, R.anim.scale_down);
 	}
 
 	private void createNewHike() {
 		Intent i = HikeCreateActivity.getIntentForCreateStory(this);
 		startActivity(i);
+		overridePendingTransition(R.anim.slide_in_from_corner,
+				R.anim.scale_down);
 	}
 
 	private void myProfile() {
 		Intent i = ProfileActivity.getIntentForUserProfile(this);
 		startActivity(i);
+		overridePendingTransition(R.anim.slide_in_from_corner,
+				R.anim.scale_down);
 	}
 
 	private void mySearch(MenuItem searchItem) {
@@ -96,5 +101,4 @@ public class HomeActivity extends FragmentActivity implements
 		});
 	}
 
-	
 }
