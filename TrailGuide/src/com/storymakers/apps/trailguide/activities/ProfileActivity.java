@@ -45,6 +45,7 @@ public class ProfileActivity extends FragmentActivity implements
 		ft.add(R.id.flUserHikes, hikesFragment);
 		ft.commit();
 		populateUserHikes();
+
 		tvUserName.setText(user.getName() + "\n" + user.getUserEmail());
 	}
 
@@ -67,6 +68,16 @@ public class ProfileActivity extends FragmentActivity implements
 			}
 		}, user, 0, 0);
 
+		RemoteDBClient.getDraftStoriesByUser(new FindCallback<TGStory>() {
+
+			@Override
+			public void done(List<TGStory> arg0, ParseException arg1) {
+				if (arg1 == null) {
+					// hikesFragment.setDeleteActionAllowed(true);
+					hikesFragment.addAll(arg0);
+				}
+			}
+		});
 	}
 
 	public static Intent getIntentForUserProfile(Context ctx) {

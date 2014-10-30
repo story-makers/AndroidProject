@@ -50,6 +50,7 @@ public class StoryDetailFragment extends Fragment {
 		ft.commit();
 		pb = (ProgressBar) v.findViewById(R.id.pbLoading);
 		pb.setVisibility(ProgressBar.VISIBLE);
+		// Toast.makeText(getActivity(), "Start", Toast.LENGTH_SHORT).show();
 		story.getPosts(new PostListDownloadCallback() {
 
 			@Override
@@ -59,11 +60,16 @@ public class StoryDetailFragment extends Fragment {
 
 			@Override
 			public void done(List<TGPost> objs) {
-				// We would like to filter reference story posts for the hike's story detail fragment
-				List<TGPost> filteredPosts = TGStory.filterPosts(objs,
-						new HashSet<PostType>(Arrays.asList(PostType.REFERENCEDSTORY)));
+				// We would like to filter reference story posts for the hike's
+				// story detail fragment
+				List<TGPost> filteredPosts = TGStory.filterPosts(
+						objs,
+						new HashSet<PostType>(Arrays
+								.asList(PostType.REFERENCEDSTORY)));
 				PostListFragment fragment = (PostListFragment) getChildFragmentManager()
 						.findFragmentByTag("post_list_fragment");
+				// Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT)
+				// .show();
 				pb.setVisibility(ProgressBar.INVISIBLE);
 				fragment.addAll(filteredPosts);
 			}

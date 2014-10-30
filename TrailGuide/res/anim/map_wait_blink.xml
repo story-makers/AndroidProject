@@ -5,9 +5,9 @@
  
     <item
         android:drawable="@drawable/ic_loading_location"
-        android:duration="500"/>
+        android:duration="300"/>
     <item
         android:drawable="@drawable/bg_static_map_location"
-        android:duration="500"/>
+        android:duration="300"/>
  
 </animation-list>

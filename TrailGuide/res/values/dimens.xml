@@ -31,6 +31,8 @@
     <dimen name="padding_small">4.0dip</dimen>
     <dimen name="padding_small_medium">6.0dip</dimen>
     <dimen name="padding_tiny">2.0dip</dimen>
+    
+    
 
     <!-- Text Sizes -->
     <dimen name="text_post_note">14sp</dimen>

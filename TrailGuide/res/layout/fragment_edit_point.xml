@@ -3,20 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    android:background="@color/background_secondary"
     android:orientation="vertical" >
-
-    <!--
-         <TextView
-        android:id="@+id/tvTitleBar"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="Medium Text"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:padding="5dp"
-        android:background="#8f8f8f"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    -->
 
     <LinearLayout
         android:id="@+id/llEditNote"
@@ -24,16 +12,16 @@
         android:layout_height="wrap_content"
         android:background="@color/background_secondary"
         android:orientation="vertical"
-        android:paddingBottom="20dp" >
+         >
 
         <ImageView
             android:id="@+id/ivPointInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_loading_location"
+            android:contentDescription="Info about location (visual, nodb)"
             android:padding="5dp"
-            android:contentDescription="Info about location (visual, nodb)" />
+            android:src="@drawable/ic_loading_location" />
 
         <EditText
             android:id="@+id/etNote"

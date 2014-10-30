@@ -6,5 +6,5 @@
     android:toYScale="1"
     android:pivotX="50%p"
     android:pivotY="50%p"
-    android:duration="500"/>
+    android:duration="200"/>
 </set>

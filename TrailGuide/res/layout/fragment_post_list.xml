@@ -14,5 +14,7 @@
         android:layout_alignParentTop="true"
         parallax_factor="2.9"
         android:layout_alignParentBottom="true" />
-<include layout="@layout/progress_view" android:visibility="invisible" />
+  <include layout="@layout/progress_view" android:visibility="invisible" /> 
+
+
 </RelativeLayout>

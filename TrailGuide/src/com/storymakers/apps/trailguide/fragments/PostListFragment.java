@@ -40,7 +40,7 @@ import com.storymakers.apps.trailguide.views.ParallaxListView;
 public class PostListFragment extends Fragment {
 	private ArrayList<TGPost> posts;
 	private StoryPostAdapter storyPostAdapter;
-	private ParallaxListView  lvStoryPosts;
+	private ParallaxListView lvStoryPosts;
 	private View storyCoverPhotoView;
 	private TGStory story;
 	private OnPublishStoryListener publishStoryListener;
@@ -63,7 +63,8 @@ public class PostListFragment extends Fragment {
 		posts = new ArrayList<TGPost>();
 		storyPostAdapter = new StoryPostAdapter(activity, posts);
 		if (activity instanceof OnPostClickListener) {
-			storyPostAdapter.setPostClickListener((OnPostClickListener)activity);
+			storyPostAdapter
+					.setPostClickListener((OnPostClickListener) activity);
 		} else {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnPostClickListener");
@@ -86,8 +87,8 @@ public class PostListFragment extends Fragment {
 		tv.setGravity(Gravity.CENTER);
 		tv.setTextSize(40);
 		tv.setHeight(500);
-		//tv.setBackgroundResource(R.drawable.ic_mountain);
-		//lvStoryPosts.addParallaxedHeaderView(tv);
+		// tv.setBackgroundResource(R.drawable.ic_mountain);
+		// lvStoryPosts.addParallaxedHeaderView(tv);
 		lvStoryPosts.setAdapter(storyPostAdapter);
 
 		return v;
@@ -99,7 +100,7 @@ public class PostListFragment extends Fragment {
 
 	public void addAll(List<TGPost> postsList) {
 		storyPostAdapter.addAll(postsList);
-		
+
 	}
 
 	public void addPost(TGPost p) {
@@ -149,13 +150,16 @@ public class PostListFragment extends Fragment {
 			setDraftStoryAttributes(storyCoverPhotoView, s);
 			Button btnCreate = (Button) storyCoverPhotoView.findViewById(R.id.btnCreateStory);
 			btnCreate.setOnClickListener(new OnClickListener() {
-
+				
 				@Override
 				public void onClick(View v) {
+					// TODO Auto-generated method stub
 					publishStoryListener.onPublishStory(s);
 				}
 			});
+			
 		}
+	
 	}
 	
 	private void setDraftStoryAttributes(View v, final TGStory s) {
@@ -174,7 +178,7 @@ public class PostListFragment extends Fragment {
 					ivCoverPhoto);
 		}
 	}
-
+	
 	public void setCoverTitle(String title) {
 		TextView tvTitle = (TextView) storyCoverPhotoView.findViewById(R.id.tvTitle);
 		tvTitle.setText(title);
@@ -224,7 +228,7 @@ public class PostListFragment extends Fragment {
 				try {
 					FileOutputStream out = new FileOutputStream(
 							downloadingMediaFile);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 					out.flush();
 					out.close();
 				} catch (IOException e) {
