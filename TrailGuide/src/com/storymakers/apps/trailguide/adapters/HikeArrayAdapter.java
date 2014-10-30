@@ -171,7 +171,7 @@ public class HikeArrayAdapter extends ArrayAdapter<TGStory> {
 			}
 		});*/
 		viewHolder.ivShareHikeIcon = (Button) convertView
-				.findViewById(R.id.ivShareHikeIcon);
+				.findViewById(R.id.ivShareIcon);
 		viewHolder.ivShareHikeIcon.setTag(R.string.cover_photo_key,
 				viewHolder.ivCoverPhoto);
 		viewHolder.ivShareHikeIcon.setOnClickListener(new OnClickListener() {

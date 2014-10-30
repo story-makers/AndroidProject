@@ -15,20 +15,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.activities.HikeCreateActivity;
 import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
 import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
+import com.storymakers.apps.trailguide.listeners.OnPublishStoryListener;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.views.ParallaxListView;
@@ -39,15 +41,18 @@ public class PostListFragment extends Fragment {
 	private ParallaxListView  lvStoryPosts;
 	private View storyCoverPhotoView;
 	private TGStory story;
+	private OnPublishStoryListener publishStoryListener;
+	private OnPostClickListener titleClickListener;
 
-	public PostListFragment(TGStory s) {
+	public PostListFragment(TGStory s, OnPublishStoryListener psl, OnPostClickListener pcl) {
 		story = s;
+		publishStoryListener = psl;
+		titleClickListener = pcl;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
 	}
 
 	@Override
@@ -68,12 +73,11 @@ public class PostListFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater
 				.inflate(R.layout.fragment_post_list, container, false);
-		 storyCoverPhotoView = inflater.inflate(R.layout.item_post_coverphoto,
-		 null, false);
-		 
-		setStoryAttributes(storyCoverPhotoView, story);
+
+		
 		lvStoryPosts = (ParallaxListView) v.findViewById(R.id.lvStoryPosts);
 		//completionFooterView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 400));
+		setupListHeader(inflater, story);
 		lvStoryPosts.addParallaxedHeaderView(storyCoverPhotoView);
 		TextView tv = new TextView(getActivity());
 		tv.setText("PARALLAXED");
@@ -111,14 +115,68 @@ public class PostListFragment extends Fragment {
 	public void setFooterView(View v) {
 		lvStoryPosts.addFooterView(v);
 	}
-	
-	private void setStoryAttributes(View v, TGStory story) {
 
+	private void setupListHeader(LayoutInflater inflater, final TGStory s) {
+		if (s.isCompleted()) {
+			storyCoverPhotoView = inflater.inflate(
+					R.layout.layout_coverphoto_detail, null, false);
+					 
+			setStoryAttributes(storyCoverPhotoView, s);
+			Button btnAddToHike = (Button) storyCoverPhotoView.findViewById(R.id.btnAddToMyHike);
+			btnAddToHike.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Log.d("cliked", "am being asked to add to hike");
+					Intent i = HikeCreateActivity
+							.getIntentForCreateStory(getActivity());
+					i.putExtra(getString(R.string.intent_key_add_ref),
+							s.getObjectId());
+					startActivity(i);
+				}
+			});
+		} else {
+			storyCoverPhotoView = inflater.inflate(R.layout.layout_coverphoto_create, null, false);
+			setDraftStoryAttributes(storyCoverPhotoView, s);
+			Button btnCreate = (Button) storyCoverPhotoView.findViewById(R.id.btnCreateStory);
+			btnCreate.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					publishStoryListener.onPublishStory(s);
+				}
+			});
+		}
+	}
+	
+	private void setDraftStoryAttributes(View v, final TGStory s) {
+		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
+		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+		tvTitle.setText(s.getTitle());
+		tvTitle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				titleClickListener.onTitleClick(s.getTitle());
+			}
+		});
+		ivCoverPhoto.setImageResource(android.R.color.transparent);
+		if (s.getCoverPhotoURL() != null) {
+			ImageLoader.getInstance().displayImage(s.getCoverPhotoURL(),
+					ivCoverPhoto);
+		}
+	}
+
+	public void setCoverTitle(String title) {
+		TextView tvTitle = (TextView) storyCoverPhotoView.findViewById(R.id.tvTitle);
+		tvTitle.setText(title);
+	}
+
+	private void setStoryAttributes(View v, TGStory story) {
 		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
 		final TextView tvLikes = (TextView) v.findViewById(R.id.tvLikes);
 		TextView tvRefs = (TextView) v.findViewById(R.id.tvRefs);
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-		ImageView ivShareIcon = (ImageView) v.findViewById(R.id.ivShareIcon);
+		Button ivShareIcon = (Button) v.findViewById(R.id.ivShareIcon);
 
 		ivCoverPhoto.setImageResource(android.R.color.transparent);
 		if (story.getCoverPhotoURL() != null) {

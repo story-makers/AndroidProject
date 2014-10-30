@@ -201,17 +201,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				Log.e("ERROR", "How come geoPoint is null?");
 			}
 		}
-		if (type == TGPost.PostType.PREAMBLE.getNumVal() && false) {
-			setStoryAttributes(convertView, post.getStory());
-			ImageView ivLinkedStoryIcon = (ImageView) convertView
-					.findViewById(R.id.ivLinkedStoryIcon);
-			ivLinkedStoryIcon.setVisibility(View.INVISIBLE);
+		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
+			//do nothing
 		}
 		if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
-			setStoryAttributes(convertView, post.getReferencedStory());
-			ImageView ivLinkedStoryIcon = (ImageView) convertView
-					.findViewById(R.id.ivLinkedStoryIcon);
-			ivLinkedStoryIcon.setVisibility(View.VISIBLE);
+			setReferenceStoryAttributes(convertView, post.getReferencedStory());
 		}
 
 		if (post.getStory().isDraft()) {
@@ -226,80 +220,9 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		return convertView;
 	}
 
-	private void setStoryAttributes(View v, TGStory story) {
-
-		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
-		final TextView tvLikes = (TextView) v.findViewById(R.id.tvLikes);
-		TextView tvRefs = (TextView) v.findViewById(R.id.tvRefs);
-		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-		ImageView ivShareIcon = (ImageView) v.findViewById(R.id.ivShareIcon);
-
-		ivCoverPhoto.setImageResource(android.R.color.transparent);
-		if (story.getCoverPhotoURL() != null) {
-			ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
-					ivCoverPhoto);
-		}
-		tvLikes.setText(String.valueOf(story.getLikes()));
-		tvRefs.setText(String.valueOf(story.getRefs()));
-		tvTitle.setText(story.getTitle());
-		tvLikes.setTag(R.string.object_key, story);
-		tvLikes.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TGStory story = (TGStory) v.getTag(R.string.object_key);
-				TextView tvLikes = (TextView) v;
-				if (tvLikes.getCurrentTextColor() != Color.GREEN) {
-					tvLikes.setTextColor(Color.GREEN);
-					story.addLike(null);
-					tvLikes.setText(String.valueOf(story.getLikes()));
-				}
-			}
-		});
-		ivShareIcon.setTag(R.string.object_key, story);
-		ivShareIcon.setTag(R.string.cover_photo_key, ivCoverPhoto);
-		ivShareIcon.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				TGStory story = (TGStory) v.getTag(R.string.object_key);
-				ImageView iv = (ImageView) v.getTag(R.string.cover_photo_key);
-				BitmapDrawable bitmapd = (BitmapDrawable) iv.getDrawable();
-				Bitmap bitmap = bitmapd.getBitmap();
-				// Save this bitmap to a file.
-				File cacheDir = v.getContext().getExternalCacheDir();
-				File downloadingMediaFile = new File(cacheDir, "abc.png");
-				try {
-					FileOutputStream out = new FileOutputStream(
-							downloadingMediaFile);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-					out.flush();
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-					return;
-				}
-
-				// Now send it out to share
-				Intent share = new Intent(android.content.Intent.ACTION_SEND);
-				share.setType("image/*");
-				Uri photouri = Uri.parse("file://" + downloadingMediaFile);
-				share.putExtra(Intent.EXTRA_STREAM, photouri);
-				// share.putExtra(Intent.EXTRA_TITLE,
-				// "my awesome caption in the EXTRA_TITLE field");
-				share.putExtra(Intent.EXTRA_TEXT,
-						"Click here: http://trailguide.storymakers.com/story?id="
-								+ story.getObjectId());
-
-				// share.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-				try {
-					v.getContext().startActivity(
-							Intent.createChooser(share, "Send Image."));
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-
-			}
-		});
+	private void setReferenceStoryAttributes(View convertView,
+			TGStory referencedStory) {
+		
 	}
 
 	private LayoutParams getLayoutParams() {
@@ -322,12 +245,9 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				&& post.getNote().length() > 0) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_location, null);
-		} else if (type == TGPost.PostType.PREAMBLE) {
-			return LayoutInflater.from(getContext()).inflate(
-					R.layout.item_post_null, null);
 		} else if (type == TGPost.PostType.REFERENCEDSTORY) {
 			return LayoutInflater.from(getContext()).inflate(
-					R.layout.item_post_coverphoto, null);
+					R.layout.item_post_refstory, null);
 		} else {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_null, null);

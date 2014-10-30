@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -32,6 +30,7 @@ import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
+import com.storymakers.apps.trailguide.listeners.OnPublishStoryListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
@@ -42,15 +41,14 @@ import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeCreateActivity extends FragmentActivity implements
 		CreateDialogFragment.OnDialogDoneListener,
-		OnPostClickListener {
+		OnPostClickListener,
+		OnPublishStoryListener {
 
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
 	private TGStory story = null;
 	private TGUser user;
-
-	private Button btnCreate;
 
 	private Uri photoUriToSave;
 	private String photoNametoSave;
@@ -95,7 +93,6 @@ public class HikeCreateActivity extends FragmentActivity implements
 			}
 		};
 		findDraftStory();
-		initializeViews();
 		final int abTitleId = getResources().getIdentifier("action_bar_title",
 				"id", "android");
 		findViewById(abTitleId).setOnClickListener(new View.OnClickListener() {
@@ -315,33 +312,9 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public void onDoneTitle(String title, Mode editMode) {
 		getActionBar().setTitle(TGUtils.getElipsizedText(title));
 		story.setTitle(title);
-	}
-
-	private void initializeViews() {
-		btnCreate = (Button) findViewById(R.id.btnCreateStory);
-		btnCreate.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				story.completeStory(new UploadProgressHandler() {
-
-					@Override
-					public void progress(long item_completed) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void complete() {
-						Toast.makeText(HikeCreateActivity.this,
-								"Story completed", Toast.LENGTH_SHORT).show();
-						Intent i = HikeDetailsActivity.getIntentForStory(
-								HikeCreateActivity.this, story);
-						HikeCreateActivity.this.startActivity(i);
-						HikeCreateActivity.this.finish();
-					}
-				});
-			}
-		});
+		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
+				.findFragmentByTag("timeline");
+		fragment.setCoverTitle(title);
 	}
 
 	public void onRecordLocation(View v) {
@@ -398,5 +371,32 @@ public class HikeCreateActivity extends FragmentActivity implements
 	@Override
 	public void onPostClick(TGPost post) {
 		showCreateDialog(post);
+	}
+
+	@Override
+	public void onPublishStory(final TGStory story) {
+		story.completeStory(new UploadProgressHandler() {
+
+			@Override
+			public void progress(long item_completed) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void complete() {
+				Toast.makeText(HikeCreateActivity.this,
+						"Story completed", Toast.LENGTH_SHORT).show();
+				Intent i = HikeDetailsActivity.getIntentForStory(
+						HikeCreateActivity.this, story);
+				HikeCreateActivity.this.startActivity(i);
+				HikeCreateActivity.this.finish();
+			}
+		});
+	}
+
+	@Override
+	public void onTitleClick(String title) {
+		showCreateDialog(PostType.METADATA, title);
 	}
 }

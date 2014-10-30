@@ -44,7 +44,7 @@ public class StoryDetailFragment extends Fragment {
 		// Begin the transaction
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 		// Replace the container with the new fragment
-		ft.replace(R.id.flContainerPosts, new PostListFragment(story),
+		ft.replace(R.id.flContainerPosts, new PostListFragment(story, null, null),
 				"post_list_fragment");
 		// Execute the changes specified
 		ft.commit();

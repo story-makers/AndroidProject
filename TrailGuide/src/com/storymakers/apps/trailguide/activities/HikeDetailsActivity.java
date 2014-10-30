@@ -6,12 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
@@ -26,7 +22,6 @@ import com.storymakers.apps.trailguide.model.TGUtils;
 public class HikeDetailsActivity extends FragmentActivity implements OnPostClickListener {
 
 	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
-	private Button btnAddToHike;
 	private TGStory story;
 
 	@Override
@@ -35,22 +30,7 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 
 		setContentView(R.layout.activity_hike_details);
 		setupTabs();
-		btnAddToHike = (Button) findViewById(R.id.btnAddToMyHike);
-		final String requestedHikeObjectId = getIntent().getStringExtra("hike");
-		btnAddToHike.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.d("cliked", "am being asked to add to hike");
-				Intent i = HikeCreateActivity
-						.getIntentForCreateStory(HikeDetailsActivity.this);
-				i.putExtra(getString(R.string.intent_key_add_ref),
-						requestedHikeObjectId);
-				startActivity(i);
-			}
-		});
-		
-		story = RemoteDBClient.getStoryById(requestedHikeObjectId);
+		story = RemoteDBClient.getStoryById(getIntent().getStringExtra("hike"));
 		getActionBar().setTitle(TGUtils.getElipsizedText(story.getTitle()));
 	}
 
@@ -135,12 +115,9 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 		// Do nothing
 	}
 
-	/*
-	 * private void setupFragment() {
-	 * 
-	 * FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-	 * StoryDetailFragment storyDetails = new StoryDetailFragment();
-	 * ft.replace(R.id.flContainer, storyDetails); ft.commit(); }
-	 */
+	@Override
+	public void onTitleClick(String title) {
+		// Do nothing
+	}
 
 }

@@ -109,7 +109,12 @@ public class CreateDialogFragment extends DialogFragment {
 		default:
 			view = inflater.inflate(R.layout.fragment_edit_note, container,
 					false);
-			editTitle(view);
+			if (args.containsKey("content") && args.getString("content") != null) {
+				editTitle(view, args.getString("content"));
+			} else {
+				editTitle(view, null);
+			}
+			
 		}
 		return view;
 
@@ -144,10 +149,13 @@ public class CreateDialogFragment extends DialogFragment {
 		editPost = RemoteDBClient.getPostById(postId);
 	}
 
-	private void editTitle(View v) {
+	private void editTitle(View v, String currentTitle) {
 		this.getDialog().setTitle(R.string.hike_title);
 		etNote = (EditText) v.findViewById(R.id.etNote);
 		etNote.setHint(R.string.cutom_hike_title);
+		if (currentTitle != null) {
+			etNote.setText(currentTitle);
+		}
 		btnDone = (Button) v.findViewById(R.id.btnDone);
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override

@@ -4,21 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.storymakers.apps.trailguide.activities.HikeCreateActivity" >
 
-	<Button
-        android:id="@+id/btnCreateStory"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/create_story"
-        android:background="#3189b4"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:typeface="monospace"
-        android:textColor="#ffffff"
-        android:layout_marginTop="5dp" />
-
     <!-- <fragment
         android:id="@+id/fragmentPostList"
         android:name="com.storymakers.apps.trailguide.fragments.PostListFragment"
@@ -33,7 +18,7 @@
 	    android:id="@+id/llNewPostToolBar"	   
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
-	    android:layout_above="@id/btnCreateStory"
+	    android:layout_alignParentBottom="true"
 	    android:layout_height="40dp"
 	    android:layout_width="match_parent"
 	    android:background="#a6ffffff"

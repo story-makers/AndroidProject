@@ -4,6 +4,7 @@
     <!-- Post list background colors -->
     <color name="post_list_timeline_strip">#ffe9e9f3</color>
     <color name="app_background_main">#fff7f6f2</color>
+    <color name="app_background_main_translucent">#66f7f6f2</color>
     <color name="background_off_white">#fff9f9f9</color>
     <color name="background_secondary">#ffe5e4e3</color>
     <color name="background_tertiary">#ffcbc9c7</color>

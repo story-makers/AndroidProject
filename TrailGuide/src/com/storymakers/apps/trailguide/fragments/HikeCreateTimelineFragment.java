@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
+import com.storymakers.apps.trailguide.listeners.OnPublishStoryListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostListDownloadCallback;
@@ -40,7 +42,9 @@ public class HikeCreateTimelineFragment extends Fragment {
 	private void setupListFragment() {
 		// Begin the transaction
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-		PostListFragment postListfragment = new PostListFragment(story);
+		PostListFragment postListfragment = new PostListFragment(story,
+				(OnPublishStoryListener)getActivity(),
+				(OnPostClickListener)getActivity());
 		// Replace the container with the new fragment
 		ft.replace(R.id.flContainerPosts, postListfragment,
 				"post_list_fragment");
@@ -79,5 +83,11 @@ public class HikeCreateTimelineFragment extends Fragment {
 	private void getStory() {
 		String storyId = getArguments().getString("hike");
 		story = RemoteDBClient.getStoryById(storyId);
+	}
+
+	public void setCoverTitle(String title) {
+		PostListFragment fragment = (PostListFragment) getChildFragmentManager()
+				.findFragmentByTag("post_list_fragment");
+		fragment.setCoverTitle(title);
 	}
 }
