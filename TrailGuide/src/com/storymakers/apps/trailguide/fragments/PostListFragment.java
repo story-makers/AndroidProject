@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.views.ParallaxListView;
@@ -45,8 +47,20 @@ public class PostListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
 		posts = new ArrayList<TGPost>();
-		storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
+		storyPostAdapter = new StoryPostAdapter(activity, posts);
+		if (activity instanceof OnPostClickListener) {
+			storyPostAdapter.setPostClickListener((OnPostClickListener)activity);
+		} else {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnPostClickListener");
+		}
 	}
 
 	@Override
@@ -71,6 +85,10 @@ public class PostListFragment extends Fragment {
 		lvStoryPosts.setAdapter(storyPostAdapter);
 
 		return v;
+	}
+
+	public void notifyAdapter() {
+		storyPostAdapter.notifyDataSetChanged();
 	}
 
 	public void addAll(List<TGPost> postsList) {

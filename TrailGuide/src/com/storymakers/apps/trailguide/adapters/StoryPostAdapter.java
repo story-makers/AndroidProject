@@ -30,6 +30,7 @@ import com.parse.ParseGeoPoint;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.activities.FullscreenPhotoViewActivity;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGStory;
@@ -39,6 +40,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	private ImageLoader imageLoader;
 	private OnClickListener onMapClickListener;
 
+	private OnPostClickListener postClickListener;
+	
 	public StoryPostAdapter(Context context, List<TGPost> objects) {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
@@ -61,6 +64,10 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		};
 	}
 
+	public void setPostClickListener(OnPostClickListener listener) {
+		postClickListener = listener;
+	}
+
 	// Return an integer representing the type by fetching the enum type val
 	@Override
 	public int getItemViewType(int position) {
@@ -76,16 +83,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final TGPost post = (TGPost) getItem(position);
+
 		int type = getItemViewType(position);
 		if (convertView == null) {
 			convertView = getInflatedLayoutForPost(post);
-			convertView.setTag(R.string.post_type_key, post.getType());
 		}
+		convertView.setTag(R.string.post_type_key, post.getType());
+		convertView.setTag(R.string.object_post_key, post);
 
 		if (post.getType() != convertView.getTag(R.string.post_type_key)) {
 			Log.e("ERROR", "Convert view is for different type than type"
 					+ post.getType());
 		}
+
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			TextView tvPostDateTime = (TextView) convertView
 					.findViewById(R.id.tvPostDateTime);
@@ -137,19 +147,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
 			}
-			ivPostPhoto.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (post.getStory().isCompleted()) {
-						getContext().startActivity(
-								FullscreenPhotoViewActivity
-										.getIntentForFullscreenPhotoActivity(
-												getContext(), post));
+			if (post.getStory().isCompleted()) {
+				ivPostPhoto.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (post.getStory().isCompleted()) {
+							getContext().startActivity(
+									FullscreenPhotoViewActivity
+											.getIntentForFullscreenPhotoActivity(
+													getContext(), post));
+						}
 					}
-
-				}
-			});
+				});
+			}
 		}
 		if (type == TGPost.PostType.NOTE.getNumVal()) {
 			TextView tvPostDateTime = (TextView) convertView
@@ -202,6 +212,16 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			ImageView ivLinkedStoryIcon = (ImageView) convertView
 					.findViewById(R.id.ivLinkedStoryIcon);
 			ivLinkedStoryIcon.setVisibility(View.VISIBLE);
+		}
+
+		if (post.getStory().isDraft()) {
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TGPost post = (TGPost) v.getTag(R.string.object_post_key);
+					postClickListener.onPostClick(post);
+				}
+			});
 		}
 		return convertView;
 	}

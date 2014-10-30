@@ -17,7 +17,7 @@
         android:id="@+id/rlStoryAttrs"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/shape_gradient_bottom_dark" >
+        android:background="@drawable/shape_gradient_bottom_white" >
 
         <TextView
             android:id="@+id/tvTitle"

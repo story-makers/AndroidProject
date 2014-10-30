@@ -211,4 +211,11 @@ public class TGUtils {
 
 		return Character.toUpperCase(line.charAt(0)) + line.substring(1);
 	}
+
+	public static String getElipsizedText(String text) {
+		if (text.length() > 30) {
+			return text.substring(0, 30) + "...";
+		}
+		return text;
+	}
 }
