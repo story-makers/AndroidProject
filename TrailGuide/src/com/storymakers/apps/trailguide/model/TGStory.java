@@ -24,6 +24,8 @@ public class TGStory extends ParseObject {
 	public enum StoryType {
 		DRAFT, COMPLETE, DELETED
 	};
+	
+	public final static String DEFAULT_COVERPHOTO_URL="http://codepath.com/images/banners/hero1-bg.png";
 
 	public final String KEY_BEGINDATE = "beginDate";
 	public final String KEY_ENDDATE = "endDate";
@@ -55,6 +57,7 @@ public class TGStory extends ParseObject {
 		story.setLikes(0);
 		story.setPostSequenceGeneration(5);
 		story.setRefs(0);
+		story.setCoverPhotoURL(DEFAULT_COVERPHOTO_URL);
 		/*
 		 * LocationCallback cb = new LocationCallback() {
 		 * 
@@ -242,7 +245,7 @@ public class TGStory extends ParseObject {
 			p.setSequenceId(getPostSequenceGeneration());
 
 		p.saveData(progress);
-		if (p.getType() == PostType.PHOTO && getCoverPhotoURL() == null) {
+		if (p.getType() == PostType.PHOTO && getCoverPhotoURL().equals(DEFAULT_COVERPHOTO_URL)) {
 			setCoverPhotoURL(p.getPhoto_url());
 		}
 		saveData();
@@ -337,7 +340,7 @@ public class TGStory extends ParseObject {
 			}
 		}
 		if (getCoverPhotoURL() == null) {
-			setCoverPhotoURL("http://codepath.com/images/bg/footer-bg.png");
+			setCoverPhotoURL(DEFAULT_COVERPHOTO_URL);
 			return;
 		}
 	}
@@ -384,13 +387,17 @@ public class TGStory extends ParseObject {
 
 	public String getCoverPhotoURL() {
 		if (!has("coverPhotoURL"))
-			return null;
-		return getString("coverPhotoURL");
+			return DEFAULT_COVERPHOTO_URL;
+		String s = getString("coverPhotoURL");
+		if (s != null && s.length() > 0)
+			return s;
+		return DEFAULT_COVERPHOTO_URL;
+		
 	}
 
 	public void setCoverPhotoURL(String coverPhotoURL) {
 		if (coverPhotoURL == null)
-			coverPhotoURL = "https://farm4.staticflickr.com/3852/15149838402_a0878021dc_z.jpg";
+			coverPhotoURL = DEFAULT_COVERPHOTO_URL;
 		put("coverPhotoURL", coverPhotoURL);
 	}
 
