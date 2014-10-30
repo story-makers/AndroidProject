@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -151,6 +154,23 @@ public class CreateDialogFragment extends DialogFragment {
 	private void editLocationPoint(View v) {
 		this.getDialog().setTitle(R.string.capture_point);
 		ivPointInfo = (ImageView) v.findViewById(R.id.ivPointInfo);
+
+		// ivPointInfo.setBackgroundResource(R.anim.map_wait_blink);
+		// AnimationDrawable frameAnimation = (AnimationDrawable) ivPointInfo
+		// .getBackground();
+
+		// Start the animation (looped playback by default).
+		// frameAnimation.start();
+		Animation animation = new AlphaAnimation(1, 0);
+		animation.setDuration(1000); // duration - half a second
+
+		animation.setInterpolator(new LinearInterpolator()); // do not alter
+																// animation
+																// rate
+		animation.setRepeatCount(Animation.INFINITE); // Repeat animation
+														// infinitely
+		// animation.setRepeatMode(Animation.REVERSE);
+		ivPointInfo.startAnimation(animation);
 		if (editPost.getLocation() != null
 				&& editPost.getLocation().getLatitude() > 0) {
 			ParseGeoPoint geoPoint = editPost.getLocation();
@@ -158,6 +178,7 @@ public class CreateDialogFragment extends DialogFragment {
 					.getMap((float) geoPoint.getLatitude(),
 							(float) geoPoint.getLongitude(), 240, 240, true,
 							null);
+			ivPointInfo.clearAnimation();
 			ImageLoader.getInstance().displayImage(staticMapUri.toString(),
 					ivPointInfo);
 
@@ -166,6 +187,7 @@ public class CreateDialogFragment extends DialogFragment {
 			TGUtils.getCurrentLocation(new LocationAvailableHandler() {
 				@Override
 				public void onFail() {
+					ivPointInfo.clearAnimation();
 				}
 
 				@Override
@@ -177,6 +199,7 @@ public class CreateDialogFragment extends DialogFragment {
 									(float) point.getLatitude(),
 									(float) point.getLongitude(), 240, 240,
 									true, null);
+					ivPointInfo.clearAnimation();
 					ImageLoader.getInstance().displayImage(
 							staticMapUri.toString(), ivPointInfo);
 				}

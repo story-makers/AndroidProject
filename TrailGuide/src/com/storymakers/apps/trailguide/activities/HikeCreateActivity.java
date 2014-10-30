@@ -112,6 +112,15 @@ public class HikeCreateActivity extends FragmentActivity implements
 		overridePendingTransition(R.anim.scale_up, R.anim.slide_out_to_corner);
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+
+		// showCreateDialog(PostType.METADATA, "Title");
+
+	}
+
 	private void setupTabs(String hikeId) {
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
