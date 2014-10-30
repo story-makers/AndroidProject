@@ -27,12 +27,14 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
+import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.activities.HikeCreateActivity;
 import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
 import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
 import com.storymakers.apps.trailguide.listeners.OnPublishStoryListener;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
+import com.storymakers.apps.trailguide.model.TGUser;
 import com.storymakers.apps.trailguide.views.ParallaxListView;
 
 public class PostListFragment extends Fragment {
@@ -123,18 +125,25 @@ public class PostListFragment extends Fragment {
 					 
 			setStoryAttributes(storyCoverPhotoView, s);
 			Button btnAddToHike = (Button) storyCoverPhotoView.findViewById(R.id.btnAddToMyHike);
-			btnAddToHike.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Log.d("cliked", "am being asked to add to hike");
-					Intent i = HikeCreateActivity
-							.getIntentForCreateStory(getActivity());
-					i.putExtra(getString(R.string.intent_key_add_ref),
-							s.getObjectId());
-					startActivity(i);
-				}
-			});
+			TGUser currentUser  = TrailGuideApplication.getCurrentUser();
+			if (currentUser != null
+					&& s.getCreator().getObjectId().equals(
+							currentUser.getUserIdentity().getObjectId())) {
+				btnAddToHike.setVisibility(View.INVISIBLE);
+			} else {
+				btnAddToHike.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Log.d("cliked", "am being asked to add to hike");
+						Intent i = HikeCreateActivity
+								.getIntentForCreateStory(getActivity());
+						i.putExtra(getString(R.string.intent_key_add_ref),
+								s.getObjectId());
+						startActivity(i);
+					}
+				});
+			}
 		} else {
 			storyCoverPhotoView = inflater.inflate(R.layout.layout_coverphoto_create, null, false);
 			setDraftStoryAttributes(storyCoverPhotoView, s);
@@ -159,7 +168,7 @@ public class PostListFragment extends Fragment {
 				titleClickListener.onTitleClick(s.getTitle());
 			}
 		});
-		ivCoverPhoto.setImageResource(android.R.color.transparent);
+		//ivCoverPhoto.setImageResource(android.R.color.transparent);
 		if (s.getCoverPhotoURL() != null) {
 			ImageLoader.getInstance().displayImage(s.getCoverPhotoURL(),
 					ivCoverPhoto);
@@ -178,7 +187,7 @@ public class PostListFragment extends Fragment {
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
 		Button ivShareIcon = (Button) v.findViewById(R.id.ivShareIcon);
 
-		ivCoverPhoto.setImageResource(android.R.color.transparent);
+		//ivCoverPhoto.setImageResource(android.R.color.transparent);
 		if (story.getCoverPhotoURL() != null) {
 			ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
 					ivCoverPhoto);

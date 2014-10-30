@@ -105,8 +105,8 @@ public class TGStory extends ParseObject {
 		put("title", title);
 	}
 
-	public TGUser getCreator() {
-		return (TGUser) get("creator");
+	public ParseUser getCreator() {
+		return (ParseUser) get("creator");
 	}
 
 	public void setCreator(TGUser creator) {

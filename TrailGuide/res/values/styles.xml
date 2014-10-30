@@ -86,6 +86,7 @@
         
         <item name="android:listSelector">@drawable/post_item_selector</item>
         <item name="android:divider">@null</item>
+        <item name="android:background">@color/app_background_main</item>
         <item name="android:dividerHeight">0dip</item>
     </style>
 
@@ -134,6 +135,7 @@
     <style name="TrailGuide.Detail.Post.DateText">
         
         <item name="android:padding">0dip</item>
+        <item name="android:background">@color/app_background_main</item>
         <item name="android:paddingLeft">@dimen/text_default_padding</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">@dimen/text_timeline_date</item>

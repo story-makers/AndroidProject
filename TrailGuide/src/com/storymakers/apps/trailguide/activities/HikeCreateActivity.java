@@ -312,6 +312,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public void onDoneTitle(String title, Mode editMode) {
 		getActionBar().setTitle(TGUtils.getElipsizedText(title));
 		story.setTitle(title);
+		story.saveData();
 		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
 				.findFragmentByTag("timeline");
 		fragment.setCoverTitle(title);
