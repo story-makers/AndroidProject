@@ -18,13 +18,16 @@ import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
 import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
+import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
+import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeDetailsActivity extends FragmentActivity implements OnPostClickListener {
 
 	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
 	private Button btnAddToHike;
+	private TGStory story;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,9 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 				startActivity(i);
 			}
 		});
+		
+		story = RemoteDBClient.getStoryById(requestedHikeObjectId);
+		getActionBar().setTitle(TGUtils.getElipsizedText(story.getTitle()));
 	}
 
 	@Override

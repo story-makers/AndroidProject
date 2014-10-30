@@ -149,9 +149,6 @@ public class RemoteDBClient {
 				if (e == null) {
 					callback.done(objects);
 					ParseObject.pinAllInBackground(objects);
-					/*if (s.isCompleted()){
-						ParseObject.pinAllInBackground(objects);
-					}*/
 				} else {
 
 					callback.fail(e.getMessage());

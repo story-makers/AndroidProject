@@ -166,7 +166,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 							 * Toast.LENGTH_SHORT).show();
 							 */
 							HikeCreateActivity.this.getActionBar().setTitle(
-									story.getTitle());
+									TGUtils.getElipsizedText(story.getTitle()));
 							// if (story.getTitle().equals("New Hike"))
 							// showCreateDialog(PostType.METADATA,
 							// story.getTitle());
@@ -304,7 +304,7 @@ public class HikeCreateActivity extends FragmentActivity implements
 
 	@Override
 	public void onDoneTitle(String title, Mode editMode) {
-		getActionBar().setTitle(title);
+		getActionBar().setTitle(TGUtils.getElipsizedText(title));
 		story.setTitle(title);
 	}
 
