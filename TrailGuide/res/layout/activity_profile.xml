@@ -46,6 +46,6 @@
         android:layout_below="@+id/tvUserName" >
     </FrameLayout>
 
-    
+    <include layout="@layout/progress_view" android:visibility="invisible" />
 
 </RelativeLayout>
