@@ -200,13 +200,15 @@ public class PostListFragment extends Fragment {
 		tvRefs.setText(String.valueOf(story.getRefs()));
 		tvTitle.setText(story.getTitle());
 		tvLikes.setTag(R.string.object_key, story);
-		tvLikes.setOnClickListener(new View.OnClickListener() {
+		Button ivLikesIcon = (Button) v.findViewById(R.id.btnLikesIcon);
+		ivLikesIcon.setTag(tvLikes);
+		ivLikesIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TGStory story = (TGStory) v.getTag(R.string.object_key);
-				TextView tvLikes = (TextView) v;
-				if (tvLikes.getCurrentTextColor() != Color.GREEN) {
-					tvLikes.setTextColor(Color.GREEN);
+				TextView tvLikes = (TextView) v.getTag();
+				TGStory story = (TGStory) tvLikes.getTag(R.string.object_key);
+				if (tvLikes.getCurrentTextColor() != Color.LTGRAY) {
+					tvLikes.setTextColor(Color.LTGRAY);
 					story.addLike(null);
 					tvLikes.setText(String.valueOf(story.getLikes()));
 				}

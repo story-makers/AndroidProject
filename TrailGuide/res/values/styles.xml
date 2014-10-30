@@ -107,7 +107,7 @@
     </style>
 
     <style name="TrailGuide.Detail.Post.Photo">
-        <item name="android:background">@drawable/item_post_background</item>
+        <item name="android:background">@color/white</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:minWidth">300dp</item>
         <item name="android:minHeight">100dp</item>
@@ -126,7 +126,6 @@
 
     <style name="TrailGuide.Detail.Post.PhotoCard">
         <item name="android:textSize">@dimen/text_post_note</item>
-        
         <item name="android:padding">@dimen/text_default_padding</item>
         <item name="android:paddingBottom">0dip</item>
         <item name="android:background">@drawable/item_post_background</item>
