@@ -21,20 +21,21 @@ import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGStory;
 import com.storymakers.apps.trailguide.model.TGUser;
 
-public class ProfileActivity extends FragmentActivity implements OnListItemClickListener {
+public class ProfileActivity extends FragmentActivity implements
+		OnListItemClickListener {
 	private TGUser user;
 	private TextView tvUserName;
 	private Button btnLogout;
 	private HikesListFragment hikesFragment;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
-		
+
 		user = TrailGuideApplication.getCurrentUser();
-		if (user != null){
+		if (user != null) {
 			getActionBar().setTitle(user.getName() + " : Profile");
 		}
 		tvUserName = (TextView) findViewById(R.id.tvUserName);
@@ -47,25 +48,32 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 		tvUserName.setText(user.getName() + "\n" + user.getUserEmail());
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		finish();
+		overridePendingTransition(R.anim.scale_up, R.anim.slide_out_to_corner);
+	}
+
 	private void populateUserHikes() {
 		RemoteDBClient.getCompletedStoriesByUser(new FindCallback<TGStory>() {
-			
+
 			@Override
 			public void done(List<TGStory> arg0, ParseException arg1) {
-				if (arg1 == null){
-					//hikesFragment.setDeleteActionAllowed(true);
+				if (arg1 == null) {
+					// hikesFragment.setDeleteActionAllowed(true);
 					hikesFragment.addAll(arg0);
 				}
 			}
 		}, user, 0, 0);
-		
+
 	}
 
 	public static Intent getIntentForUserProfile(Context ctx) {
 		Intent i = new Intent(ctx, ProfileDispatchActivity.class);
 		return i;
 	}
-	
+
 	public void onLogoutAction(View v) {
 		TrailGuideApplication.logOutCurrentUser();
 		finish();
@@ -74,7 +82,7 @@ public class ProfileActivity extends FragmentActivity implements OnListItemClick
 	public void onListItemClicked(View v) {
 		hikesFragment.onListItemClicked(v);
 	}
-	
+
 	@Override
 	public void onListItemClicked(TGStory story) {
 		Intent i = HikeDetailsActivity.getIntentForStory(this, story);
