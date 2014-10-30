@@ -3,7 +3,7 @@ package com.storymakers.apps.trailguide.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,19 +14,32 @@ import android.widget.ListView;
 
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.adapters.StoryPostAdapter;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
 import com.storymakers.apps.trailguide.model.TGPost;
 
 public class PostListFragment extends Fragment {
 	private ArrayList<TGPost> posts;
 	private StoryPostAdapter storyPostAdapter;
 	private ListView lvStoryPosts;
-	private View completionFooterView;
+	//private View completionFooterView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
 		posts = new ArrayList<TGPost>();
-		storyPostAdapter = new StoryPostAdapter(getActivity(), posts);
+		storyPostAdapter = new StoryPostAdapter(activity, posts);
+		if (activity instanceof OnPostClickListener) {
+			storyPostAdapter.setPostClickListener((OnPostClickListener)activity);
+		} else {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnPostClickListener");
+		}
 	}
 
 	@Override
@@ -42,6 +55,10 @@ public class PostListFragment extends Fragment {
 		lvStoryPosts.setAdapter(storyPostAdapter);
 
 		return v;
+	}
+
+	public void notifyAdapter() {
+		storyPostAdapter.notifyDataSetChanged();
 	}
 
 	public void addAll(List<TGPost> postsList) {

@@ -17,9 +17,11 @@ import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.fragments.StoryDetailFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
+import com.storymakers.apps.trailguide.model.TGPost;
 import com.storymakers.apps.trailguide.model.TGStory;
 
-public class HikeDetailsActivity extends FragmentActivity {
+public class HikeDetailsActivity extends FragmentActivity implements OnPostClickListener {
 
 	protected static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
 	private Button btnAddToHike;
@@ -109,6 +111,11 @@ public class HikeDetailsActivity extends FragmentActivity {
 		Intent i = new Intent(ctx, HikeDetailsActivity.class);
 		i.putExtra("hike", story.getObjectId());
 		return i;
+	}
+
+	@Override
+	public void onPostClick(TGPost post) {
+		// Do nothing
 	}
 
 	/*

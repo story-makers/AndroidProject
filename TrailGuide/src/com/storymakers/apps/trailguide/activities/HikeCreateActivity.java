@@ -25,12 +25,13 @@ import com.parse.ParseException;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.TrailGuideApplication;
 import com.storymakers.apps.trailguide.fragments.CreateDialogFragment;
-import com.storymakers.apps.trailguide.fragments.CustomMapFragment;
+import com.storymakers.apps.trailguide.fragments.CreateDialogFragment.Mode;
 import com.storymakers.apps.trailguide.fragments.HikeCreateTimelineFragment;
 import com.storymakers.apps.trailguide.fragments.StoryMapFragment;
 import com.storymakers.apps.trailguide.interfaces.ProgressNotificationHandler;
 import com.storymakers.apps.trailguide.interfaces.UploadProgressHandler;
 import com.storymakers.apps.trailguide.listeners.FragmentTabListener;
+import com.storymakers.apps.trailguide.listeners.OnPostClickListener;
 import com.storymakers.apps.trailguide.model.RemoteDBClient;
 import com.storymakers.apps.trailguide.model.TGDraftStories;
 import com.storymakers.apps.trailguide.model.TGPost;
@@ -40,7 +41,8 @@ import com.storymakers.apps.trailguide.model.TGUser;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class HikeCreateActivity extends FragmentActivity implements
-		CreateDialogFragment.OnDialogDoneListener {
+		CreateDialogFragment.OnDialogDoneListener,
+		OnPostClickListener {
 
 	private static final String TMP_PHOTO_NAME = "newPhoto.jpg";
 	public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -225,13 +227,12 @@ public class HikeCreateActivity extends FragmentActivity implements
 		createDialogFragment.show(fm, "fragment_create_dialog");
 	}
 
-	/*
-	 * When we edit a post... private void showCreateDialog(TGPost post) {
-	 * FragmentManager fm = getSupportFragmentManager();
-	 * FragmentManager.enableDebugLogging(true); CreateDialogFragment
-	 * createDialogFragment = CreateDialogFragment.newInstance(post);
-	 * createDialogFragment.show(fm, "fragment_create_dialog"); }
-	 */
+	// When we edit a post
+	public void showCreateDialog(TGPost post) {
+		FragmentManager fm = getSupportFragmentManager();
+		CreateDialogFragment createDialogFragment = CreateDialogFragment.newInstance(post);
+		createDialogFragment.show(fm, "fragment_create_dialog");
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -254,24 +255,36 @@ public class HikeCreateActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onDone(TGPost post) {
-		story.addPost(post, progressbar);
-		HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
+	public void onDone(TGPost post, Mode editMode) {
+		final HikeCreateTimelineFragment fragment = (HikeCreateTimelineFragment) getSupportFragmentManager()
 				.findFragmentByTag("timeline");
-		fragment.addPostToList(post);
-		Log.d("DEBUG",
-				"Saved a " + post.getType().toString() + " story: "
-						+ post.getStory().getObjectId() + " activity story: "
-						+ story.getObjectId());
-		/*
-		 * Toast.makeText( this, "Saved a " + post.getType().toString() +
-		 * " story: " + post.getStory().getObjectId() + " activity story: " +
-		 * story.getObjectId(), Toast.LENGTH_SHORT).show();
-		 */
+		if (editMode == Mode.ADD) {
+			story.addPost(post, progressbar);
+			fragment.addPostToList(post);
+			
+			Log.d("DEBUG",
+					"Saved a " + post.getType().toString() + " story: "
+							+ post.getStory().getObjectId() + " activity story: "
+							+ story.getObjectId());
+		} else {
+			post.saveData(new ProgressNotificationHandler() {
+				@Override
+				public void endAction() {
+					fragment.notifyAdapter();
+					progressbar.endAction();
+				}
+				
+				@Override
+				public void beginAction() {
+					progressbar.beginAction();
+				}
+			});
+			
+		}
 	}
 
 	@Override
-	public void onDoneTitle(String title) {
+	public void onDoneTitle(String title, Mode editMode) {
 		getActionBar().setTitle(title);
 		story.setTitle(title);
 	}
@@ -352,5 +365,10 @@ public class HikeCreateActivity extends FragmentActivity implements
 	public static Intent getIntentForCreateStory(Context ctx) {
 		Intent i = new Intent(ctx, CreateStoryDispatchActivity.class);
 		return i;
+	}
+
+	@Override
+	public void onPostClick(TGPost post) {
+		showCreateDialog(post);
 	}
 }

@@ -31,12 +31,15 @@ public class CreateDialogFragment extends DialogFragment {
 	Button btnDone;
 	Button btnCancel;
 	TGPost editPost = null;
+	Mode dialogMode;
+
+	public enum Mode { ADD, EDIT }
 
 	private OnDialogDoneListener doneListener;
 
 	public interface OnDialogDoneListener {
-		public void onDone(TGPost post);
-		public void onDoneTitle(String title);
+		public void onDone(TGPost post, Mode mode);
+		public void onDoneTitle(String title, Mode mode);
 	}
 	
 	public CreateDialogFragment() {
@@ -71,7 +74,10 @@ public class CreateDialogFragment extends DialogFragment {
 		}
 		View view;
 		if (editPost == null && type != PostType.METADATA) {
+			dialogMode = Mode.ADD;
 			editPost = TGPost.createNewPost(null, type);
+		} else {
+			dialogMode = Mode.EDIT;
 		}
 		switch(type) {
 		case PHOTO:
@@ -127,7 +133,7 @@ public class CreateDialogFragment extends DialogFragment {
 		btnDone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				doneListener.onDoneTitle(etNote.getText().toString());
+				doneListener.onDoneTitle(etNote.getText().toString(), dialogMode);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -135,7 +141,11 @@ public class CreateDialogFragment extends DialogFragment {
 	}
 
 	private void editLocationPoint(View v) {
-		this.getDialog().setTitle(R.string.capture_point);
+		if (dialogMode == Mode.EDIT) {
+			this.getDialog().setTitle(R.string.edit_point);
+		} else {
+			this.getDialog().setTitle(R.string.add_point);
+		}
 		ivPointInfo = (ImageView) v.findViewById(R.id.ivPointInfo);
 		if (editPost.getLocation() != null && editPost.getLocation().getLatitude() > 0) {
 			ParseGeoPoint geoPoint = editPost.getLocation();
@@ -175,7 +185,7 @@ public class CreateDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				editPost.setNote(etNote.getText().toString());
-				doneListener.onDone(editPost);
+				doneListener.onDone(editPost, dialogMode);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -183,7 +193,11 @@ public class CreateDialogFragment extends DialogFragment {
 	}
 
 	private void editNote(View v) {
-		this.getDialog().setTitle(R.string.edit_note);
+		if (dialogMode == Mode.EDIT) {
+			this.getDialog().setTitle(R.string.edit_note);
+		} else {
+			this.getDialog().setTitle(R.string.add_note);
+		}
 		etNote = (EditText) v.findViewById(R.id.etNote);
 		if (editPost.getNote() != null) {
 			// populated when someone clicks a post to edit it.
@@ -194,7 +208,7 @@ public class CreateDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				editPost.setNote(etNote.getText().toString());
-				doneListener.onDone(editPost);
+				doneListener.onDone(editPost, dialogMode);
 				CreateDialogFragment.this.dismiss();
 			}
 		});
@@ -202,7 +216,11 @@ public class CreateDialogFragment extends DialogFragment {
 	}
 
 	private void addPhoto(View v, String localPhotoUrl) {
-		this.getDialog().setTitle(R.string.add_photo);
+		if (dialogMode == Mode.EDIT) {
+			this.getDialog().setTitle(R.string.edit_photo);
+		} else {
+			this.getDialog().setTitle(R.string.add_photo);
+		}
 		etNote = (EditText) v.findViewById(R.id.etNote);
 		if (editPost.getNote() != null) {
 			etNote.setText(editPost.getNote());
@@ -222,7 +240,7 @@ public class CreateDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				// create editPost of type photo.
 				editPost.setNote(etNote.getText().toString());
-				doneListener.onDone(editPost); // sets the post on the story.
+				doneListener.onDone(editPost, dialogMode); // sets the post on the story.
 				CreateDialogFragment.this.dismiss();
 			}
 		});

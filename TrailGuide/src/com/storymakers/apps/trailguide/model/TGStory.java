@@ -402,6 +402,10 @@ public class TGStory extends ParseObject {
 		return (getState() == StoryType.COMPLETE);
 	}
 
+	public boolean isDraft() {
+		return (getState() == StoryType.DRAFT);
+	}
+
 	public String getDisplayDate() {
 		// Date to display on hike story list
 		Date d = getEndDate();

@@ -70,6 +70,12 @@ public class HikeCreateTimelineFragment extends Fragment {
 		fragment.addPost(post);
 	}
 
+	public void notifyAdapter() {
+		PostListFragment fragment = (PostListFragment) getChildFragmentManager()
+				.findFragmentByTag("post_list_fragment");
+		fragment.notifyAdapter();
+	}
+
 	private void getStory() {
 		String storyId = getArguments().getString("hike");
 		story = RemoteDBClient.getStoryById(storyId);

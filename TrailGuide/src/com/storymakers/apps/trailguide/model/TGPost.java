@@ -1,10 +1,7 @@
 package com.storymakers.apps.trailguide.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;

@@ -29,10 +29,13 @@
     <string name="cancel">Cancel</string>
     <string name="caption">Caption</string>
     <string name="hike_title">Hike Title</string>
-    <string name="capture_point">Capture a point</string>
+    <string name="add_point">Save Location</string>
+    <string name="edit_point">Edit Location</string>
     <string name="point_note">What\'s special at this point?</string>
     <string name="edit_note">Edit Note</string>
+    <string name="add_note">Add Note</string>
     <string name="add_photo">Add Photo</string>
+    <string name="edit_photo">Edit Photo</string>
     <string name="hike_coverphoto_description">Hike Cover photo</string>
     <string name="map_context_key">MAP_CONTEXT</string>
     <string name="create_hike_context">create_hike</string>

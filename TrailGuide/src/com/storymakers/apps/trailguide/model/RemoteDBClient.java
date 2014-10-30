@@ -148,9 +148,10 @@ public class RemoteDBClient {
 			public void done(List<TGPost> objects, ParseException e) {
 				if (e == null) {
 					callback.done(objects);
-					if (s.isCompleted()){
+					ParseObject.pinAllInBackground(objects);
+					/*if (s.isCompleted()){
 						ParseObject.pinAllInBackground(objects);
-					}
+					}*/
 				} else {
 
 					callback.fail(e.getMessage());
