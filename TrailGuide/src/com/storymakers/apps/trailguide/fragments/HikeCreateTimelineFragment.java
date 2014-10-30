@@ -40,7 +40,7 @@ public class HikeCreateTimelineFragment extends Fragment {
 	private void setupListFragment() {
 		// Begin the transaction
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-		PostListFragment postListfragment = new PostListFragment();
+		PostListFragment postListfragment = new PostListFragment(story);
 		// Replace the container with the new fragment
 		ft.replace(R.id.flContainerPosts, postListfragment,
 				"post_list_fragment");

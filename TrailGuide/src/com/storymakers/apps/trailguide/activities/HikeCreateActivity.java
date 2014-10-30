@@ -96,6 +96,23 @@ public class HikeCreateActivity extends FragmentActivity implements
 		};
 		findDraftStory();
 		initializeViews();
+		final int abTitleId = getResources().getIdentifier("action_bar_title",
+				"id", "android");
+		findViewById(abTitleId).setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// Do something
+				showCreateDialog(PostType.METADATA, story.getTitle());
+			}
+		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		finish();
+		overridePendingTransition(R.anim.scale_up, R.anim.slide_out_to_corner);
 	}
 
 	private void setupTabs(String hikeId) {
@@ -150,9 +167,9 @@ public class HikeCreateActivity extends FragmentActivity implements
 							 */
 							HikeCreateActivity.this.getActionBar().setTitle(
 									story.getTitle());
-							if (story.getTitle().equals("New Hike"))
-								showCreateDialog(PostType.METADATA,
-										story.getTitle());
+							// if (story.getTitle().equals("New Hike"))
+							// showCreateDialog(PostType.METADATA,
+							// story.getTitle());
 							story.saveData();
 							setupTabs(story.getObjectId());
 							if (referencedStoryRequested) {
@@ -249,6 +266,8 @@ public class HikeCreateActivity extends FragmentActivity implements
 		int id = item.getItemId();
 		if (id == R.id.miProfile) {
 			startActivity(ProfileActivity.getIntentForUserProfile(this));
+			overridePendingTransition(R.anim.slide_in_from_corner,
+					R.anim.scale_down);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

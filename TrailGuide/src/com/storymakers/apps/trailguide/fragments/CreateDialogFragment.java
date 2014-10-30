@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseGeoPoint;
@@ -41,12 +40,13 @@ public class CreateDialogFragment extends DialogFragment {
 		public void onDone(TGPost post, Mode mode);
 		public void onDoneTitle(String title, Mode mode);
 	}
-	
+
 	public CreateDialogFragment() {
 		// Empty constructor required for DialogFragment
 	}
-	
-	public static CreateDialogFragment newInstance(int postType, String dialogContent) {
+
+	public static CreateDialogFragment newInstance(int postType,
+			String dialogContent) {
 		CreateDialogFragment frag = new CreateDialogFragment();
 		Bundle args = new Bundle();
 		args.putInt("post_type", postType);
@@ -65,8 +65,8 @@ public class CreateDialogFragment extends DialogFragment {
 	}
 
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		Bundle args = getArguments();
 		type = PostType.values()[args.getInt("post_type")];
 		if (args.containsKey("post_id") && args.getString("post_id") != null) {
@@ -79,9 +79,10 @@ public class CreateDialogFragment extends DialogFragment {
 		} else {
 			dialogMode = Mode.EDIT;
 		}
-		switch(type) {
+		switch (type) {
 		case PHOTO:
-			view = inflater.inflate(R.layout.fragment_create_photo, container, false);
+			view = inflater.inflate(R.layout.fragment_create_photo, container,
+					false);
 			if (args.containsKey("content")) {
 				String photoUrl = args.getString("content");
 				addPhoto(view, photoUrl);
@@ -90,20 +91,31 @@ public class CreateDialogFragment extends DialogFragment {
 			}
 			break;
 		case NOTE:
-			view = inflater.inflate(R.layout.fragment_edit_note, container, false);
+			view = inflater.inflate(R.layout.fragment_edit_note, container,
+					false);
 			editNote(view);
 			break;
 		case LOCATION:
-			view = inflater.inflate(R.layout.fragment_edit_point, container, false);
+			view = inflater.inflate(R.layout.fragment_edit_point, container,
+					false);
 			editLocationPoint(view);
 			break;
 		default:
-			view = inflater.inflate(R.layout.fragment_edit_note, container, false);
+			view = inflater.inflate(R.layout.fragment_edit_note, container,
+					false);
 			editTitle(view);
 		}
 		return view;
-		
-    }
+
+	}
+
+	@Override
+	public void onActivityCreated(Bundle arg0) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(arg0);
+		getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -111,8 +123,9 @@ public class CreateDialogFragment extends DialogFragment {
 		if (activity instanceof OnDialogDoneListener) {
 			doneListener = (OnDialogDoneListener) activity;
 		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implement CreateDialogFragment.OnDoneDialogListener");
+			throw new ClassCastException(
+					activity.toString()
+							+ " must implement CreateDialogFragment.OnDoneDialogListener");
 		}
 	}
 
@@ -147,29 +160,34 @@ public class CreateDialogFragment extends DialogFragment {
 			this.getDialog().setTitle(R.string.add_point);
 		}
 		ivPointInfo = (ImageView) v.findViewById(R.id.ivPointInfo);
-		if (editPost.getLocation() != null && editPost.getLocation().getLatitude() > 0) {
+		if (editPost.getLocation() != null
+				&& editPost.getLocation().getLatitude() > 0) {
 			ParseGeoPoint geoPoint = editPost.getLocation();
 			Uri staticMapUri = TrailGuideApplication.getStaticMapObject()
 					.getMap((float) geoPoint.getLatitude(),
-							(float) geoPoint.getLongitude(), 240, 240,
-							true, null);
-			ImageLoader.getInstance().displayImage(staticMapUri.toString(), ivPointInfo);
+							(float) geoPoint.getLongitude(), 240, 240, true,
+							null);
+			ImageLoader.getInstance().displayImage(staticMapUri.toString(),
+					ivPointInfo);
 
 		} else {
-			//ivPointInfo.setText("Fetching location...");
+			// ivPointInfo.setText("Fetching location...");
 			TGUtils.getCurrentLocation(new LocationAvailableHandler() {
 				@Override
 				public void onFail() {
 				}
-	
+
 				@Override
 				public void foundLocation(ParseGeoPoint point) {
-					editPost.setLocation(point.getLatitude(), point.getLongitude());
-					Uri staticMapUri = TrailGuideApplication.getStaticMapObject()
-							.getMap((float) point.getLatitude(),
+					editPost.setLocation(point.getLatitude(),
+							point.getLongitude());
+					Uri staticMapUri = TrailGuideApplication
+							.getStaticMapObject().getMap(
+									(float) point.getLatitude(),
 									(float) point.getLongitude(), 240, 240,
 									true, null);
-					ImageLoader.getInstance().displayImage(staticMapUri.toString(), ivPointInfo);
+					ImageLoader.getInstance().displayImage(
+							staticMapUri.toString(), ivPointInfo);
 				}
 			});
 		}
@@ -228,7 +246,8 @@ public class CreateDialogFragment extends DialogFragment {
 		ivPhoto = (ImageView) v.findViewById(R.id.ivPhotoTaken);
 		ivPhoto.setImageResource(android.R.color.transparent);
 		if (localPhotoUrl == null) { // load from post.
-			ImageLoader.getInstance().displayImage(editPost.getPhoto_url(), ivPhoto);
+			ImageLoader.getInstance().displayImage(editPost.getPhoto_url(),
+					ivPhoto);
 		} else {
 			Uri takenPhotoUri = Uri.parse(localPhotoUrl);
 			editPost.setPhotoFromUri(getActivity(), takenPhotoUri);

@@ -64,15 +64,26 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 		switch (id) {
 		case R.id.miProfile:
 			startActivity(ProfileActivity.getIntentForUserProfile(this));
+			overridePendingTransition(R.anim.slide_in_from_corner,
+					R.anim.scale_down);
 			return true;
 		case R.id.miNewHike:
 			startActivity(HikeCreateActivity.getIntentForCreateStory(this));
+			overridePendingTransition(R.anim.slide_in_from_corner,
+					R.anim.scale_down);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 
 		}
 
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		finish();
+		overridePendingTransition(R.anim.scale_up, R.anim.right_out);
 	}
 
 	private void setupTabs() {
@@ -125,5 +136,5 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 	 * StoryDetailFragment storyDetails = new StoryDetailFragment();
 	 * ft.replace(R.id.flContainer, storyDetails); ft.commit(); }
 	 */
-	
+
 }
