@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/miSearch"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_action_search"
         android:showAsAction="ifRoom|collapseActionView"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:actionViewClass="android.widget.SearchView" 
         android:title="Search">
     </item>
     
     <item
         android:id="@+id/miNewHike"
-        android:icon="@drawable/ic_action_add"
+        android:icon="@drawable/ic_action_ic_action_add_grey"
         android:showAsAction="ifRoom|collapseActionView"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="New Hike">
     </item>
 

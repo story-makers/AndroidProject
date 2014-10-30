@@ -207,8 +207,8 @@ public class PostListFragment extends Fragment {
 			public void onClick(View v) {
 				TextView tvLikes = (TextView) v.getTag();
 				TGStory story = (TGStory) tvLikes.getTag(R.string.object_key);
-				if (tvLikes.getCurrentTextColor() != Color.LTGRAY) {
-					tvLikes.setTextColor(Color.LTGRAY);
+				if (tvLikes.getCurrentTextColor() != Color.GREEN) {
+					tvLikes.setTextColor(Color.GREEN);
 					story.addLike(null);
 					tvLikes.setText(String.valueOf(story.getLikes()));
 				}

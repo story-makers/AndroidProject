@@ -5,7 +5,7 @@
     <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_profile"
-        android:showAsAction="ifRoom|collapseActionView"
+        android:showAsAction="collapseActionView"
         android:orderInCategory="2"
         android:title="Profile">
     </item>

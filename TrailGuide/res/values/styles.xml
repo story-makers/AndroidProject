@@ -27,7 +27,9 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Trailguide</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Trailguide</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Trailguide</item>
-        <item name="android:actionBarSize">@dimen/actionbar_size</item>
+        <!-- <item name="android:actionBarSize">@dimen/actionbar_size</item> -->
+        <item name="android:actionButtonStyle">@style/ActionBar.ActionButtonStyle.TrailGuide</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.ActionOverflowButtonStyle.TrailGuide</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_trailguide</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_trailguide</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Trailguide</item>
@@ -70,6 +72,16 @@
 
     <style name="ActionButton.CloseMode.Trailguide" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_trailguide</item>
+    </style>
+    
+    <style name="ActionBar.ActionButtonStyle.TrailGuide" parent="@android:style/Widget.Holo.Light.ActionButton">
+        <item name="android:minWidth">0dip</item>
+	    <item name="android:paddingLeft">10dip</item>
+	    <item name="android:paddingRight">10dip</item>
+    </style>
+    
+    <style name="ActionBar.ActionOverflowButtonStyle.TrailGuide" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/miNewHike"
-        android:icon="@drawable/ic_action_add"
+        android:icon="@drawable/ic_action_ic_action_add_grey"
         android:showAsAction="ifRoom|collapseActionView"
         android:orderInCategory="3"
         android:title="Create Hike">
