@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +47,8 @@ public class PostListFragment extends Fragment {
 	private OnPublishStoryListener publishStoryListener;
 	private OnPostClickListener titleClickListener;
 
-	public PostListFragment(TGStory s, OnPublishStoryListener psl, OnPostClickListener pcl) {
+	public PostListFragment(TGStory s, OnPublishStoryListener psl,
+			OnPostClickListener pcl) {
 		story = s;
 		publishStoryListener = psl;
 		titleClickListener = pcl;
@@ -77,18 +79,21 @@ public class PostListFragment extends Fragment {
 		View v = inflater
 				.inflate(R.layout.fragment_post_list, container, false);
 
-		
 		lvStoryPosts = (ParallaxListView) v.findViewById(R.id.lvStoryPosts);
-		//completionFooterView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 400));
+		// completionFooterView.setLayoutParams(new
+		// AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 400));
+		TextView tvEmptyListView = (TextView) v
+				.findViewById(R.id.tvEmptyListHint);
 		setupListHeader(inflater, story);
 		lvStoryPosts.addParallaxedHeaderView(storyCoverPhotoView);
-		TextView tv = new TextView(getActivity());
-		tv.setText("PARALLAXED");
-		tv.setGravity(Gravity.CENTER);
-		tv.setTextSize(40);
-		tv.setHeight(500);
-		// tv.setBackgroundResource(R.drawable.ic_mountain);
-		// lvStoryPosts.addParallaxedHeaderView(tv);
+
+		View footer = new View(getActivity());
+		footer.setLayoutParams(new AbsListView.LayoutParams(
+				AbsListView.LayoutParams.MATCH_PARENT, 100));
+		lvStoryPosts.addFooterView(footer, null, false);
+		if (!story.isCompleted() && story.getPosts().size() == 0) {
+			lvStoryPosts.setEmptyView(tvEmptyListView);
+		}
 		lvStoryPosts.setAdapter(storyPostAdapter);
 
 		return v;
@@ -111,8 +116,7 @@ public class PostListFragment extends Fragment {
 
 	public void scrollToEnd() {
 		if (storyPostAdapter.getCount() > 0)
-			lvStoryPosts
-					.smoothScrollToPosition(storyPostAdapter.getCount() - 1);
+			lvStoryPosts.smoothScrollToPosition(storyPostAdapter.getCount());
 	}
 
 	public void setFooterView(View v) {
@@ -123,17 +127,19 @@ public class PostListFragment extends Fragment {
 		if (s.isCompleted()) {
 			storyCoverPhotoView = inflater.inflate(
 					R.layout.layout_coverphoto_detail, null, false);
-					 
+
 			setStoryAttributes(storyCoverPhotoView, s);
-			Button btnAddToHike = (Button) storyCoverPhotoView.findViewById(R.id.btnAddToMyHike);
-			TGUser currentUser  = TrailGuideApplication.getCurrentUser();
+			Button btnAddToHike = (Button) storyCoverPhotoView
+					.findViewById(R.id.btnAddToMyHike);
+			TGUser currentUser = TrailGuideApplication.getCurrentUser();
 			if (currentUser != null
-					&& s.getCreator().getObjectId().equals(
-							currentUser.getUserIdentity().getObjectId())) {
+					&& s.getCreator()
+							.getObjectId()
+							.equals(currentUser.getUserIdentity().getObjectId())) {
 				btnAddToHike.setVisibility(View.INVISIBLE);
 			} else {
 				btnAddToHike.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						Log.d("cliked", "am being asked to add to hike");
@@ -146,22 +152,24 @@ public class PostListFragment extends Fragment {
 				});
 			}
 		} else {
-			storyCoverPhotoView = inflater.inflate(R.layout.layout_coverphoto_create, null, false);
+			storyCoverPhotoView = inflater.inflate(
+					R.layout.layout_coverphoto_create, null, false);
 			setDraftStoryAttributes(storyCoverPhotoView, s);
-			Button btnCreate = (Button) storyCoverPhotoView.findViewById(R.id.btnCreateStory);
+			Button btnCreate = (Button) storyCoverPhotoView
+					.findViewById(R.id.btnCreateStory);
 			btnCreate.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					publishStoryListener.onPublishStory(s);
 				}
 			});
-			
+
 		}
-	
+
 	}
-	
+
 	private void setDraftStoryAttributes(View v, final TGStory s) {
 		ImageView ivCoverPhoto = (ImageView) v.findViewById(R.id.ivCoverPhoto);
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
@@ -172,15 +180,16 @@ public class PostListFragment extends Fragment {
 				titleClickListener.onTitleClick(s.getTitle());
 			}
 		});
-		//ivCoverPhoto.setImageResource(android.R.color.transparent);
+		// ivCoverPhoto.setImageResource(android.R.color.transparent);
 		if (s.getCoverPhotoURL() != null) {
 			ImageLoader.getInstance().displayImage(s.getCoverPhotoURL(),
 					ivCoverPhoto);
 		}
 	}
-	
+
 	public void setCoverTitle(String title) {
-		TextView tvTitle = (TextView) storyCoverPhotoView.findViewById(R.id.tvTitle);
+		TextView tvTitle = (TextView) storyCoverPhotoView
+				.findViewById(R.id.tvTitle);
 		tvTitle.setText(title);
 	}
 
@@ -191,7 +200,7 @@ public class PostListFragment extends Fragment {
 		TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
 		Button ivShareIcon = (Button) v.findViewById(R.id.ivShareIcon);
 
-		//ivCoverPhoto.setImageResource(android.R.color.transparent);
+		// ivCoverPhoto.setImageResource(android.R.color.transparent);
 		if (story.getCoverPhotoURL() != null) {
 			ImageLoader.getInstance().displayImage(story.getCoverPhotoURL(),
 					ivCoverPhoto);

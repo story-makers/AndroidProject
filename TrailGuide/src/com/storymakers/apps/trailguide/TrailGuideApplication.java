@@ -32,6 +32,7 @@ public class TrailGuideApplication extends Application {
 		// Create global configuration and initialize ImageLoader with this
 		// configuration
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+				.cacheInMemory()
 				.cacheOnDisc().build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getApplicationContext()).defaultDisplayImageOptions(

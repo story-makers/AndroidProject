@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -37,7 +39,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	private OnClickListener onMapClickListener;
 
 	private OnPostClickListener postClickListener;
-	
+
 	public StoryPostAdapter(Context context, List<TGPost> objects) {
 		super(context, 0, objects);
 		imageLoader = ImageLoader.getInstance();
@@ -76,6 +78,8 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 		return TGPost.PostType.values().length;
 	}
 
+	private int mLastPosition = -1;
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final TGPost post = (TGPost) getItem(position);
@@ -109,34 +113,40 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				ivPostPhoto.setImageBitmap(TGUtils.getBitmapForLocalUri(Uri
 						.parse(post.getLocalImagePath())));
 			} else if (post.getPhoto_url().length() > 0) {
-				final ProgressBar pbLoading = (ProgressBar) convertView.findViewById(R.id.pbLoading);
-				pbLoading.setVisibility(View.VISIBLE);
-				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto, new ImageLoadingListener() {
-					
-					@Override
-					public void onLoadingStarted(String arg0, View arg1) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
-						// TODO Auto-generated method stub
-						pbLoading.setVisibility(View.INVISIBLE);
-					}
-					
-					@Override
-					public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-						// TODO Auto-generated method stub
-						pbLoading.setVisibility(View.INVISIBLE);
-					}
-					
-					@Override
-					public void onLoadingCancelled(String arg0, View arg1) {
-						// TODO Auto-generated method stub
-						pbLoading.setVisibility(View.INVISIBLE);
-					}
-				});
+				final ProgressBar pbLoading = (ProgressBar) convertView
+						.findViewById(R.id.pbLoading);
+				
+				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto,
+						new ImageLoadingListener() {
+
+							@Override
+							public void onLoadingStarted(String arg0, View arg1) {
+								// TODO Auto-generated method stub
+								pbLoading.setVisibility(View.VISIBLE);
+
+							}
+
+							@Override
+							public void onLoadingFailed(String arg0, View arg1,
+									FailReason arg2) {
+								// TODO Auto-generated method stub
+								pbLoading.setVisibility(View.INVISIBLE);
+							}
+
+							@Override
+							public void onLoadingComplete(String arg0,
+									View arg1, Bitmap arg2) {
+								// TODO Auto-generated method stub
+								pbLoading.setVisibility(View.INVISIBLE);
+							}
+
+							@Override
+							public void onLoadingCancelled(String arg0,
+									View arg1) {
+								// TODO Auto-generated method stub
+								pbLoading.setVisibility(View.INVISIBLE);
+							}
+						});
 
 			} else {
 				ivPostPhoto.setVisibility(View.GONE);
@@ -146,10 +156,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 					@Override
 					public void onClick(View v) {
 						if (post.getStory().isCompleted()) {
-							getContext().startActivity(
-									FullscreenPhotoViewActivity
-											.getIntentForFullscreenPhotoActivity(
-													getContext(), post));
+							getContext()
+									.startActivity(
+											FullscreenPhotoViewActivity
+													.getIntentForFullscreenPhotoActivity(
+															getContext(), post));
 						}
 					}
 				});
@@ -195,14 +206,15 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			}
 		}
 		if (type == TGPost.PostType.PREAMBLE.getNumVal()) {
-			//do nothing
+			// do nothing
 		}
 		if (type == TGPost.PostType.REFERENCEDSTORY.getNumVal()) {
 			setTimeInclude(convertView, post);
 			setReferenceStoryAttributes(convertView, post.getReferencedStory());
 		}
 
-		if (post.getStory().isDraft() && post.getType() != PostType.REFERENCEDSTORY) {
+		if (post.getStory().isDraft()
+				&& post.getType() != PostType.REFERENCEDSTORY) {
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -211,6 +223,19 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				}
 			});
 		}
+		
+		TranslateAnimation animation = null;
+		if (position > mLastPosition) {
+			animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+					0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+					Animation.RELATIVE_TO_SELF, 1.0f,
+					Animation.RELATIVE_TO_SELF, 0.0f);
+
+			animation.setDuration(300);
+			convertView.startAnimation(animation);
+			mLastPosition = position;
+		}
+
 		return convertView;
 	}
 
@@ -224,16 +249,18 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			TGStory referencedStory) {
 		TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
 		tvTitle.setText(referencedStory.getTitle());
-		ImageView ivCoverPhoto = (ImageView) convertView.findViewById(R.id.ivCoverPhoto);
+		ImageView ivCoverPhoto = (ImageView) convertView
+				.findViewById(R.id.ivCoverPhoto);
 		ivCoverPhoto.setImageResource(android.R.color.transparent);
-		final ProgressBar pbLoading = (ProgressBar) convertView.findViewById(R.id.pbLoading);
+		final ProgressBar pbLoading = (ProgressBar) convertView
+				.findViewById(R.id.pbLoading);
 		pbLoading.setVisibility(ProgressBar.VISIBLE);
 		imageLoader.displayImage(referencedStory.getCoverPhotoURL(),
 				ivCoverPhoto, new SimpleImageLoadingListener() {
 
 					@Override
 					public void onLoadingStarted(String imageUri, View view) {
-						 pbLoading.setVisibility(ProgressBar.VISIBLE);
+						pbLoading.setVisibility(ProgressBar.VISIBLE);
 					}
 
 					@Override

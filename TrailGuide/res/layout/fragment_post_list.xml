@@ -14,6 +14,16 @@
         android:layout_alignParentTop="true"
         parallax_factor="2.9"
         android:layout_alignParentBottom="true" />
+    <TextView
+        android:id="@+id/tvEmptyListHint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background_main"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="gone"
+        android:text="@string/empty_post_list_hint" />
   <include layout="@layout/progress_view" android:visibility="invisible" /> 
 
 

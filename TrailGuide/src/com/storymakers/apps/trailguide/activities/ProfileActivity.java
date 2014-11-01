@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ public class ProfileActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		user = TrailGuideApplication.getCurrentUser();
 		if (user != null) {
@@ -87,6 +88,8 @@ public class ProfileActivity extends FragmentActivity implements
 
 	public void onLogoutAction(View v) {
 		TrailGuideApplication.logOutCurrentUser();
+		Intent i = HomeActivity.getIntentForHomeActivity(this);
+		startActivity(i);
 		finish();
 	}
 
@@ -98,5 +101,17 @@ public class ProfileActivity extends FragmentActivity implements
 	public void onListItemClicked(TGStory story) {
 		Intent i = HikeDetailsActivity.getIntentForStory(this, story);
 		startActivity(i);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; goto parent activity.
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.storymakers.apps.trailguide.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -101,4 +102,8 @@ public class HomeActivity extends FragmentActivity implements
 		});
 	}
 
+	public static Intent getIntentForHomeActivity(Context ctx) {
+		Intent i = new Intent(ctx, HomeActivity.class);
+		return i;
+	}
 }

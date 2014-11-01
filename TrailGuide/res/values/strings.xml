@@ -40,5 +40,6 @@
     <string name="map_context_key">MAP_CONTEXT</string>
     <string name="create_hike_context">create_hike</string>
     <string name="title_activity_fullscreen_photo_view">FullscreenPhotoViewActivity</string>
+    <string name="empty_post_list_hint">Looks like your story does not have any posts.\n How about we add some? \n\n Use the Quick Add buttons below \nto start adding posts to your experience.</string>
 
 </resources>
