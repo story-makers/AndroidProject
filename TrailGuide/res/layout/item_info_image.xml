@@ -6,15 +6,16 @@
 
     <ImageView
         android:id="@+id/ivPostInfoImage"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="50dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/tvPostInfoText"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:maxWidth="100dp"
         android:layout_margin="@dimen/text_default_padding"
