@@ -215,7 +215,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 					markerData.get(lastMarker).add(posts.get(i));
 				}
 			}*/ else {
-				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
+				if (lastGeoPoint.distanceInMilesTo(point) > 0.005) {
 					lastMarker = map.addMarker(new MarkerOptions()
 							.icon(BitmapDescriptorFactory
 									.fromResource(R.drawable.ic_map_marker))

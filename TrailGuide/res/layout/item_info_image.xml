@@ -8,6 +8,7 @@
         android:id="@+id/ivPostInfoImage"
         android:layout_width="80dp"
         android:layout_height="50dp"
+        android:layout_marginTop="3dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:layout_gravity="center_horizontal"
