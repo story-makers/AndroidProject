@@ -48,7 +48,8 @@ public class RemoteDBClient {
 			query.whereEqualTo("creator", user.getUserIdentity());
 		}
 		if (searchQry != null && searchQry.length() > 0) {
-			query.whereContains("title", searchQry);
+			query.whereMatches("title", "("+searchQry+")", "i"); 
+			//query.whereContains("title", searchQry);
 		}
 
 		query.findInBackground(callback);
