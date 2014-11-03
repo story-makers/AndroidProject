@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -132,26 +133,27 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 	private void zoomToHikeStartPoint() {
 		// Start with the default LATLNG.
 		LatLng latLng = new LatLng(DEFAULT_LAT, DEFAULT_LNG);
+		LatLngBounds.Builder bc = new LatLngBounds.Builder();
 		if (story != null) {
 			// replace with hike start point location.
 			ParseGeoPoint point = story.getLocation();
 			if (point == null) {
 				// find the first post with a location set on it.
 				for (TGPost p : posts){
+					
 					if (p.getLocation() != null && (int)p.getLocation().getLatitude() != 0){
+						
 						point = p.getLocation();
-						break;
+						bc.include(new LatLng(point.getLatitude(), point.getLongitude()));
+						
 					}
 				}
 			}
-			if (point != null) {
-				latLng = new LatLng(point.getLatitude(), point.getLongitude());
-			}
+			
 			
 		}
-		CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-				latLng, 17.0f);
-		map.moveCamera(cameraUpdate);
+		map.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
+		
 	}
 
 	private void getStory() {
