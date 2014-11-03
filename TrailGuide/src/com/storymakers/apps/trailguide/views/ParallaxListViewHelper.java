@@ -1,7 +1,5 @@
 package com.storymakers.apps.trailguide.views;
 
-import com.storymakers.apps.trailguide.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -10,6 +8,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+
+import com.storymakers.apps.trailguide.R;
 
 
 
