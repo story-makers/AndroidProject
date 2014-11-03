@@ -19,6 +19,7 @@
     <string name="complete_story">Publish Story</string>
     <string name="start_label">Start</string>
     <string name="end_label">End</string>
+    <string name="null_view_key">NULL_VIEW_KEY</string>
     <string name="object_key">OBJECT</string>
     <string name="post_type_key">OBJECT_POST_TYPE</string>
     <string name="object_post_key">OBJECT_POST</string>

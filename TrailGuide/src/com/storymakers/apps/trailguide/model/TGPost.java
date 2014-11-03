@@ -73,6 +73,9 @@ public class TGPost extends ParseObject {
 		if (getType() == PostType.PHOTO) {
 			retval = " " + getPhoto_url() + " " + retval;
 		}
+		if (getNote() != null) {
+			retval = retval + " Note:" + getNote();
+		}
 		return retval;
 	}
 

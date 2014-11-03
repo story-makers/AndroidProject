@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -69,7 +69,11 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 	// Return an integer representing the type by fetching the enum type val
 	@Override
 	public int getItemViewType(int position) {
-		return ((TGPost) getItem(position)).getType().getNumVal();
+		TGPost post = getItem(position);
+		if (post.getType() == PostType.LOCATION && post.getNote().length() == 0) {
+			return -1;
+		}
+		return post.getType().getNumVal();
 	}
 
 	// Total number of types is the number of enum values
@@ -96,6 +100,10 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 					+ post.getType());
 		}
 
+		if (convertView.getTag(R.string.null_view_key) != null) {
+			Log.e("NULL VIEW", "Inflated view is null for post " + post);
+		}
+
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
 			setTimeInclude(convertView, post);
 			ImageView ivPostPhoto = (ImageView) convertView
@@ -115,7 +123,7 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			} else if (post.getPhoto_url().length() > 0) {
 				final ProgressBar pbLoading = (ProgressBar) convertView
 						.findViewById(R.id.pbLoading);
-				
+
 				imageLoader.displayImage(post.getPhoto_url(), ivPostPhoto,
 						new ImageLoadingListener() {
 
@@ -223,18 +231,12 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 				}
 			});
 		}
-		
-		TranslateAnimation animation = null;
-		if (position > mLastPosition) {
-			animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
-					0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-					Animation.RELATIVE_TO_SELF, 1.0f,
-					Animation.RELATIVE_TO_SELF, 0.0f);
 
-			animation.setDuration(300);
-			convertView.startAnimation(animation);
-			mLastPosition = position;
-		}
+		Animation animation = AnimationUtils.loadAnimation(getContext(),
+				(position > mLastPosition) ? R.anim.up_from_bottom
+						: R.anim.down_from_top);
+		convertView.startAnimation(animation);
+		mLastPosition = position;
 
 		return convertView;
 	}
@@ -301,8 +303,10 @@ public class StoryPostAdapter extends ArrayAdapter<TGPost> {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_refstory, null);
 		} else {
-			return LayoutInflater.from(getContext()).inflate(
+			View v = LayoutInflater.from(getContext()).inflate(
 					R.layout.item_post_null, null);
+			v.setTag(R.string.null_view_key, post);
+			return v;
 		}
 	}
 
