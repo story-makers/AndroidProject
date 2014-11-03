@@ -122,7 +122,7 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				// for the hike's map fragment
 				posts = (ArrayList<TGPost>) TGStory.filterPosts(objs,
 						new HashSet<PostType>(Arrays.asList(PostType.REFERENCEDSTORY,
-								PostType.PREAMBLE, PostType.METADATA, PostType.LOCATION)));
+								PostType.PREAMBLE, PostType.METADATA)));
 				zoomToHikeStartPoint();
 				addPostsToMap(color);
 				setInfoWindowAdapter();
@@ -182,19 +182,23 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				firstPostSet = true;
 			}
 			if (i == firstPost) {
-				lastMarker = map
-						.addMarker(new MarkerOptions()
-								.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.ic_map_marker_begin_end))
-								.anchor(0.0f, 0.8f) // Anchors the marker on the
-													// bottom left
-								.position(
-										new LatLng(point.getLatitude(), point
-												.getLongitude())));
-				lastGeoPoint = point;
 				ArrayList<TGPost> list = new ArrayList<TGPost>();
 				list.add(posts.get(i));
-				markerData.put(lastMarker, list);
+				if (posts.get(i).shouldShowOnMap()) {
+					lastMarker = map
+							.addMarker(new MarkerOptions()
+									.icon(BitmapDescriptorFactory
+											.fromResource(R.drawable.ic_map_marker_begin_end))
+									.anchor(0.0f, 0.8f) // Anchors the marker on the
+														// bottom left
+									.position(
+											new LatLng(point.getLatitude(), point
+													.getLongitude())));
+					
+
+					lastGeoPoint = point;
+					markerData.put(lastMarker, list);
+				}
 				path.add(new LatLng(point.getLatitude(), point.getLongitude()));
 			} /*else if (i == posts.size() - 1) {
 				if (lastGeoPoint.distanceInMilesTo(point) > 0.05) {
@@ -218,22 +222,33 @@ public class StoryMapFragment extends Fragment implements OnMapReadyListener {
 				}
 			}*/ else {
 				if (lastGeoPoint.distanceInMilesTo(point) > 0.005) {
-					lastMarker = map.addMarker(new MarkerOptions()
-							.icon(BitmapDescriptorFactory
-									.fromResource(R.drawable.ic_map_marker))
-							.anchor(0.5f, 1.0f) // Anchors the marker on the
-												// bottom left
-							.position(
-									new LatLng(point.getLatitude(), point
-											.getLongitude())));
-					lastGeoPoint = point;
+					TGPost p = posts.get(i);
+					
 					ArrayList<TGPost> list = new ArrayList<TGPost>();
-					list.add(posts.get(i));
-					markerData.put(lastMarker, list);
+					
+					list.add(p);
+					if (p.shouldShowOnMap()){
+						Marker cur_marker = map.addMarker(new MarkerOptions()
+						.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.ic_map_marker))
+						.anchor(0.5f, 1.0f) // Anchors the marker on the
+											// bottom left
+						.position(
+								new LatLng(point.getLatitude(), point
+										.getLongitude())));
+				
+						lastMarker = cur_marker;
+						lastGeoPoint = point;
+						markerData.put(lastMarker, list);
+					}
 					path.add(new LatLng(point.getLatitude(), point
 							.getLongitude()));
 				} else {
-					markerData.get(lastMarker).add(posts.get(i));
+					if(posts.get(i).shouldShowOnMap()){
+						markerData.get(lastMarker).add(posts.get(i));
+					}
+					path.add(new LatLng(point.getLatitude(), point
+							.getLongitude()));
 				}
 			}
 		}

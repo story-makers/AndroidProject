@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -98,6 +99,22 @@ public class HomeActivity extends FragmentActivity implements
 			public boolean onQueryTextChange(String newText) {
 				// TODO Auto-generated method stub
 				return false;
+			}
+		});
+		searchItem.setOnActionExpandListener(new OnActionExpandListener() {
+			
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				SearchHikesFragment fragment = (SearchHikesFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.fragmentSearchHikes);
+				fragment.onSearchSubmit("");
+				return true;
 			}
 		});
 	}

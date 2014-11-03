@@ -118,7 +118,7 @@ public class RemoteDBClient {
 		ParseQuery<TGPost> query = ParseQuery.getQuery(TGPost.class);
 		query.orderByAscending(TGPost.KEY_POST_SEQUENCE);
 		query.whereEqualTo("story", s);
-		//query.fromPin();
+		query.fromPin();
 		query.findInBackground(new FindCallback<TGPost>() {
 
 			@Override

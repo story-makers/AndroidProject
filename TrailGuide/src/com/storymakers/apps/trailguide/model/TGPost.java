@@ -282,4 +282,13 @@ public class TGPost extends ParseObject {
 		}
 		return TGUtils.DATE_FORMATTER.format(d);
 	}
+
+	public boolean shouldShowOnMap() {
+		if (getType() == PostType.PHOTO)
+			return true;
+		if (getNote().length() > 0){
+			return true;
+		}
+		return false;
+	}
 }

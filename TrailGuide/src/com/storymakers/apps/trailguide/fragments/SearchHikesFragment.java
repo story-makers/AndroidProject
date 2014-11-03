@@ -66,6 +66,7 @@ public class SearchHikesFragment extends HikesListFragment {
 					SearchHikesFragment.this.clear();
 					SearchHikesFragment.this.addAll(objects);
 				} else if (mode == DISPLAYMODES.PULLTOREFRESH) {
+					RemoteDBClient.removeAllCachedData();
 					SearchHikesFragment.this.clear();
 					SearchHikesFragment.this.addAll(objects);
 					lvHikesList.onRefreshComplete();
