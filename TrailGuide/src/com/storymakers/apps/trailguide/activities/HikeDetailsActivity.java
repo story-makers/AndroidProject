@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -35,7 +34,6 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 		if (intentReceived.getAction() == Intent.ACTION_VIEW) {
 			Uri url = intentReceived.getData();
 			String storyId = url.getQueryParameter("id");
-			Log.d("StoryId: ", storyId);
 			story = RemoteDBClient.getStoryById(storyId);
 		} else {
 			story = RemoteDBClient.getStoryById(getIntent().getStringExtra("hike"));

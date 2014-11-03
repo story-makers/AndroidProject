@@ -44,7 +44,8 @@
 			    <action android:name="android.intent.action.VIEW" />
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <category android:name="android.intent.category.BROWSABLE" />
-			    <data android:scheme="http" android:host="trailguide.storymakers.com" />
+			    <data android:scheme="http" android:host="trailguide.storymakers.com"
+			        android:pathPrefix="/story" />
 			</intent-filter>
         </activity>
         <activity
