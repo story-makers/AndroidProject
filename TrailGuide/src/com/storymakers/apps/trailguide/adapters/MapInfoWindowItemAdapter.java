@@ -3,6 +3,7 @@ package com.storymakers.apps.trailguide.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storymakers.apps.trailguide.R;
 import com.storymakers.apps.trailguide.model.TGPost;
+import com.storymakers.apps.trailguide.model.TGPost.PostType;
 import com.storymakers.apps.trailguide.model.TGUtils;
 
 public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
@@ -42,7 +44,7 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 		final TGPost post = (TGPost) getItem(position);
 		int type = getItemViewType(position);
 		if (convertView == null) {
-			convertView = getInflatedLayoutForType(type, parent);
+			convertView = getInflatedLayoutForType(post.getType(), parent);
 		}
 
 		if (type == TGPost.PostType.PHOTO.getNumVal()) {
@@ -61,7 +63,7 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 				imageLoader.displayImage(post.getPhoto_url(), ivPostInfoImage);
 			}
 		}
-		if (type == TGPost.PostType.NOTE.getNumVal()) {
+		if (type == TGPost.PostType.NOTE.getNumVal() || type == TGPost.PostType.LOCATION.getNumVal()) {
 			TextView tvPostInfoText = (TextView) convertView
 					.findViewById(R.id.tvPostInfoText);
 			if (tvPostInfoText != null && post.getNote() != null) {
@@ -72,11 +74,11 @@ public class MapInfoWindowItemAdapter extends ArrayAdapter<TGPost> {
 	}
 
 	// Given the item type, responsible for returning the correct inflated XML layout file
-	private View getInflatedLayoutForType(int type, ViewGroup parent) {
-		if (type == TGPost.PostType.PHOTO.getNumVal()) {
+	private View getInflatedLayoutForType(TGPost.PostType type, ViewGroup parent) {
+		if (type == TGPost.PostType.PHOTO) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_info_image, parent, false);
-		} else if (type == TGPost.PostType.NOTE.getNumVal()) {
+		} else if (type == TGPost.PostType.NOTE || type == PostType.LOCATION) {
 			return LayoutInflater.from(getContext()).inflate(
 					R.layout.item_info_text, parent, false);
 		} else {
