@@ -4,8 +4,10 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,8 +31,16 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_hike_details);
+		Intent intentReceived = getIntent();
+		if (intentReceived.getAction() == Intent.ACTION_VIEW) {
+			Uri url = intentReceived.getData();
+			String storyId = url.getQueryParameter("id");
+			Log.d("StoryId: ", storyId);
+			story = RemoteDBClient.getStoryById(storyId);
+		} else {
+			story = RemoteDBClient.getStoryById(getIntent().getStringExtra("hike"));
+		}
 		setupTabs();
-		story = RemoteDBClient.getStoryById(getIntent().getStringExtra("hike"));
 		getActionBar().setTitle(TGUtils.getElipsizedText(story.getTitle()));
 	}
 
@@ -78,7 +88,7 @@ public class HikeDetailsActivity extends FragmentActivity implements OnPostClick
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		Bundle fragmentArgs = new Bundle();
-		fragmentArgs.putString("hike", getIntent().getStringExtra("hike"));
+		fragmentArgs.putString("hike", story.getObjectId());
 
 		Tab hikeDetailTab = actionBar
 				.newTab()

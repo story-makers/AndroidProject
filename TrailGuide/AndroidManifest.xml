@@ -40,6 +40,12 @@
         <activity
             android:name=".activities.HikeDetailsActivity"
             android:label="@string/title_activity_hike_details" >
+            <intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" />
+			    <data android:scheme="http" android:host="trailguide.storymakers.com" />
+			</intent-filter>
         </activity>
         <activity
             android:name=".activities.HikeCreateActivity"
